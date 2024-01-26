@@ -9,6 +9,8 @@ public abstract class StateMachine {
     
     protected ArrayList<Command> states;
     private Subsystem[] subsystems;
+
+    protected Graph stateMachineGraph;
     protected Command currentCommand;
 
     public StateMachine (ArrayList<Command> states, Subsystem... subsystems) {
