@@ -1,0 +1,118 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.92,
+      "y": 6.99
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Start-F1"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F1-F2"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F2-F3"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F3-C5"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5-S"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot Note"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
