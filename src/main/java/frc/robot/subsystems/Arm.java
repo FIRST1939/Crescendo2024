@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
     
-    private TalonFX leaderPivot;
-    private TalonFX followerPivot;
+    private TalonFX pivot;
     private DutyCycleEncoder pivotEncoder;
 
     private DigitalInput lowerBound;
