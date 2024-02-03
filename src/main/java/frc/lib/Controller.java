@@ -18,7 +18,14 @@ public class Controller extends CommandXboxController implements Subsystem {
     @Override
     public void periodic () {
 
-        if (!DriverStation.isJoystickConnected(this.port)) { Alerts.driverTwoDisconnected.set(true); } 
-        else { Alerts.driverTwoDisconnected.set(false); }
+        if (!DriverStation.isJoystickConnected(this.port)) {
+
+            if (this.port == 0) { Alerts.driverOneDisconnected.set(true);}
+            if (this.port == 1) { Alerts.driverTwoDisconnected.set(true); }
+        } else {
+
+            if (this.port == 0) { Alerts.driverOneDisconnected.set(false);}
+            if (this.port == 1) { Alerts.driverTwoDisconnected.set(false); }
+        }
     }
 }

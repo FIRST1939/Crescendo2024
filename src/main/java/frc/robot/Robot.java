@@ -5,7 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.util.Alerts;
+import frc.robot.util.BuildConstants;
+import frc.robot.util.Constants;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,51 +21,76 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-    private RobotContainer robotContainer;
+	private RobotContainer robotContainer;
+	private Command autonomousCommand;
+	private Timer disabledTimer;
 
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
-    @Override
-    public void robotInit () {
+	/**
+	 * This function is run when the robot is first started up and should be used for any
+	 * initialization code.
+	 */
+	@Override
+	public void robotInit () {
 
-        this.robotContainer = new RobotContainer();
-    }
+		if (BuildConstants.DIRTY == 1) { Alerts.versionControl.set(true); }
 
-    @Override
-    public void robotPeriodic () {
+		this.robotContainer = new RobotContainer();
+		this.disabledTimer = new Timer();
 
-        CommandScheduler.getInstance().run();
-    }
+		Shuffleboard.getTab("Autonomous").add("Command Scheduler", CommandScheduler.getInstance());
+	}
 
-    @Override
-    public void autonomousInit () {}
+	@Override
+	public void robotPeriodic () {
 
-    @Override
-    public void autonomousPeriodic () {}
+		CommandScheduler.getInstance().run();
+	}
 
-    @Override
-    public void teleopInit () {}
+	@Override
+	public void autonomousInit () {
 
-    @Override
-    public void teleopPeriodic () {}
+		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
+		this.autonomousCommand.schedule();
+	}
 
-    @Override
-    public void disabledInit () {}
+	@Override
+	public void autonomousPeriodic () {}
 
-    @Override
-    public void disabledPeriodic () {}
+	@Override
+	public void teleopInit () {
 
-    @Override
-    public void testInit () {}
+		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
+		this.robotContainer.setBrakeMode(true);
+	}
 
-    @Override
-    public void testPeriodic () {}
+	@Override
+	public void teleopPeriodic () {}
 
-    @Override
-    public void simulationInit () {}
+	@Override
+	public void disabledInit () {
 
-    @Override
-    public void simulationPeriodic () {}
+		this.disabledTimer.reset();
+		this.disabledTimer.start();
+	}
+
+	@Override
+	public void disabledPeriodic () {
+
+		if (this.disabledTimer.get() >= Constants.SwerveConstants.LOCK_TIME) {
+
+			this.robotContainer.setBrakeMode(false);
+		}
+	}
+	
+	@Override
+	public void testInit () {}
+
+	@Override
+	public void testPeriodic () {}
+
+	@Override
+	public void simulationInit () {}
+
+	@Override
+	public void simulationPeriodic () {}
 }
