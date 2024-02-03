@@ -22,12 +22,6 @@
           "data": {
             "pathName": "F1-F2"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
-          }
         }
       ]
     }
