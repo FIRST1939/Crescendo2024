@@ -39,4 +39,37 @@ public final class Constants {
         public static final double REPLANNING_TOTAL_ERROR = 0.15; // Total Error to Replan Path [m]
         public static final double REPLANNING_ERROR_SPIKE = 0.1; // Spike in Error to Replan Path [m / 20ms]
     }
+
+    public final class IntakeConstants {
+
+        public static final int TOP_ROLLERS = 0;
+        public static final int BOTTOM_ROLLERS = 0;
+
+        public static final boolean TOP_ROLLERS_INVERTED = false;
+        public static final boolean BOTTOM_ROLLERS_INVERTED = false;
+    }
+
+    public final class IndexerConstants {
+
+        public static final int LEADER_ROLLERS = 0;
+        public static final int FOLLOWER_ROLLERS = 0;
+
+        public static final boolean LEADER_ROLLERS_INVERTED = false;
+        public static final boolean FOLLOWER_ROLLERS_INVERTED = false;
+    }
+
+    public final class ArmConstants {
+
+        public static final int PIVOT = 0;
+        public static final boolean PIVOT_INVERTED = false;
+    }
+
+    public final class ShooterConstants {
+
+        public static final int TOP_ROLLERS = 0;
+        public static final int BOTTOM_ROLLERS = 0;
+
+        public static final boolean TOP_ROLLERS_INVERTED = false;
+        public static final boolean BOTTOM_ROLLERS_INVERTED = false;
+    }
 }
