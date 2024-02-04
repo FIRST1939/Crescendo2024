@@ -7,34 +7,52 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public abstract class StateMachine {
     
-    protected ArrayList<Command> states;
+    protected ArrayList<Class<Command>> states;
+    private ArrayList<ArrayList<Class<?>>> stateParameterTypes;
+    private ArrayList<ArrayList<Object>> stateParameters;
+    private Alert alert;
     private Subsystem[] subsystems;
 
     protected Graph stateMachineGraph;
-    protected Command currentCommand;
+    protected int currentState;
 
-    public StateMachine (ArrayList<Command> states, Subsystem... subsystems) {
+    public StateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Alert alert, Subsystem... subsystems) {
 
         this.states = states;
+        this.stateParameterTypes = stateParameterTypes;
+        this.stateParameters = stateParameters;
+        this.alert = alert;
         this.subsystems = subsystems;
 
-        this.currentCommand = this.states.get(0);
+        this.currentState = 0;
 
         this.generateStateMachineGraph();
-        this.activateState(this.currentCommand);
+        this.activateState(this.states.get(0), this.stateParameterTypes.get(0), this.stateParameters.get(0));
     }
 
     protected abstract void generateStateMachineGraph ();
     protected abstract void switchState ();
 
-    protected void activateState (Command state) { state.andThen(() -> this.switchState(), subsystems).schedule(); }
+    protected void activateState (Class<Command> state, ArrayList<Class<?>> stateParameterTypes, ArrayList<Object> stateParameters) { 
+    
+        try {
+
+            Command command = state.getConstructor((Class[]) stateParameterTypes.toArray()).newInstance(stateParameters.toArray());
+            command.andThen(this::switchState, this.subsystems).schedule();
+            this.alert.set(false);
+        } catch (Exception exception) {
+
+            this.alert.set(true);
+            this.switchState();
+        }
+    }
 
     protected class Edge {
 
-        public Command source;
-        public Command destination;
+        public Class<Command> source;
+        public Class<Command> destination;
 
-        public Edge (Command source, Command destination) {
+        public Edge (Class<Command> source, Class<Command> destination) {
 
             this.source = source;
             this.destination = destination;
@@ -53,8 +71,8 @@ public abstract class StateMachine {
 
         protected class Node {
 
-            public Command value;
-            public Node (Command value) { this.value = value; }
+            public Class<Command> value;
+            public Node (Class<Command> value) { this.value = value; }
         }
     }
 }

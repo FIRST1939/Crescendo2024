@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.StateMachine;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.Alerts;
 
 public class ShooterStateMachine extends StateMachine {
 
     private Shooter shooter;
 
-    public ShooterStateMachine (ArrayList<Command> states, Shooter shooter) {
+    public ShooterStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Shooter shooter) {
 
-        super(states, shooter);
+        super(states, stateParameterTypes, stateParameters, Alerts.shooterStateMachine, shooter);
         this.shooter = shooter; 
     }
 

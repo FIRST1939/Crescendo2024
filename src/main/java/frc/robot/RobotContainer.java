@@ -12,7 +12,6 @@ import frc.robot.commands.swerve.Drive;
 import frc.robot.commands.swerve.TrackAprilTags;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
-import frc.robot.util.Alerts;
 import frc.robot.util.Constants;
 
 public class RobotContainer {
@@ -24,8 +23,8 @@ public class RobotContainer {
 
     public RobotContainer () {
 
-        try { this.swerve = new Swerve(); } 
-        catch (IOException ioException) { Alerts.swerveInitialized.set(true); }
+        try { this.swerve = new Swerve(); }
+        catch (IOException ioException) {}
 
         this.limelight = new Limelight();
         this.driverOne = new Controller(0);

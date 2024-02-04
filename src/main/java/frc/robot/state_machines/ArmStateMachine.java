@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.StateMachine;
 import frc.robot.subsystems.Arm;
+import frc.robot.util.Alerts;
 
 public class ArmStateMachine extends StateMachine {
 
     private Arm arm; 
 
-    public ArmStateMachine (ArrayList<Command> states, Arm arm) {
+    public ArmStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Arm arm) {
 
-        super(states,arm);
+        super(states, stateParameterTypes, stateParameters, Alerts.armStateMachine, arm);
         this.arm = arm;
     }
 

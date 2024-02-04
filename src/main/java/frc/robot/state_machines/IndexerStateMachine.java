@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.StateMachine;
 import frc.robot.subsystems.Indexer;
+import frc.robot.util.Alerts;
 
 public class IndexerStateMachine extends StateMachine {
     
     private Indexer indexer;
 
-    public IndexerStateMachine (ArrayList<Command> states, Indexer indexer) {
+    public IndexerStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Indexer indexer) {
 
-        super(states, indexer);
+        super(states, stateParameterTypes, stateParameters, Alerts.indexerStateMachine, indexer);
         this.indexer = indexer; 
     }
 
