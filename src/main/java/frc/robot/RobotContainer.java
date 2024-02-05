@@ -2,22 +2,26 @@ package frc.robot;
 
 import java.io.IOException;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.robot.commands.swerve.BrakeMode;
-import frc.robot.commands.swerve.Drive;
-import frc.robot.commands.swerve.TrackAprilTags;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
-import frc.robot.util.Constants;
 
 public class RobotContainer {
 
     private Swerve swerve;
     private Limelight limelight;
+    
+    private Intake intake;
+    private Indexer indexer;
+    private Arm arm;
+    private Shooter shooter;
+
     private Controller driverOne;
     private Controller driverTwo;
 
@@ -25,8 +29,13 @@ public class RobotContainer {
 
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
-
         this.limelight = new Limelight();
+
+        this.intake = new Intake();
+        this.indexer = new Indexer();
+        this.arm = new Arm();
+        this.shooter = new Shooter();
+        
         this.driverOne = new Controller(0);
         this.driverTwo = new Controller(1);
 
@@ -35,6 +44,7 @@ public class RobotContainer {
 
     private void configureCommands () {
 
+        /*
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
             () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
@@ -47,6 +57,47 @@ public class RobotContainer {
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
+        */
+
+        /*
+        this.driverTwo.leftBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kReverse));
+        this.driverTwo.rightBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kForward));
+
+        this.driverTwo.leftTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kReverse));
+        this.driverTwo.rightTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kForward));
+        */
+
+        /*
+        this.driverTwo.leftBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kReverse));
+        this.driverTwo.rightBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kForward));
+
+        this.driverTwo.leftTrigger().whileTrue(this.intake.getBottomDynamicRoutine(Direction.kReverse));
+        this.driverTwo.rightTrigger().whileTrue(this.intake.getBottomDynamicRoutine(Direction.kForward));
+        */
+
+        /*
+        this.driverTwo.leftBumper().whileTrue(this.indexer.getQuasistaticRoutine(Direction.kReverse));
+        this.driverTwo.rightBumper().whileTrue(this.indexer.getQuasistaticRoutine(Direction.kForward));
+        
+        this.driverTwo.leftTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kReverse));
+        this.driverTwo.rightTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kForward));
+        */
+
+        /*
+        this.driverTwo.leftBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kReverse));
+        this.driverTwo.rightBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kForward));
+        
+        this.driverTwo.leftTrigger().whileTrue(this.arm.getDynamicRoutine(Direction.kReverse));
+        this.driverTwo.rightTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kForward));
+        */
+
+        /*
+        this.driverTwo.leftBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kReverse));
+        this.driverTwo.leftBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kForward));
+
+        this.driverTwo.leftTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kReverse));
+        this.driverTwo.rightTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kForward));
+        */
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }

@@ -3,6 +3,8 @@ package frc.robot.util;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import swervelib.math.Matter;
 
 public final class Constants {
@@ -42,26 +44,59 @@ public final class Constants {
 
     public final class IntakeConstants {
 
+        public static final int TOP_ROLLER = 0;
+        public static final int BOTTOM_ROLLER = 0;
+
+        public static final boolean TOP_ROLLER_INVERTED = false;
+        public static final boolean BOTTOM_ROLLER_INVERTED = false;
+
+        public static final double TOP_ROLLER_REDUCTION = 1.0;
+        public static final double BOTTOM_ROLLER_REDUCTION = (1.0 / 3.0);
+
+        public static final Config TOP_SYSID_ROUTINE_CONFIG = new Config(
+            Units.Volts.of(1).per(Units.Second), 
+            Units.Volts.of(7),
+            Units.Seconds.of(10)
+        );
+
+        public static final Config BOTTOM_SYSID_ROUTINE_CONFIG = new Config(
+            Units.Volts.of(1).per(Units.Second), 
+            Units.Volts.of(7),
+            Units.Seconds.of(10)
+        );
+    }
+
+    public final class IndexerConstants {
+
         public static final int TOP_ROLLERS = 0;
         public static final int BOTTOM_ROLLERS = 0;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = false;
-    }
 
-    public final class IndexerConstants {
+        public static final double TOP_ROLLERS_REDUCTION = (1.0 / 3.0);
+        public static final double BOTTOM_ROLLERS_REDUCTION = (1.0 / 3.0);
 
-        public static final int LEADER_ROLLERS = 0;
-        public static final int FOLLOWER_ROLLERS = 0;
-
-        public static final boolean LEADER_ROLLERS_INVERTED = false;
-        public static final boolean FOLLOWER_ROLLERS_INVERTED = false;
+        public static final Config SYSID_ROUTINE_CONFIG = new Config(
+            Units.Volts.of(1).per(Units.Second), 
+            Units.Volts.of(7),
+            Units.Seconds.of(10)
+        );
     }
 
     public final class ArmConstants {
 
         public static final int PIVOT = 0;
         public static final boolean PIVOT_INVERTED = false;
+
+        public static final int PIVOT_ENCODER = 0;
+        public static final double PIVOT_REDUCTION = (1.0 / 60.0) * (15.0 / 54.0);
+
+        public static final Config SYSID_ROUTINE_CONFIG = new Config(
+            Units.Volts.of(1).per(Units.Second), 
+            Units.Volts.of(7),
+            Units.Seconds.of(10)
+        );
     }
 
     public final class ShooterConstants {
@@ -71,5 +106,14 @@ public final class Constants {
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = false;
+
+        public static final double TOP_ROLLERS_REDUCTION = 1.0;
+        public static final double BOTTOM_ROLLERS_REDUCTION = 1.0;
+
+        public static final Config SYSID_ROUTINE_CONFIG = new Config(
+            Units.Volts.of(1).per(Units.Second), 
+            Units.Volts.of(7),
+            Units.Seconds.of(10)
+        );
     }
 }
