@@ -50,8 +50,8 @@ public final class Constants {
         public static final boolean TOP_ROLLER_INVERTED = false;
         public static final boolean BOTTOM_ROLLER_INVERTED = false;
 
-        public static final double TOP_ROLLER_REDUCTION = 1.0;
-        public static final double BOTTOM_ROLLER_REDUCTION = (1.0 / 3.0);
+        public static final double TOP_ROLLER_REDUCTION = (15.0 / 30.0);
+        public static final double BOTTOM_ROLLER_REDUCTION = (1.0 / 2.89);
 
         public static final Config TOP_SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
@@ -74,8 +74,8 @@ public final class Constants {
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = false;
 
-        public static final double TOP_ROLLERS_REDUCTION = (1.0 / 3.0);
-        public static final double BOTTOM_ROLLERS_REDUCTION = (1.0 / 3.0);
+        public static final double TOP_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
+        public static final double BOTTOM_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
@@ -90,7 +90,7 @@ public final class Constants {
         public static final boolean PIVOT_INVERTED = false;
 
         public static final int PIVOT_ENCODER = 0;
-        public static final double PIVOT_REDUCTION = (1.0 / 60.0) * (15.0 / 54.0);
+        public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
