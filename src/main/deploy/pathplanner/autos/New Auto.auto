@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.06,
-      "y": 5.54
+      "x": 1.20862210340683,
+      "y": 6.99
     },
     "rotation": 0
   },
@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C1-S"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C3-S"
+            "pathName": "F1-F2"
           }
         }
       ]

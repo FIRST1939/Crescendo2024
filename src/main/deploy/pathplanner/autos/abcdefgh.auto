@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3140196323188638,
+      "x": 0.95,
       "y": 6.99
     },
-    "rotation": 0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -18,33 +18,27 @@
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.0
+            "pathName": "New New New Path"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1-F2"
+            "pathName": "C1-S"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F2-F3"
+            "pathName": "New Path"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F3-C5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C5-S"
+            "pathName": "C2-S"
           }
         }
       ]
