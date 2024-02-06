@@ -44,8 +44,8 @@ public final class Constants {
 
     public final class IntakeConstants {
 
-        public static final int TOP_ROLLER = 0;
-        public static final int BOTTOM_ROLLER = 0;
+        public static final int TOP_ROLLER = 31;
+        public static final int BOTTOM_ROLLER = 32;
 
         public static final boolean TOP_ROLLER_INVERTED = false;
         public static final boolean BOTTOM_ROLLER_INVERTED = false;
@@ -68,14 +68,16 @@ public final class Constants {
 
     public final class IndexerConstants {
 
-        public static final int TOP_ROLLERS = 0;
-        public static final int BOTTOM_ROLLERS = 0;
+        public static final int TOP_ROLLERS = 33;
+        public static final int BOTTOM_ROLLERS = 34;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
-        public static final boolean BOTTOM_ROLLERS_INVERTED = false;
+        public static final boolean BOTTOM_ROLLERS_INVERTED = true;
 
         public static final double TOP_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
         public static final double BOTTOM_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
+
+        public static final double ROLLERS_DIAMETER = 2.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
@@ -86,7 +88,7 @@ public final class Constants {
 
     public final class ArmConstants {
 
-        public static final int PIVOT = 0;
+        public static final int PIVOT = 35;
         public static final boolean PIVOT_INVERTED = false;
 
         public static final int PIVOT_ENCODER = 0;
@@ -101,14 +103,16 @@ public final class Constants {
 
     public final class ShooterConstants {
 
-        public static final int TOP_ROLLERS = 0;
-        public static final int BOTTOM_ROLLERS = 0;
+        public static final int TOP_ROLLERS = 36;
+        public static final int BOTTOM_ROLLERS = 37;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
-        public static final boolean BOTTOM_ROLLERS_INVERTED = false;
+        public static final boolean BOTTOM_ROLLERS_INVERTED = true;
 
         public static final double TOP_ROLLERS_REDUCTION = 1.0;
         public static final double BOTTOM_ROLLERS_REDUCTION = 1.0;
+
+        public static final double ROLLERS_DIAMETER = 4.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 

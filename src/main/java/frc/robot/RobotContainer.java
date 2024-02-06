@@ -3,6 +3,7 @@ package frc.robot;
 import java.io.IOException;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.lib.Controller;
 import frc.robot.commands.swerve.BrakeMode;
 import frc.robot.subsystems.Arm;
@@ -27,9 +28,11 @@ public class RobotContainer {
 
     public RobotContainer () {
 
+        /*
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
         this.limelight = new Limelight();
+        */
 
         this.intake = new Intake();
         this.indexer = new Indexer();
@@ -81,7 +84,7 @@ public class RobotContainer {
         
         this.driverTwo.leftTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kReverse));
         this.driverTwo.rightTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kForward));
-        */
+        /*
 
         /*
         this.driverTwo.leftBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kReverse));
@@ -91,13 +94,11 @@ public class RobotContainer {
         this.driverTwo.rightTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kForward));
         */
 
-        /*
         this.driverTwo.leftBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.leftBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kForward));
+        this.driverTwo.rightBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kForward));
 
         this.driverTwo.leftTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kReverse));
         this.driverTwo.rightTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kForward));
-        */
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
