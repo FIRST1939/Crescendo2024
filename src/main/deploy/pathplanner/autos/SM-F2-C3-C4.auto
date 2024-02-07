@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start - F2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F2 - C3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C3 - CC Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CC Shoot - C4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4 - CC Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Completed",
+  "choreoAuto": false
+}
