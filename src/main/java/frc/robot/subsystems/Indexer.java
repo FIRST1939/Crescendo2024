@@ -17,24 +17,24 @@ import frc.robot.util.Constants;
 
 public class Indexer extends SubsystemBase {
 
-    private CANSparkMax topRollers;
-    private CANSparkMax bottomRollers;
+    private CANSparkMax topRoller;
+    private CANSparkMax bottomRoller;
     private DigitalInput startBeam;
     private DigitalInput endBeam;
 
     public Indexer () {
 
-        this.topRollers = new CANSparkMax(Constants.IndexerConstants.TOP_ROLLERS, MotorType.kBrushless);
-        this.bottomRollers = new CANSparkMax(Constants.IndexerConstants.BOTTOM_ROLLERS, MotorType.kBrushless);
+        this.topRoller = new CANSparkMax(Constants.IndexerConstants.TOP_ROLLER, MotorType.kBrushless);
+        this.bottomRoller = new CANSparkMax(Constants.IndexerConstants.BOTTOM_ROLLER, MotorType.kBrushless);
 
-        this.topRollers.setInverted(Constants.IndexerConstants.TOP_ROLLERS_INVERTED);
-        this.bottomRollers.setInverted(Constants.IndexerConstants.BOTTOM_ROLLERS_INVERTED);
+        this.topRoller.setInverted(Constants.IndexerConstants.TOP_ROLLER_INVERTED);
+        this.bottomRoller.setInverted(Constants.IndexerConstants.BOTTOM_ROLLER_INVERTED);
 
-        this.topRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.TOP_ROLLERS_REDUCTION);
-        this.topRollers.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.TOP_ROLLERS_REDUCTION);
+        this.topRoller.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.TOP_ROLLER_REDUCTION);
+        this.topRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.TOP_ROLLER_REDUCTION);
 
-        this.bottomRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLERS_REDUCTION);
-        this.bottomRollers.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLERS_REDUCTION);
+        this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
+        this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
     }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
@@ -45,29 +45,29 @@ public class Indexer extends SubsystemBase {
         return new SysIdRoutine(
             Constants.IndexerConstants.SYSID_ROUTINE_CONFIG,
             new Mechanism(
-                this::setRollersVoltage,
+                this::setRollerVoltage,
                 sysIdRoutineLog -> {
 
-                    sysIdRoutineLog.motor("indexer-top-rollers")
-                        .angularPosition(Units.Rotations.of(this.topRollers.getEncoder().getPosition()))
-                        .angularVelocity(Units.Rotations.of(this.topRollers.getEncoder().getVelocity()).per(Units.Second))
-                        .voltage(Units.Volts.of(this.topRollers.getBusVoltage() * this.topRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.topRollers.getOutputCurrent()));
+                    sysIdRoutineLog.motor("indexer-top-roller")
+                        .linearPosition(Units.Inches.of(this.topRoller.getEncoder().getPosition() * (Math.PI * Constants.IndexerConstants.TOP_ROLLER_DIAMETER)))
+                        .linearVelocity(Units.InchesPerSecond.of((this.topRoller.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IndexerConstants.TOP_ROLLER_DIAMETER)))
+                        .voltage(Units.Volts.of(this.topRoller.getBusVoltage() * this.topRoller.getAppliedOutput()))
+                        .current(Units.Amps.of(this.topRoller.getOutputCurrent()));
 
-                    sysIdRoutineLog.motor("indexer-bottom-rollers")
-                        .angularPosition(Units.Rotations.of(this.bottomRollers.getEncoder().getPosition()))
-                        .angularVelocity(Units.Rotations.of(this.bottomRollers.getEncoder().getVelocity()).per(Units.Second))
-                        .voltage(Units.Volts.of(this.bottomRollers.getBusVoltage() * this.bottomRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.bottomRollers.getOutputCurrent()));
+                    sysIdRoutineLog.motor("indexer-bottom-roller")
+                        .linearPosition(Units.Inches.of(this.bottomRoller.getEncoder().getPosition() * (Math.PI * Constants.IndexerConstants.BOTTOM_ROLLER_DIAMETER)))
+                        .linearVelocity(Units.InchesPerSecond.of((this.bottomRoller.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IndexerConstants.BOTTOM_ROLLER_DIAMETER)))
+                        .voltage(Units.Volts.of(this.bottomRoller.getBusVoltage() * this.bottomRoller.getAppliedOutput()))
+                        .current(Units.Amps.of(this.bottomRoller.getOutputCurrent()));
                 },
                 this
             )
         );
     }
 
-    private void setRollersVoltage (Measure<Voltage> voltage) {
+    private void setRollerVoltage (Measure<Voltage> voltage) {
 
-        this.topRollers.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
-        this.bottomRollers.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
+        this.topRoller.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
+        this.bottomRoller.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
     }
 }
