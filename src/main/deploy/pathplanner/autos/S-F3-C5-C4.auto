@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Side Start - F3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F3-C5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5 - CR Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CR Shoot - C4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4 - CC Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Completed",
+  "choreoAuto": false
+}

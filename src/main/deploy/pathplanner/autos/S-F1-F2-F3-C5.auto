@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start-F1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
+            "pathName": "Left Side Start - F1"
           }
         },
         {
@@ -44,12 +38,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C5-S"
+            "pathName": "C5 - CR Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Completed",
   "choreoAuto": false
 }
