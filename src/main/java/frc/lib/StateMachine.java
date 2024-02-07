@@ -8,37 +8,37 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public abstract class StateMachine {
     
     protected ArrayList<Class<Command>> states;
-    private ArrayList<ArrayList<Class<?>>> stateParameterTypes;
-    private ArrayList<ArrayList<Object>> stateParameters;
     private Alert alert;
     private Subsystem[] subsystems;
 
-    protected Graph stateMachineGraph;
     protected int currentState;
+    protected Command currentCommand;
+    protected Graph stateMachineGraph;
 
-    public StateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Alert alert, Subsystem... subsystems) {
+    public StateMachine (ArrayList<Class<Command>> states, Alert alert, Subsystem... subsystems) {
 
         this.states = states;
-        this.stateParameterTypes = stateParameterTypes;
-        this.stateParameters = stateParameters;
         this.alert = alert;
         this.subsystems = subsystems;
 
         this.currentState = 0;
-
         this.generateStateMachineGraph();
-        this.activateState(this.states.get(0), this.stateParameterTypes.get(0), this.stateParameters.get(0));
+        this.activateState(this.states.get(0));
     }
 
     protected abstract void generateStateMachineGraph ();
-    protected abstract void switchState ();
+    public abstract void switchState ();
 
-    protected void activateState (Class<Command> state, ArrayList<Class<?>> stateParameterTypes, ArrayList<Object> stateParameters) { 
+    protected void activateState (Class<Command> state) { 
     
+        this.currentCommand.cancel();
+
         try {
 
-            Command command = state.getConstructor((Class[]) stateParameterTypes.toArray()).newInstance(stateParameters.toArray());
+            Command command = state.getConstructor(Subsystem.class).newInstance((Object[]) this.subsystems);
             command.andThen(this::switchState, this.subsystems).schedule();
+
+            this.currentCommand = command;
             this.alert.set(false);
         } catch (Exception exception) {
 

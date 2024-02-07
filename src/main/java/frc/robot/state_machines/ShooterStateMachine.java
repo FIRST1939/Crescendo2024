@@ -11,9 +11,9 @@ public class ShooterStateMachine extends StateMachine {
 
     private Shooter shooter;
 
-    public ShooterStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Shooter shooter) {
+    public ShooterStateMachine (ArrayList<Class<Command>> states, Shooter shooter) {
 
-        super(states, stateParameterTypes, stateParameters, Alerts.shooterStateMachine, shooter);
+        super(states, Alerts.shooterStateMachine, shooter);
         this.shooter = shooter; 
     }
 
@@ -31,6 +31,5 @@ public class ShooterStateMachine extends StateMachine {
         this.stateMachineGraph = new Graph(edges);
     }
 
-    protected void switchState () {}
+    public void switchState () {}
 }
-

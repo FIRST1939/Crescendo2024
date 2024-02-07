@@ -11,9 +11,9 @@ public class ArmStateMachine extends StateMachine {
 
     private Arm arm; 
 
-    public ArmStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Arm arm) {
+    public ArmStateMachine (ArrayList<Class<Command>> states, Arm arm) {
 
-        super(states, stateParameterTypes, stateParameters, Alerts.armStateMachine, arm);
+        super(states, Alerts.armStateMachine, arm);
         this.arm = arm;
     }
 

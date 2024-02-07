@@ -11,9 +11,9 @@ public class IndexerStateMachine extends StateMachine {
     
     private Indexer indexer;
 
-    public IndexerStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Indexer indexer) {
+    public IndexerStateMachine (ArrayList<Class<Command>> states, Indexer indexer) {
 
-        super(states, stateParameterTypes, stateParameters, Alerts.indexerStateMachine, indexer);
+        super(states, Alerts.indexerStateMachine, indexer);
         this.indexer = indexer; 
     }
 
@@ -39,5 +39,5 @@ public class IndexerStateMachine extends StateMachine {
         this.stateMachineGraph = new Graph(edges);
     }
 
-    protected void switchState () {}
+    public void switchState () {}
 }

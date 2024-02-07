@@ -11,9 +11,9 @@ public class IntakeStateMachine extends StateMachine {
     
     private Intake intake;
 
-    public IntakeStateMachine (ArrayList<Class<Command>> states, ArrayList<ArrayList<Class<?>>> stateParameterTypes, ArrayList<ArrayList<Object>> stateParameters, Intake intake) {
+    public IntakeStateMachine (ArrayList<Class<Command>> states, Intake intake) {
         
-        super(states, stateParameterTypes, stateParameters, Alerts.intakeStateMachine, intake);
+        super(states, Alerts.intakeStateMachine, intake);
         this.intake = intake;
     }
 
@@ -36,5 +36,5 @@ public class IntakeStateMachine extends StateMachine {
         this.stateMachineGraph = new Graph(edges);
     }
 
-    protected void switchState () {}
+    public void switchState () {}
 }
