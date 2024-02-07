@@ -32,13 +32,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C2-C3"
+            "pathName": "z C2-C3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C3-C2"
+            "pathName": "z C3-C2"
           }
         },
         {
@@ -68,6 +68,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Test",
   "choreoAuto": false
 }
