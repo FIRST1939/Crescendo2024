@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -44,6 +45,8 @@ public class Arm extends SubsystemBase {
         this.pivotPosition = () -> this.pivot.getPosition().getValue() * Constants.ArmConstants.PIVOT_REDUCTION;
         this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION;
     }
+
+    public void setPosition (double position) { this.pivot.setControl(new PositionVoltage(position)); }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getDynamicRoutine(direction); }

@@ -14,4 +14,6 @@ public class IdleShooter extends Command {
         this.addRequirements(this.shooter);
     }
 
+    @Override
+    public void initialize () { this.shooter.setVelocity(0.0); }
 }

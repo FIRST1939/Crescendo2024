@@ -37,6 +37,12 @@ public class Indexer extends SubsystemBase {
         this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
     }
 
+    public void setVelocity (double velocity) {
+
+        this.topRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+        this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+    }
+
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
 

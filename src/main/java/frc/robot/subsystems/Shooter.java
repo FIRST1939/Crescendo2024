@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
 
-public class Shooter extends SubsystemBase{
+public class Shooter extends SubsystemBase {
 
     private CANSparkFlex topRollers;
     private CANSparkFlex bottomRollers;
@@ -32,6 +32,12 @@ public class Shooter extends SubsystemBase{
 
         this.bottomRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION);
         this.bottomRollers.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION);
+    }
+
+    public void setVelocity (double velocity) {
+
+        this.topRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
+        this.bottomRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
     }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }

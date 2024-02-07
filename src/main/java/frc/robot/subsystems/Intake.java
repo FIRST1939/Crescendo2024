@@ -34,6 +34,12 @@ public class Intake extends SubsystemBase {
       this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
    }
 
+   public void setVelocity (double velocity) {
+
+      this.topRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+      this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+   }
+
    public Command getTopQuasistaticRoutine (Direction direction) { return this.getTopSysIdRoutine().quasistatic(direction); }
    public Command getTopDynamicRoutine (Direction direction) { return this.getTopSysIdRoutine().dynamic(direction); }
 

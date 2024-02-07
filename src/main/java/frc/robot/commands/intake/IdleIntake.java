@@ -12,4 +12,7 @@ public class IdleIntake extends Command {
         this.intake = intake;
         this.addRequirements(this.intake);
     }
+
+    @Override
+    public void initialize () { this.intake.setVelocity(0.0); }
 }
