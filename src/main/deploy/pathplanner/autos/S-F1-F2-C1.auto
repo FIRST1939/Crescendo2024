@@ -1,12 +1,6 @@
 {
   "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 0.95,
-      "y": 6.99
-    },
-    "rotation": 0.0
-  },
+  "startingPose": null,
   "command": {
     "type": "sequential",
     "data": {
@@ -20,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1-C1"
+            "pathName": "F1-F2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F2-C1"
           }
         },
         {
