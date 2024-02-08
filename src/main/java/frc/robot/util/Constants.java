@@ -147,6 +147,8 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
+        public static final double SHOOT_SPEED = 0.0;
+
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
             Units.Volts.of(7),
