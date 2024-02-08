@@ -21,7 +21,7 @@ public class IntakeStateMachine extends StateMachine {
 
         /**
          * 0: IdleIntake
-         * 1:IntakeNote
+         * 1: IntakeNote
          * 2: OutakeNote
          */
 

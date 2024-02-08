@@ -35,6 +35,14 @@ public class Indexer extends SubsystemBase {
 
         this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
         this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
+
+        this.topRoller.getPIDController().setP(Constants.IndexerConstants.ROLLER_P);
+        this.topRoller.getPIDController().setI(Constants.IndexerConstants.ROLLER_I);
+        this.topRoller.getPIDController().setD(Constants.IndexerConstants.ROLLER_D);
+
+        this.bottomRoller.getPIDController().setP(Constants.IndexerConstants.ROLLER_P);
+        this.bottomRoller.getPIDController().setI(Constants.IndexerConstants.ROLLER_I);
+        this.bottomRoller.getPIDController().setD(Constants.IndexerConstants.ROLLER_D);
     }
 
     public void setVelocity (double velocity) {

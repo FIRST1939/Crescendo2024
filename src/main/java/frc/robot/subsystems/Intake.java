@@ -32,6 +32,14 @@ public class Intake extends SubsystemBase {
 
       this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
       this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
+
+      this.topRoller.getPIDController().setP(Constants.IntakeConstants.TOP_ROLLER_P);
+      this.topRoller.getPIDController().setI(Constants.IntakeConstants.TOP_ROLLER_I);
+      this.topRoller.getPIDController().setD(Constants.IntakeConstants.TOP_ROLLER_D);
+
+      this.bottomRoller.getPIDController().setP(Constants.IntakeConstants.BOTTOM_ROLLER_P);
+      this.bottomRoller.getPIDController().setI(Constants.IntakeConstants.BOTTOM_ROLLER_I);
+      this.bottomRoller.getPIDController().setD(Constants.IntakeConstants.BOTTOM_ROLLER_D);
    }
 
    public void setVelocity (double velocity) {
