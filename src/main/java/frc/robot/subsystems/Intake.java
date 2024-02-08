@@ -32,6 +32,20 @@ public class Intake extends SubsystemBase {
 
       this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
       this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
+
+      this.topRoller.getPIDController().setP(Constants.IntakeConstants.TOP_ROLLER_P);
+      this.topRoller.getPIDController().setI(Constants.IntakeConstants.TOP_ROLLER_I);
+      this.topRoller.getPIDController().setD(Constants.IntakeConstants.TOP_ROLLER_D);
+
+      this.bottomRoller.getPIDController().setP(Constants.IntakeConstants.BOTTOM_ROLLER_P);
+      this.bottomRoller.getPIDController().setI(Constants.IntakeConstants.BOTTOM_ROLLER_I);
+      this.bottomRoller.getPIDController().setD(Constants.IntakeConstants.BOTTOM_ROLLER_D);
+   }
+
+   public void setVelocity (double velocity) {
+
+      this.topRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+      this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
    }
 
    public Command getTopQuasistaticRoutine (Direction direction) { return this.getTopSysIdRoutine().quasistatic(direction); }
@@ -49,8 +63,8 @@ public class Intake extends SubsystemBase {
             sysIdRoutineLog -> {
 
                sysIdRoutineLog.motor("intake-top-roller")
-                  .angularPosition(Units.Rotations.of(this.topRoller.getEncoder().getPosition()))
-                  .angularVelocity(Units.Rotations.of(this.topRoller.getEncoder().getVelocity()).per(Units.Minute))
+                  .linearPosition(Units.Inches.of(this.topRoller.getEncoder().getPosition() * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER)))
+                  .linearVelocity(Units.InchesPerSecond.of((this.topRoller.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER)))
                   .voltage(Units.Volts.of(this.topRoller.getBusVoltage() * this.topRoller.getAppliedOutput()))
                   .current(Units.Amps.of(this.topRoller.getOutputCurrent()));
             },
@@ -68,8 +82,8 @@ public class Intake extends SubsystemBase {
             sysIdRoutineLog -> {
 
                sysIdRoutineLog.motor("intake-bottom-roller")
-                  .angularPosition(Units.Rotations.of(this.bottomRoller.getEncoder().getPosition()))
-                  .angularVelocity(Units.Rotations.of(this.bottomRoller.getEncoder().getVelocity()).per(Units.Minute))
+                  .linearPosition(Units.Inches.of(this.bottomRoller.getEncoder().getPosition() * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER)))
+                  .linearVelocity(Units.InchesPerSecond.of((this.bottomRoller.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER)))
                   .voltage(Units.Volts.of(this.topRoller.getBusVoltage() * this.topRoller.getAppliedOutput()))
                   .current(Units.Amps.of(this.bottomRoller.getOutputCurrent()));
             },

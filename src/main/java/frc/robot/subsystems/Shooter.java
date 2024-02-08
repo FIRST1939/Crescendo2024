@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
 
-public class Shooter extends SubsystemBase{
+public class Shooter extends SubsystemBase {
 
     private CANSparkFlex topRollers;
     private CANSparkFlex bottomRollers;
@@ -34,6 +34,14 @@ public class Shooter extends SubsystemBase{
         this.bottomRollers.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION);
     }
 
+    public void setVelocity (double velocity) {
+
+        this.topRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
+        this.bottomRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
+    }
+
+    public boolean atSpeed () { return false; }
+
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
 
@@ -46,18 +54,14 @@ public class Shooter extends SubsystemBase{
                 sysIdRoutineLog -> {
 
                     sysIdRoutineLog.motor("shooter-top-rollers")
-                        .angularPosition(Units.Rotations.of(this.topRollers.getEncoder().getPosition()))
-                        .angularVelocity(Units.Rotations.of(this.topRollers.getEncoder().getVelocity()).per(Units.Second))
-                        .linearPosition(Units.Inches.of(this.topRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of(this.topRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.ROLLERS_DIAMETER)))
+                        .linearPosition(Units.Inches.of(this.topRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER)))
+                        .linearVelocity(Units.InchesPerSecond.of((this.topRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER)))
                         .voltage(Units.Volts.of(this.topRollers.getBusVoltage() * this.topRollers.getAppliedOutput()))
                         .current(Units.Amps.of(this.topRollers.getOutputCurrent()));
 
                     sysIdRoutineLog.motor("shooter-bottom-rollers")
-                        .angularPosition(Units.Rotations.of(this.bottomRollers.getEncoder().getPosition()))
-                        .angularVelocity(Units.Rotations.of(this.bottomRollers.getEncoder().getVelocity()).per(Units.Second))
-                        .linearPosition(Units.Inches.of(this.bottomRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of(this.bottomRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.ROLLERS_DIAMETER)))
+                        .linearPosition(Units.Inches.of(this.bottomRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER)))
+                        .linearVelocity(Units.InchesPerSecond.of((this.bottomRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER)))
                         .voltage(Units.Volts.of(this.bottomRollers.getBusVoltage() * this.bottomRollers.getAppliedOutput()))
                         .current(Units.Amps.of(this.bottomRollers.getOutputCurrent()));
                 },

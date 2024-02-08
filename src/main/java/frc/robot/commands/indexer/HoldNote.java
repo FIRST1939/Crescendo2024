@@ -13,4 +13,6 @@ public class HoldNote extends Command {
         this.addRequirements(this.indexer);
     }
     
+    @Override
+    public void initialize () { this.indexer.setVelocity(0.0); }
 }

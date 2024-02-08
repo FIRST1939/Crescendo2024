@@ -34,6 +34,8 @@ public class Limelight extends SubsystemBase {
 
         if (this.latestTimestamp != latestTimestamp) {
 
+            if (LimelightHelpers.getTA("limelight") == 0) { return; }
+
             if (!DriverStation.getAlliance().isPresent()) {
 
                 this.latestPose = targetingResults.getBotPose2d();

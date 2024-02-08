@@ -2,6 +2,7 @@ package frc.robot.commands.indexer;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
+import frc.robot.util.Constants;
 
 public class IndexNote extends Command {
 
@@ -13,4 +14,6 @@ public class IndexNote extends Command {
         this.addRequirements(this.indexer);
     }
     
+    @Override
+    public void initialize () { this.indexer.setVelocity(Constants.IndexerConstants.INDEX_SPEED); }
 }
