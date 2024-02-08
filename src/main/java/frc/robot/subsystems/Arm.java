@@ -47,6 +47,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void setPosition (double position) { this.pivot.setControl(new PositionVoltage(position)); }
+    public boolean atPosition () { return false; }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getDynamicRoutine(direction); }

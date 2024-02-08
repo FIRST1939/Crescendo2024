@@ -40,6 +40,8 @@ public class Shooter extends SubsystemBase {
         this.bottomRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
     }
 
+    public boolean atSpeed () { return false; }
+
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
 

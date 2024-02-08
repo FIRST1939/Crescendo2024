@@ -51,6 +51,10 @@ public class Indexer extends SubsystemBase {
         this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
     }
 
+    public boolean noteContained () { return false; }
+    public boolean noteIndexed () { return false; }
+    public boolean noteFed () { return false; }
+
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
 

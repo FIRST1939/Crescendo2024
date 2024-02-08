@@ -6,7 +6,7 @@ import frc.robot.util.Constants;
 
 public class ShootNote extends Command {
 
-     private Shooter shooter; 
+    private Shooter shooter; 
 
     public ShootNote (Shooter shooter) {
 
@@ -15,5 +15,5 @@ public class ShootNote extends Command {
     }
 
     @Override
-    public void initialize () { this.shooter.setVelocity(Constants.ShooterConstants.SHOOT_SPEED); }
+    public void execute () { this.shooter.setVelocity(Constants.ShooterConstants.SHOOT_SPEED); }
 }

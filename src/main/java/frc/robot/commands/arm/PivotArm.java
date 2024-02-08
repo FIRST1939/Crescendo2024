@@ -15,5 +15,5 @@ public class PivotArm extends Command {
     }
 
     @Override
-    public void initialize () { this.arm.setPosition(Constants.ArmConstants.PIVOT_POSITION); }
+    public void execute () { this.arm.setPosition(Constants.ArmConstants.PIVOT_POSITION); }
 }
