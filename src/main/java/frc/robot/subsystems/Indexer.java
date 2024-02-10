@@ -17,6 +17,7 @@ import frc.robot.util.Constants;
 
 public class Indexer extends SubsystemBase {
 
+    private CANSparkMax frontRollers;
     private CANSparkMax topRoller;
     private CANSparkMax bottomRoller;
     private DigitalInput startBeam;
@@ -24,11 +25,16 @@ public class Indexer extends SubsystemBase {
 
     public Indexer () {
 
+        this.frontRollers = new CANSparkMax(Constants.IndexerConstants.FRONT_ROLLERS, MotorType.kBrushless);
         this.topRoller = new CANSparkMax(Constants.IndexerConstants.TOP_ROLLER, MotorType.kBrushless);
         this.bottomRoller = new CANSparkMax(Constants.IndexerConstants.BOTTOM_ROLLER, MotorType.kBrushless);
 
+        this.frontRollers.setInverted(Constants.IndexerConstants.FRONT_ROLLERS_INVERTED);
         this.topRoller.setInverted(Constants.IndexerConstants.TOP_ROLLER_INVERTED);
         this.bottomRoller.setInverted(Constants.IndexerConstants.BOTTOM_ROLLER_INVERTED);
+
+        this.frontRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION);
+        this.frontRollers.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION);
 
         this.topRoller.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.TOP_ROLLER_REDUCTION);
         this.topRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.TOP_ROLLER_REDUCTION);
@@ -36,17 +42,22 @@ public class Indexer extends SubsystemBase {
         this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
         this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BOTTOM_ROLLER_REDUCTION);
 
-        this.topRoller.getPIDController().setP(Constants.IndexerConstants.ROLLER_P);
-        this.topRoller.getPIDController().setI(Constants.IndexerConstants.ROLLER_I);
-        this.topRoller.getPIDController().setD(Constants.IndexerConstants.ROLLER_D);
+        this.frontRollers.getPIDController().setP(Constants.IndexerConstants.FRONT_ROLLERS_P);
+        this.frontRollers.getPIDController().setI(Constants.IndexerConstants.FRONT_ROLLERS_I);
+        this.frontRollers.getPIDController().setD(Constants.IndexerConstants.FRONT_ROLLERS_D);
 
-        this.bottomRoller.getPIDController().setP(Constants.IndexerConstants.ROLLER_P);
-        this.bottomRoller.getPIDController().setI(Constants.IndexerConstants.ROLLER_I);
-        this.bottomRoller.getPIDController().setD(Constants.IndexerConstants.ROLLER_D);
+        this.topRoller.getPIDController().setP(Constants.IndexerConstants.BACK_ROLLERS_P);
+        this.topRoller.getPIDController().setI(Constants.IndexerConstants.BACK_ROLLERS_I);
+        this.topRoller.getPIDController().setD(Constants.IndexerConstants.BACK_ROLLERS_D);
+
+        this.bottomRoller.getPIDController().setP(Constants.IndexerConstants.BACK_ROLLERS_P);
+        this.bottomRoller.getPIDController().setI(Constants.IndexerConstants.BACK_ROLLERS_I);
+        this.bottomRoller.getPIDController().setD(Constants.IndexerConstants.BACK_ROLLERS_D);
     }
 
     public void setVelocity (double velocity) {
 
+        this.frontRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
         this.topRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
         this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
     }
@@ -55,15 +66,37 @@ public class Indexer extends SubsystemBase {
     public boolean noteIndexed () { return false; }
     public boolean noteFed () { return false; }
 
-    public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
-    public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
+    public Command getFrontQuasistaticRoutine (Direction direction) { return this.getFrontSysIdRoutine().quasistatic(direction); }
+    public Command getFrontDynamicRoutine (Direction direction) { return this.getFrontSysIdRoutine().dynamic(direction); }
+    
+    public Command getBackQuasistaticRoutine (Direction direction) { return this.getBackSysIdRoutine().quasistatic(direction); }
+    public Command getBackDynamicRoutine (Direction direction) { return this.getBackSysIdRoutine().dynamic(direction); }
 
-    private SysIdRoutine getSysIdRoutine () {
+    private SysIdRoutine getFrontSysIdRoutine () {
 
         return new SysIdRoutine(
-            Constants.IndexerConstants.SYSID_ROUTINE_CONFIG,
+            Constants.IndexerConstants.FRONT_SYSID_ROUTINE_CONFIG,
             new Mechanism(
-                this::setRollerVoltage,
+                this::setFrontRollersVoltage,
+                sysIdRoutineLog -> {
+
+                    sysIdRoutineLog.motor("indexer-front-rollers")
+                        .linearPosition(Units.Inches.of(this.frontRollers.getEncoder().getPosition() * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER)))
+                        .linearVelocity(Units.InchesPerSecond.of((this.frontRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER)))
+                        .voltage(Units.Volts.of(this.frontRollers.getBusVoltage() * this.frontRollers.getAppliedOutput()))
+                        .current(Units.Amps.of(this.frontRollers.getOutputCurrent()));
+                },
+                this
+            )
+        );
+    }
+
+    private SysIdRoutine getBackSysIdRoutine () {
+
+        return new SysIdRoutine(
+            Constants.IndexerConstants.BACK_SYSID_ROUTINE_CONFIG,
+            new Mechanism(
+                this::setBackRollersVoltage,
                 sysIdRoutineLog -> {
 
                     sysIdRoutineLog.motor("indexer-top-roller")
@@ -83,7 +116,9 @@ public class Indexer extends SubsystemBase {
         );
     }
 
-    private void setRollerVoltage (Measure<Voltage> voltage) {
+    private void setFrontRollersVoltage (Measure<Voltage> voltage) { this.frontRollers.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage); }
+
+    private void setBackRollersVoltage (Measure<Voltage> voltage) {
 
         this.topRoller.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
         this.bottomRoller.getPIDController().setReference(voltage.magnitude(), ControlType.kVoltage);
