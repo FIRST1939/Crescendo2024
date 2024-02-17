@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Timer;
@@ -15,13 +14,20 @@ import frc.robot.util.Alerts;
 public class Limelight extends SubsystemBase {
     
     private Pose2d latestPose;
-    private Rotation3d latestRotation;
-    private double latestTimestamp;
+    private double latestDelay;
+    
+    private boolean validMeasurements;
+    private Timer usageTimer = new Timer();
 
     public Limelight () {
 
+        LimelightHelpers.setPipelineIndex("limelight", 0);
         LimelightHelpers.setLEDMode_PipelineControl("limelight");
+
         LimelightHelpers.setCropWindow("limelight", -1, 1, -1, 1);
+
+        this.usageTimer.reset();
+        this.usageTimer.start();
     }
 
     @Override
@@ -29,28 +35,19 @@ public class Limelight extends SubsystemBase {
 
         LimelightResults limelightResults = LimelightHelpers.getLatestResults("limelight");
         Results targetingResults = limelightResults.targetingResults;
+        this.validMeasurements = targetingResults.valid;
 
-        double latestTimestamp = targetingResults.timestamp_RIOFPGA_capture;
+        if (this.validMeasurements) {
 
-        if (this.latestTimestamp != latestTimestamp) {
+            if (!DriverStation.getAlliance().isPresent()) { this.latestPose = targetingResults.getBotPose2d(); } 
+            else if (DriverStation.getAlliance().get() == Alliance.Red) { this.latestPose = targetingResults.getBotPose2d_wpiRed(); } 
+            else { this.latestPose = targetingResults.getBotPose2d_wpiBlue(); }
 
-            if (!DriverStation.getAlliance().isPresent()) {
-
-                this.latestPose = targetingResults.getBotPose2d();
-                this.latestRotation = targetingResults.getBotPose3d().getRotation();
-            } else if (DriverStation.getAlliance().get() == Alliance.Red) { 
-                
-                this.latestPose = targetingResults.getBotPose2d_wpiRed(); 
-                this.latestRotation = targetingResults.getBotPose3d_wpiRed().getRotation();
-            } else { 
-                
-                this.latestPose = targetingResults.getBotPose2d_wpiBlue(); 
-                this.latestRotation = targetingResults.getBotPose3d_wpiBlue().getRotation();
-            }
+            this.latestDelay = targetingResults.latency_capture + targetingResults.latency_pipeline;
+            this.usageTimer.restart();
         }
 
-        this.latestTimestamp = latestTimestamp;
-        double lastUpdated = Timer.getFPGATimestamp() - latestTimestamp;
+        double lastUpdated = this.usageTimer.get();
         SmartDashboard.putString("Limelight Last Updated", (Math.round(lastUpdated * 10) / 10.0) + "s Ago");
 
         if (lastUpdated >= 20) { Alerts.limelightDetections.set(true); }
@@ -58,6 +55,6 @@ public class Limelight extends SubsystemBase {
     }
 
     public Pose2d getLatestPose () { return this.latestPose; }
-    public Rotation3d getLatestRotation () { return this.latestRotation; }
-    public double getLatestTimestamp () { return this.latestTimestamp; }
+    public double getLatestDelay () { return this.latestDelay; }
+    public boolean areValidMeasurements () { return this.validMeasurements; }
 }

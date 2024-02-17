@@ -20,7 +20,6 @@ public class RobotContainer {
     private Swerve swerve;
     private Limelight limelight;
     private Controller driverOne;
-    private Controller driverTwo;
 
     public RobotContainer () {
 
@@ -29,7 +28,6 @@ public class RobotContainer {
 
         this.limelight = new Limelight();
         this.driverOne = new Controller(0);
-        this.driverTwo = new Controller(1);
 
         this.configureCommands();
     }
@@ -48,6 +46,11 @@ public class RobotContainer {
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
+
+        /**
+        this.driverOne.leftTrigger().whileTrue(this.swerve.getDriveSysidRoutine());
+        this.driverOne.rightTrigger().whileTrue(this.swerve.getAngleSysidRoutine());
+        */
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
