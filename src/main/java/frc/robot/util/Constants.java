@@ -38,8 +38,8 @@ public final class Constants {
         public static final double TURN_CONSTANT = 0.125; // Turning Power [%]
         public static final double LOCK_TIME = 10.0; // Lock Time While Disabled [s]
 
-        public static final double REPLANNING_TOTAL_ERROR = 0.15; // Total Error to Replan Path [m]
-        public static final double REPLANNING_ERROR_SPIKE = 0.1; // Spike in Error to Replan Path [m / 20ms]
+        public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
+        public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
 
         public static final Config DRIVE_SYSID_CONFIG = new Config(
             Units.Volts.of(1.5).per(Units.Second),
