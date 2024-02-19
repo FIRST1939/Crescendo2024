@@ -50,7 +50,7 @@ public class Arm extends SubsystemBase {
     public boolean atPosition () { return false; }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
-    public Command getDynamicRoutine (Direction direction) { return this.getDynamicRoutine(direction); }
+    public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
 
     private SysIdRoutine getSysIdRoutine () {
 
