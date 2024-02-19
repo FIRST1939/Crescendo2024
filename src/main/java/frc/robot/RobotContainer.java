@@ -24,6 +24,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Alerts;
 
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+
 public class RobotContainer {
 
     private Swerve swerve;
@@ -83,11 +85,9 @@ public class RobotContainer {
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
         */
 
-        // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
         /*
         this.driverTwo.leftBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kForward));
+        this.driverTwo.rightBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kForward));
 
         this.driverTwo.leftTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kReverse));
         this.driverTwo.rightTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kForward));
@@ -103,11 +103,11 @@ public class RobotContainer {
 
         /*
         this.driverTwo.leftBumper().whileTrue(this.indexer.getFrontQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.indexer.getBackQuasistaticRoutine(Direction.kForward));
+        this.driverTwo.rightBumper().whileTrue(this.indexer.getFrontQuasistaticRoutine(Direction.kForward));
         
         this.driverTwo.leftTrigger().whileTrue(this.indexer.getFrontDynamicRoutine(Direction.kReverse));
         this.driverTwo.rightTrigger().whileTrue(this.indexer.getFrontDynamicRoutine(Direction.kForward));
-        /*
+        */
 
         /*
         this.driverTwo.leftBumper().whileTrue(this.indexer.getBackQuasistaticRoutine(Direction.kReverse));
@@ -115,14 +115,14 @@ public class RobotContainer {
         
         this.driverTwo.leftTrigger().whileTrue(this.indexer.getBackDynamicRoutine(Direction.kReverse));
         this.driverTwo.rightTrigger().whileTrue(this.indexer.getBackDynamicRoutine(Direction.kForward));
-        /*
+        */
 
         /*
         this.driverTwo.leftBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kReverse));
         this.driverTwo.rightBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kForward));
         
         this.driverTwo.leftTrigger().whileTrue(this.arm.getDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.indexer.getDynamicRoutine(Direction.kForward));
+        this.driverTwo.rightTrigger().whileTrue(this.arm.getDynamicRoutine(Direction.kForward));
         */
 
         /*
