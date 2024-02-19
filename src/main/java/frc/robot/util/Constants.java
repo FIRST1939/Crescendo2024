@@ -35,7 +35,7 @@ public final class Constants {
         public static final double TRANSLATION_DEADBAND = 0.0825; // Joystick Deadband [%]
         public static final double OMEGA_DEADBAND = 0.125; // Joystick Deadband [%]
 
-        public static final double TURN_CONSTANT = 0.125; // Turning Power [%]
+        public static final double TURN_CONSTANT = 0.225; // Turning Power [%]
         public static final double LOCK_TIME = 10.0; // Lock Time While Disabled [s]
 
         public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
@@ -50,14 +50,13 @@ public final class Constants {
         public static final Config ANGLE_SYSID_CONFIG = new Config(
             Units.Volts.of(1.25).per(Units.Second),
             Units.Volts.of(7.8),
-            Units.Seconds.of(2.5)
+            Units.Seconds.of(10)
         );
 
         public static final double DRIVE_SYSID_QUASISTATIC_TIMEOUT = 7.5;
         public static final double DRIVE_SYSID_DYNAMIC_TIMEOUT = 3.0;
 
-        //8
-        public static final double ANGLE_SYSID_QUASISTATIC_TIMEOUT = 0.1;
+        public static final double ANGLE_SYSID_QUASISTATIC_TIMEOUT = 8.0;
         public static final double ANGLE_SYSID_DYNAMIC_TIMEOUT = 3.0;
     }
 }

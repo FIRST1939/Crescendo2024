@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
+        "x": 1.2,
         "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9999999999999891,
+        "x": 1.31,
         "y": 7.0
       },
       "isLocked": true,
       "linkedName": "Left Side Start"
-    },
-    {
-      "anchor": {
-        "x": 2.0,
-        "y": 7.0
-      },
-      "prevControl": {
-        "x": 1.9646446609406725,
-        "y": 7.035355339059327
-      },
-      "nextControl": {
-        "x": 2.0353553390593278,
-        "y": 6.964644660940673
-      },
-      "isLocked": false,
-      "linkedName": null
     },
     {
       "anchor": {
@@ -44,29 +28,12 @@
       "linkedName": "F1"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.65,
-      "rotationDegrees": 45.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Vision Track + Shoot",
-      "waypointRelativePos": 0.7,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 4.25,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.3,
+    "maxAcceleration": 3.25,
     "maxAngularVelocity": 1250.0,
     "maxAngularAcceleration": 850.0
   },
@@ -78,7 +45,7 @@
   "reversed": false,
   "folder": "Auto Starts",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 48.588149173893704,
     "velocity": 0
   },
   "useDefaultConstraints": true

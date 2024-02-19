@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.27,
+      "x": 1.2,
       "y": 4.1
     },
     "rotation": -45.0
@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "F3-C5"
@@ -27,6 +33,12 @@
           "type": "path",
           "data": {
             "pathName": "C5 - CR Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {

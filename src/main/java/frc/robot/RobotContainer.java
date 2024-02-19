@@ -34,6 +34,7 @@ public class RobotContainer {
 
     private void configureCommands () {
 
+        /**
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
             () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
@@ -46,11 +47,10 @@ public class RobotContainer {
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
+        */
 
-        /**
         this.driverOne.leftTrigger().whileTrue(this.swerve.getDriveSysidRoutine());
         this.driverOne.rightTrigger().whileTrue(this.swerve.getAngleSysidRoutine());
-        */
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
