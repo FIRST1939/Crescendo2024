@@ -83,20 +83,16 @@ public final class Constants {
     public final class IndexerConstants {
 
         public static final int FRONT_ROLLERS = 33;
-        public static final int TOP_ROLLER = 34;
-        public static final int BOTTOM_ROLLER = 35;
+        public static final int BACK_ROLLERS = 34;
 
         public static final boolean FRONT_ROLLERS_INVERTED = false;
-        public static final boolean TOP_ROLLER_INVERTED = false;
-        public static final boolean BOTTOM_ROLLER_INVERTED = true;
+        public static final boolean BACK_ROLLERS_INVERTED = false;
 
         public static final double FRONT_ROLLERS_REDUCTION = (1.0 / 2.89);
-        public static final double TOP_ROLLER_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
-        public static final double BOTTOM_ROLLER_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
+        public static final double BACK_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
 
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
-        public static final double TOP_ROLLER_DIAMETER = 2.0;
-        public static final double BOTTOM_ROLLER_DIAMETER = 2.0;
+        public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
         public static final double FRONT_ROLLERS_P = 0.0;
         public static final double FRONT_ROLLERS_I = 0.0;
@@ -125,7 +121,7 @@ public final class Constants {
 
     public final class ArmConstants {
 
-        public static final int PIVOT = 36;
+        public static final int PIVOT = 35;
         public static final boolean PIVOT_INVERTED = false;
 
         public static final int PIVOT_ENCODER = 0;
@@ -147,8 +143,9 @@ public final class Constants {
 
     public final class ShooterConstants {
 
-        public static final int TOP_ROLLERS = 37;
-        public static final int BOTTOM_ROLLERS = 38;
+        public static final int TOP_ROLLERS = 36;
+        public static final int BOTTOM_ROLLERS = 37
+        ;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = true;
