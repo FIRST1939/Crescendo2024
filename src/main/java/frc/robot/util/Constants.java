@@ -56,16 +56,16 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double TOP_ROLLER_P = 0.0;
+        public static final double TOP_ROLLER_P = 0.025;
         public static final double TOP_ROLLER_I = 0.0;
         public static final double TOP_ROLLER_D = 0.0;
 
-        public static final double BOTTOM_ROLLER_P = 0.0;
+        public static final double BOTTOM_ROLLER_P = 0.025;
         public static final double BOTTOM_ROLLER_I = 0.0;
         public static final double BOTTOM_ROLLER_D = 0.0;
 
-        public static final double INTAKE_SPEED = 0.0;
-        public static final double OUTAKE_SPEED = 0.0;
+        public static final double INTAKE_SPEED = 100.0;
+        public static final double OUTAKE_SPEED = -80.0;
 
         public static final Config TOP_SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1.75).per(Units.Second), 
@@ -94,6 +94,9 @@ public final class Constants {
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
+        public static final int START_BEAM = 9;
+        public static final int END_BEAM = 1;
+
         public static final double FRONT_ROLLERS_P = 0.0;
         public static final double FRONT_ROLLERS_I = 0.0;
         public static final double FRONT_ROLLERS_D = 0.0;
@@ -102,9 +105,9 @@ public final class Constants {
         public static final double BACK_ROLLERS_I = 0.0;
         public static final double BACK_ROLLERS_D = 0.0;
 
-        public static final double INDEX_SPEED = 0.0;
-        public static final double FEED_SPEED = 0.0;
-        public static final double REVERSE_SPEED = 0.0;
+        public static final double INDEX_SPEED = 100.0;
+        public static final double FEED_SPEED = 100.0;
+        public static final double REVERSE_SPEED = -80.0;
 
         public static final Config FRONT_SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(1).per(Units.Second), 
@@ -124,8 +127,13 @@ public final class Constants {
         public static final int PIVOT = 35;
         public static final boolean PIVOT_INVERTED = true;
 
-        public static final int PIVOT_ENCODER = 0;
+        public static final int PIVOT_ENCODER = 2;
         public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
+
+        public static final double PIVOT_OFFSET = 0.76;
+
+        public static final int LOWER_BOUND = 6;
+        public static final int UPPER_BOUND = 5;
 
         public static final double PIVOT_P = 0.0;
         public static final double PIVOT_I = 0.0;
@@ -156,7 +164,7 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static final double SHOOT_SPEED = 0.0;
+        public static final double SHOOT_SPEED = 600.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(0.75).per(Units.Second), 

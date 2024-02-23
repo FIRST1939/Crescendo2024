@@ -64,7 +64,10 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void teleopPeriodic () {}
+	public void teleopPeriodic () {
+
+		this.robotContainer.runStateMachines();
+	}
 
 	@Override
 	public void disabledInit () {

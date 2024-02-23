@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -27,11 +28,11 @@ public class Intake extends SubsystemBase {
       this.topRoller.setInverted(Constants.IntakeConstants.TOP_ROLLER_INVERTED);
       this.bottomRoller.setInverted(Constants.IntakeConstants.BOTTOM_ROLLER_INVERTED);
 
-      this.topRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.TOP_ROLLER_REDUCTION);
-      this.topRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.TOP_ROLLER_REDUCTION);
+      this.topRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.TOP_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER));
+      this.topRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.TOP_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER) * (1 / 60.0));
 
-      this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
-      this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION);
+      this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER));
+      this.bottomRoller.getEncoder().setVelocityConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER) * (1 / 60.0));
 
       this.topRoller.getPIDController().setP(Constants.IntakeConstants.TOP_ROLLER_P);
       this.topRoller.getPIDController().setI(Constants.IntakeConstants.TOP_ROLLER_I);
@@ -44,8 +45,11 @@ public class Intake extends SubsystemBase {
 
    public void setVelocity (double velocity) {
 
-      this.topRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
-      this.bottomRoller.getPIDController().setReference(velocity, ControlType.kVelocity);
+      double topMax = 5820 * Constants.IntakeConstants.TOP_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER) * (1 / 60.0);
+      double bottomMax = 11710 * Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER) * (1 / 60.0);
+
+      this.topRoller.set(velocity / topMax);
+      this.bottomRoller.set(velocity / bottomMax);
    }
 
    public Command getTopQuasistaticRoutine (Direction direction) { return this.getTopSysIdRoutine().quasistatic(direction); }
@@ -84,7 +88,7 @@ public class Intake extends SubsystemBase {
                sysIdRoutineLog.motor("intake-bottom-roller")
                   .linearPosition(Units.Inches.of(this.bottomRoller.getEncoder().getPosition() * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER)))
                   .linearVelocity(Units.InchesPerSecond.of((this.bottomRoller.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER)))
-                  .voltage(Units.Volts.of(this.topRoller.getBusVoltage() * this.topRoller.getAppliedOutput()))
+                  .voltage(Units.Volts.of(this.bottomRoller.getBusVoltage() * this.bottomRoller.getAppliedOutput()))
                   .current(Units.Amps.of(this.bottomRoller.getOutputCurrent()));
             },
             this

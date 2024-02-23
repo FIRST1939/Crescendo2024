@@ -43,17 +43,24 @@ public class Indexer extends SubsystemBase {
         this.backRollers.getPIDController().setP(Constants.IndexerConstants.BACK_ROLLERS_P);
         this.backRollers.getPIDController().setI(Constants.IndexerConstants.BACK_ROLLERS_I);
         this.backRollers.getPIDController().setD(Constants.IndexerConstants.BACK_ROLLERS_D);
+
+        this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
+        this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
     }
 
     public void setVelocity (double velocity) {
 
-        this.frontRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
-        this.backRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
+        double frontMax = 6784 * Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER) * (1 / 60.0);
+        double backMax = 11710 * Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER) * (1 / 60.0);
+
+
+        this.frontRollers.set(velocity / frontMax);
+        this.backRollers.set(velocity / backMax);
     }
 
-    public boolean noteContained () { return false; }
-    public boolean noteIndexed () { return false; }
-    public boolean noteFed () { return false; }
+    public boolean noteContained () { return !this.startBeam.get(); }
+    public boolean noteIndexed () { return !this.endBeam.get(); }
+    public boolean noteFed () { return this.endBeam.get(); }
 
     public Command getFrontQuasistaticRoutine (Direction direction) { return this.getFrontSysIdRoutine().quasistatic(direction); }
     public Command getFrontDynamicRoutine (Direction direction) { return this.getFrontSysIdRoutine().dynamic(direction); }

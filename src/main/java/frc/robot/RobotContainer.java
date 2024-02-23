@@ -1,6 +1,11 @@
 package frc.robot;
 
+import java.io.IOException;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
 import frc.robot.commands.arm.LockArm;
@@ -16,6 +21,7 @@ import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.BrakeMode;
+import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -23,8 +29,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Alerts;
-
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import frc.robot.util.Constants;
 
 public class RobotContainer {
 
@@ -46,11 +51,9 @@ public class RobotContainer {
 
     public RobotContainer () {
 
-        /*
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
         this.limelight = new Limelight();
-        */
 
         this.intake = new Intake();
         this.indexer = new Indexer();
@@ -62,6 +65,11 @@ public class RobotContainer {
         this.armStateMachine = new StateMachine(Alerts.armStateMachine, this.arm);
         this.shooterStateMachine = new StateMachine(Alerts.shooterStateMachine, this.shooter);
         
+        this.intakeStateMachine.activateState(IdleIntake.class);
+        this.indexerStateMachine.activateState(IdleIndexer.class);
+        this.armStateMachine.activateState(LockArm.class);
+        this.shooterStateMachine.activateState(IdleShooter.class);
+
         this.driverOne = new Controller(0);
         this.driverTwo = new Controller(1);
 
@@ -70,7 +78,6 @@ public class RobotContainer {
 
     private void configureCommands () {
 
-        /*
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
             () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
@@ -79,11 +86,10 @@ public class RobotContainer {
             () -> this.driverOne.getHID().getPOV()
         ));
 
-        this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
+        //this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
-        */
 
         /*
         this.driverTwo.leftBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kReverse));
@@ -159,7 +165,7 @@ public class RobotContainer {
 
         if (this.driverTwo.getHID().getRightBumperPressed()) {
 
-            if (indexerState == IdleIndexer.class || indexerState == ReverseNote.class) {
+            if (indexerState == IdleIndexer.class || indexerState == IdleIndexer.class) {
 
                 this.intakeStateMachine.activateState(IntakeNote.class);
                 this.indexerStateMachine.activateState(IndexNote.class);

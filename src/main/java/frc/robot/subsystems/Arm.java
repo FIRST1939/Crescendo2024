@@ -35,6 +35,7 @@ public class Arm extends SubsystemBase {
         this.pivot.setInverted(Constants.ArmConstants.PIVOT_INVERTED);
 
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
+        this.pivotEncoder.setPositionOffset(Constants.ArmConstants.PIVOT_OFFSET + this.pivotEncoder.getAbsolutePosition());
         this.pivot.setPosition(this.pivotEncoder.getAbsolutePosition());
 
         this.pivot.getPosition().setUpdateFrequency(50);
@@ -44,10 +45,22 @@ public class Arm extends SubsystemBase {
 
         this.pivotPosition = () -> this.pivot.getPosition().getValue() * Constants.ArmConstants.PIVOT_REDUCTION;
         this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION;
+
+        this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
+        this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
+    }
+
+    @Override
+    public void periodic () {
+
+        if (this.lowerBound.get() || this.upperBound.get()) {
+
+            this.pivot.stopMotor();
+        }
     }
 
     public void setPosition (double position) { this.pivot.setControl(new PositionVoltage(position)); }
-    public boolean atPosition () { return false; }
+    public boolean atPosition () { return true; }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }

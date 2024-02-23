@@ -21,12 +21,12 @@ public class StateMachine {
 
     public void activateState (Class<? extends Command> state) { 
     
-        this.currentCommand.cancel();
+        if (this.currentCommand != null) { this.currentCommand.cancel(); }
         this.currentState = state;
 
         try {
 
-            Command command = state.getConstructor(Subsystem.class).newInstance((Object[]) this.subsystems);
+            Command command = (Command) state.getConstructors()[0].newInstance((Object[]) this.subsystems);
             this.currentCommand = command;
 
             this.currentCommand.schedule();
@@ -34,6 +34,7 @@ public class StateMachine {
         } catch (Exception exception) {
 
             this.alert.set(true);
+            exception.printStackTrace();
         }
     }
 }

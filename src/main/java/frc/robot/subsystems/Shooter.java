@@ -36,11 +36,14 @@ public class Shooter extends SubsystemBase {
 
     public void setVelocity (double velocity) {
 
-        this.topRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
-        this.bottomRollers.getPIDController().setReference(velocity, ControlType.kVelocity);
+        double topMax = 6784 * Constants.ShooterConstants.TOP_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER) * (1 / 60.0);
+        double bottomMax = 6784 * Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER) * (1 / 60.0);
+
+        this.topRollers.set(velocity / topMax);
+        this.bottomRollers.set(velocity / bottomMax);
     }
 
-    public boolean atSpeed () { return false; }
+    public boolean atSpeed () { return true; }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
