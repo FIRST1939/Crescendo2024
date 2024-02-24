@@ -37,12 +37,6 @@ public class Arm extends SubsystemBase {
 
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
         this.pivotEncoder.setPositionOffset(Constants.ArmConstants.PIVOT_OFFSET + this.pivotEncoder.getAbsolutePosition());
-        this.pivot.setPosition(this.pivotEncoder.getAbsolutePosition());
-
-        this.pivot.getPosition().setUpdateFrequency(50);
-        this.pivot.getVelocity().setUpdateFrequency(50);
-        this.pivot.getMotorVoltage().setUpdateFrequency(50);
-        this.pivot.getTorqueCurrent().setUpdateFrequency(50);
 
         this.pivotController = new PIDController(
             Constants.ArmConstants.PIVOT_P,
@@ -50,7 +44,7 @@ public class Arm extends SubsystemBase {
             Constants.ArmConstants.PIVOT_D
         );
 
-        this.pivotPosition = () -> this.pivotEncoder.get() * 360;
+        this.pivotPosition = () -> -this.pivotEncoder.get() * 360;
         this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION * 360;
 
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
