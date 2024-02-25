@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.arm.LockArm;
+import frc.robot.commands.indexer.IdleIndexer;
+import frc.robot.commands.intake.IdleIntake;
+import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.util.Alerts;
 import frc.robot.util.BuildConstants;
 import frc.robot.util.Constants;
@@ -61,7 +65,14 @@ public class Robot extends TimedRobot {
 
 		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
 		this.robotContainer.setBrakeMode(true);
-		this.robotContainer.initializeStateMachines();
+
+		// TODO: Other State Machine Configurations
+		this.robotContainer.initializeStateMachines(
+			IdleIntake.class,
+			IdleIndexer.class,
+			LockArm.class,
+			IdleShooter.class
+		);
 	}
 
 	@Override

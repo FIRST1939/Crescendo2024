@@ -135,12 +135,12 @@ public class RobotContainer {
         */
     }
 
-    public void initializeStateMachines () {
+    public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
 
-        this.intakeStateMachine.activateState(IdleIntake.class);
-        this.indexerStateMachine.activateState(IdleIndexer.class);
-        this.armStateMachine.activateState(LockArm.class);
-        this.shooterStateMachine.activateState(IdleShooter.class);
+        this.intakeStateMachine.activateState(intakeState);
+        this.indexerStateMachine.activateState(indexerState);
+        this.armStateMachine.activateState(armState);
+        this.shooterStateMachine.activateState(shooterState);
     }
     
     public void runStateMachines () {
