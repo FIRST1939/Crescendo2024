@@ -76,8 +76,8 @@ public class RobotContainer {
 
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
-            () -> Math.signum(-this.driverOne.getHID().getLeftY()) * Math.min(Math.abs(MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND)), 0.5),
-            () -> Math.signum(-this.driverOne.getHID().getLeftX()) * Math.min(Math.abs(MathUtil.applyDeadband(-this.driverOne.getHID().getLeftX(), Constants.SwerveConstants.TRANSLATION_DEADBAND)), 0.5), 
+            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
+            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftX(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getRightX(), Constants.SwerveConstants.OMEGA_DEADBAND), 
             () -> this.driverOne.getHID().getPOV()
         ));
@@ -190,7 +190,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
-    
+
     public void setIdleModes (IdleBehavior swerveIdle, IdleBehavior intakeIdle, IdleBehavior indexerIdle, IdleBehavior armIdle, IdleBehavior shooterIdle) {
 
         new IdleMode(
