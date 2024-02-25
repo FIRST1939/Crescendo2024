@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.92,
+      "x": 1.20862210340683,
       "y": 6.99
     },
     "rotation": 0
@@ -11,12 +11,6 @@
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Start-F1"
-          }
-        },
         {
           "type": "path",
           "data": {

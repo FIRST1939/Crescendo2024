@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2,
-      "y": 2
+      "x": 1.4,
+      "y": 7.0
     },
-    "rotation": 0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,60 +14,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C1-C2"
+            "pathName": "Left Side Start - F1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C2-C1"
+            "pathName": "F1-F2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C1-C2"
+            "pathName": "F2-C1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "z C2-C3"
+            "pathName": "C1 - CL Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "z C3-C2"
+            "pathName": "CL Shoot - C2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C3-C4"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4-C3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4-C5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C5-C4"
+            "pathName": "C2 - CL Shoot"
           }
         }
       ]
     }
   },
-  "folder": "Test",
+  "folder": "Completed",
   "choreoAuto": false
 }

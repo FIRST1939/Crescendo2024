@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.92,
+      "x": 1.3140196323188638,
       "y": 6.99
     },
     "rotation": 0
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Start-F1"
+            "pathName": "Left Side Start - F1"
           }
         },
         {
@@ -38,12 +38,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C5-S"
+            "pathName": "C5 - CR Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Completed",
   "choreoAuto": false
 }
