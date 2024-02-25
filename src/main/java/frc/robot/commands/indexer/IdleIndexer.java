@@ -13,4 +13,10 @@ public class IdleIndexer extends Command {
         this.addRequirements(this.indexer);
     }
     
+    @Override
+    public void execute () { 
+        
+        this.indexer.setFrontVelocity(0.0);
+        this.indexer.setBackVelocity(0.0);
+    }
 }

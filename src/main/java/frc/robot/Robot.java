@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.arm.LockArm;
+import frc.robot.commands.indexer.IdleIndexer;
+import frc.robot.commands.intake.IdleIntake;
+import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.util.Alerts;
 import frc.robot.util.BuildConstants;
 import frc.robot.util.Constants;
@@ -49,6 +53,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit () {
 
+		this.robotContainer.setIdleModes(
+			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
+		);
+
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
 	}
@@ -60,11 +72,29 @@ public class Robot extends TimedRobot {
 	public void teleopInit () {
 
 		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
-		this.robotContainer.setBrakeMode(true);
+
+		this.robotContainer.setIdleModes(
+			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
+		);
+
+		// TODO: Other State Machine Configurations
+		this.robotContainer.initializeStateMachines(
+			IdleIntake.class,
+			IdleIndexer.class,
+			LockArm.class,
+			IdleShooter.class
+		);
 	}
 
 	@Override
-	public void teleopPeriodic () {}
+	public void teleopPeriodic () {
+
+		this.robotContainer.runStateMachines();
+	}
 
 	@Override
 	public void disabledInit () {
@@ -78,7 +108,13 @@ public class Robot extends TimedRobot {
 
 		if (this.disabledTimer.get() >= Constants.SwerveConstants.LOCK_TIME) {
 
-			this.robotContainer.setBrakeMode(false);
+			this.robotContainer.setIdleModes(
+				Constants.SwerveConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.IntakeConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.IndexerConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
+			);
 		}
 	}
 	
