@@ -48,6 +48,7 @@ public class RobotContainer {
     private StateMachine shooterStateMachine;
 
     private Controller driverOne;
+    private Controller driverTwo;
 
     public RobotContainer () {
 
@@ -66,7 +67,7 @@ public class RobotContainer {
         this.shooterStateMachine = new StateMachine(Alerts.shooterStateMachine, this.shooter);
 
         this.driverOne = new Controller(0);
-
+        this.driverTwo = new Controller(1);
         this.configureCommands();
     }
 
