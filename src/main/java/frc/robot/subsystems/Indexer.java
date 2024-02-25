@@ -8,6 +8,7 @@ import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -21,6 +22,8 @@ public class Indexer extends SubsystemBase {
     private CANSparkMax backRollers;
     private DigitalInput startBeam;
     private DigitalInput endBeam;
+
+    private Timer feedTimer;
 
     public Indexer () {
 
@@ -46,21 +49,35 @@ public class Indexer extends SubsystemBase {
 
         this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
         this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
+        this.feedTimer = new Timer();
     }
 
-    public void setVelocity (double velocity) {
+    @Override
+    public void periodic () {
+
+        if (this.endBeam.get() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
+        else if (!this.endBeam.get()) {
+
+            this.feedTimer.stop();
+            this.feedTimer.reset();
+        }
+    }
+
+    public void setFrontVelocity (double velocity) {
 
         double frontMax = 6784 * Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER) * (1 / 60.0);
-        double backMax = 11710 * Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER) * (1 / 60.0);
-
-
         this.frontRollers.set(velocity / frontMax);
+    }
+
+    public void setBackVelocity (double velocity) {
+
+        double backMax = 5820 * Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER) * (1 / 60.0);
         this.backRollers.set(velocity / backMax);
     }
 
     public boolean noteContained () { return !this.startBeam.get(); }
     public boolean noteIndexed () { return !this.endBeam.get(); }
-    public boolean noteFed () { return this.endBeam.get(); }
+    public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
 
     public Command getFrontQuasistaticRoutine (Direction direction) { return this.getFrontSysIdRoutine().quasistatic(direction); }
     public Command getFrontDynamicRoutine (Direction direction) { return this.getFrontSysIdRoutine().dynamic(direction); }

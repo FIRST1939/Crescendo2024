@@ -53,7 +53,7 @@ public class RobotContainer {
 
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
-        this.limelight = new Limelight();
+        //this.limelight = new Limelight();
 
         this.intake = new Intake();
         this.indexer = new Indexer();
@@ -64,11 +64,6 @@ public class RobotContainer {
         this.indexerStateMachine = new StateMachine(Alerts.indexerStateMachine, this.indexer);
         this.armStateMachine = new StateMachine(Alerts.armStateMachine, this.arm);
         this.shooterStateMachine = new StateMachine(Alerts.shooterStateMachine, this.shooter);
-        
-        this.intakeStateMachine.activateState(IdleIntake.class);
-        this.indexerStateMachine.activateState(IdleIndexer.class);
-        this.armStateMachine.activateState(LockArm.class);
-        this.shooterStateMachine.activateState(IdleShooter.class);
 
         this.driverOne = new Controller(0);
         this.driverTwo = new Controller(1);
@@ -80,8 +75,8 @@ public class RobotContainer {
 
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
-            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
-            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftX(), Constants.SwerveConstants.TRANSLATION_DEADBAND), 
+            () -> Math.signum(-this.driverOne.getHID().getLeftY()) * Math.min(Math.abs(MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND)), 0.5),
+            () -> Math.signum(-this.driverOne.getHID().getLeftX()) * Math.min(Math.abs(MathUtil.applyDeadband(-this.driverOne.getHID().getLeftX(), Constants.SwerveConstants.TRANSLATION_DEADBAND)), 0.5), 
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getRightX(), Constants.SwerveConstants.OMEGA_DEADBAND), 
             () -> this.driverOne.getHID().getPOV()
         ));
@@ -139,6 +134,14 @@ public class RobotContainer {
         this.driverTwo.rightTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kForward));
         */
     }
+
+    public void initializeStateMachines () {
+
+        this.intakeStateMachine.activateState(IdleIntake.class);
+        this.indexerStateMachine.activateState(IdleIndexer.class);
+        this.armStateMachine.activateState(LockArm.class);
+        this.shooterStateMachine.activateState(IdleShooter.class);
+    }
     
     public void runStateMachines () {
 
@@ -149,10 +152,12 @@ public class RobotContainer {
 
         if (intakeState == IntakeNote.class && this.indexer.noteContained()) { this.intakeStateMachine.activateState(IdleIntake.class); }
         if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { this.indexerStateMachine.activateState(HoldNote.class); }
-        if (indexerState == FeedNote.class && this.indexer.noteFed()) { this.indexerStateMachine.activateState(IdleIndexer.class); }
-
-        if (armState == PivotArm.class && this.indexer.noteFed()) { this.armStateMachine.activateState(LockArm.class); }
-        if (shooterState == ShootNote.class && this.indexer.noteFed()) { this.shooterStateMachine.activateState(IdleShooter.class); }
+        if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
+            
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+        }
 
         if (this.driverTwo.getHID().getLeftBumperPressed()) {
 

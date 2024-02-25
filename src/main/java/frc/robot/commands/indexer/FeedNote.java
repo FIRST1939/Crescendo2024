@@ -15,5 +15,9 @@ public class FeedNote extends Command {
     }
     
     @Override
-    public void initialize () { this.indexer.setVelocity(Constants.IndexerConstants.FEED_SPEED); }
+    public void execute () { 
+        
+        this.indexer.setFrontVelocity(Constants.IndexerConstants.FEED_SPEED); 
+        this.indexer.setBackVelocity(Constants.IndexerConstants.FEED_SPEED); 
+    }
 }

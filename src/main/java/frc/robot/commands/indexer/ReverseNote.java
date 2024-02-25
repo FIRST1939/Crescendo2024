@@ -15,5 +15,9 @@ public class ReverseNote extends Command {
     }
 
     @Override
-    public void initialize () { this.indexer.setVelocity(Constants.IndexerConstants.REVERSE_SPEED); }
+    public void execute () {
+
+        this.indexer.setFrontVelocity(Constants.IndexerConstants.REVERSE_SPEED);
+        this.indexer.setBackVelocity(Constants.IndexerConstants.REVERSE_SPEED); 
+    }
 }

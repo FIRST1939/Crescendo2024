@@ -15,5 +15,9 @@ public class IndexNote extends Command {
     }
     
     @Override
-    public void initialize () { this.indexer.setVelocity(Constants.IndexerConstants.INDEX_SPEED); }
+    public void execute () { 
+        
+        this.indexer.setFrontVelocity(Constants.IndexerConstants.FRONT_INDEX_SPEED); 
+        this.indexer.setBackVelocity(Constants.IndexerConstants.BACK_INDEX_SPEED);
+    }
 }

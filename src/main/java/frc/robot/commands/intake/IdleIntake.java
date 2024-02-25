@@ -14,5 +14,5 @@ public class IdleIntake extends Command {
     }
 
     @Override
-    public void initialize () { this.intake.setVelocity(0.0); }
+    public void execute () { this.intake.setVelocity(0.0); }
 }

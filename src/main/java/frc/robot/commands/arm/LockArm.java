@@ -15,5 +15,5 @@ public class LockArm extends Command {
     }
 
     @Override
-    public void initialize () { this.arm.setPosition(Constants.ArmConstants.LOCK_POSITION); }
+    public void execute () { this.arm.setPosition(Constants.ArmConstants.LOCK_POSITION); }
 }

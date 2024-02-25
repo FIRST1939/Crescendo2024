@@ -14,5 +14,9 @@ public class HoldNote extends Command {
     }
     
     @Override
-    public void initialize () { this.indexer.setVelocity(0.0); }
+    public void execute () { 
+        
+        this.indexer.setFrontVelocity(0.0); 
+        this.indexer.setBackVelocity(0.0);
+    }
 }

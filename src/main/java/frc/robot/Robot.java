@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
 
 		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
 		this.robotContainer.setBrakeMode(true);
+		this.robotContainer.initializeStateMachines();
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -23,6 +24,7 @@ public class Arm extends SubsystemBase {
     private TalonFX pivot;
     private DutyCycleEncoder pivotEncoder;
     private PIDController pivotController;
+    private Timer setpointTimer;
 
     private DoubleSupplier pivotPosition;
     private DoubleSupplier pivotVelocity;
@@ -44,16 +46,34 @@ public class Arm extends SubsystemBase {
             Constants.ArmConstants.PIVOT_D
         );
 
-        this.pivotPosition = () -> -this.pivotEncoder.get() * 360;
+        this.pivotController.setIZone(Constants.ArmConstants.PIVOT_IZ);
+        this.pivotController.setTolerance(Constants.ArmConstants.PIVOT_TOLERANCE);
+
+        this.setpointTimer = new Timer();
+
+        this.pivotPosition = () -> (-this.pivotEncoder.get() * 360) % 360;
         this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION * 360;
 
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
     }
 
+    @Override
+    public void periodic () {
+
+        if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
+        else if (!this.atPosition()) { 
+            
+            this.setpointTimer.stop(); 
+            this.setpointTimer.reset();
+        }
+    }
+
     public void setPosition (double position) { 
-        
-        double input = this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
+
+        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
+
+        if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ArmConstants.INPUT_TOLERANCE) { input = 0.0; }
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
 
