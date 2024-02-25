@@ -33,11 +33,11 @@ public class Indexer extends SubsystemBase {
         this.frontRollers.setInverted(Constants.IndexerConstants.FRONT_ROLLERS_INVERTED);
         this.backRollers.setInverted(Constants.IndexerConstants.BACK_ROLLERS_INVERTED);
 
-        this.frontRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION);
-        this.frontRollers.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION);
+        this.frontRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER));
+        this.frontRollers.getEncoder().setVelocityConversionFactor((Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER));
 
-        this.backRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BACK_ROLLERS_REDUCTION);
-        this.backRollers.getEncoder().setVelocityConversionFactor(Constants.IndexerConstants.BACK_ROLLERS_REDUCTION);
+        this.backRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
+        this.backRollers.getEncoder().setVelocityConversionFactor((Constants.IndexerConstants.BACK_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
 
         this.frontRollers.getPIDController().setP(Constants.IndexerConstants.FRONT_ROLLERS_P);
         this.frontRollers.getPIDController().setI(Constants.IndexerConstants.FRONT_ROLLERS_I);
@@ -94,10 +94,9 @@ public class Indexer extends SubsystemBase {
                 sysIdRoutineLog -> {
 
                     sysIdRoutineLog.motor("indexer-front-rollers")
-                        .linearPosition(Units.Inches.of(this.frontRollers.getEncoder().getPosition() * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of((this.frontRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER)))
-                        .voltage(Units.Volts.of(this.frontRollers.getBusVoltage() * this.frontRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.frontRollers.getOutputCurrent()));
+                        .linearPosition(Units.Inches.of(this.frontRollers.getEncoder().getPosition()))
+                        .linearVelocity(Units.InchesPerSecond.of(this.frontRollers.getEncoder().getVelocity()))
+                        .voltage(Units.Volts.of(this.frontRollers.getBusVoltage() * this.frontRollers.getAppliedOutput()));
                 },
                 this
             )
@@ -113,10 +112,9 @@ public class Indexer extends SubsystemBase {
                 sysIdRoutineLog -> {
 
                     sysIdRoutineLog.motor("indexer-back-rollers")
-                        .linearPosition(Units.Inches.of(this.backRollers.getEncoder().getPosition() * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of((this.backRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER)))
-                        .voltage(Units.Volts.of(this.backRollers.getBusVoltage() * this.backRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.backRollers.getOutputCurrent()));
+                        .linearPosition(Units.Inches.of(this.backRollers.getEncoder().getPosition()))
+                        .linearVelocity(Units.InchesPerSecond.of(this.backRollers.getEncoder().getVelocity()))
+                        .voltage(Units.Volts.of(this.backRollers.getBusVoltage() * this.backRollers.getAppliedOutput()));
                 },
                 this
             )

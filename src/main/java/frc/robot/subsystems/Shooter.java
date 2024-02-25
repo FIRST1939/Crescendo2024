@@ -27,11 +27,11 @@ public class Shooter extends SubsystemBase {
         this.topRollers.setInverted(Constants.ShooterConstants.TOP_ROLLERS_INVERTED);
         this.bottomRollers.setInverted(Constants.ShooterConstants.BOTTOM_ROLLERS_INVERTED);
 
-        this.topRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.TOP_ROLLERS_REDUCTION);
-        this.topRollers.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.TOP_ROLLERS_REDUCTION);
+        this.topRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.TOP_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER));
+        this.topRollers.getEncoder().setVelocityConversionFactor((Constants.ShooterConstants.TOP_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER));
 
-        this.bottomRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION);
-        this.bottomRollers.getEncoder().setVelocityConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION);
+        this.bottomRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER));
+        this.bottomRollers.getEncoder().setVelocityConversionFactor((Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER));
     }
 
     public void setVelocity (double velocity) {
@@ -43,7 +43,12 @@ public class Shooter extends SubsystemBase {
         this.bottomRollers.set(velocity / bottomMax);
     }
 
-    public boolean atSpeed () { return true; }
+    public boolean atSpeed () { 
+        
+        boolean topRollersAtSpeed = Math.abs(this.topRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
+        boolean bottomRollersAtSpeed = Math.abs(this.bottomRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
+        return topRollersAtSpeed && bottomRollersAtSpeed;
+    }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
@@ -57,16 +62,14 @@ public class Shooter extends SubsystemBase {
                 sysIdRoutineLog -> {
 
                     sysIdRoutineLog.motor("shooter-top-rollers")
-                        .linearPosition(Units.Inches.of(this.topRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of((this.topRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER)))
-                        .voltage(Units.Volts.of(this.topRollers.getBusVoltage() * this.topRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.topRollers.getOutputCurrent()));
+                        .linearPosition(Units.Inches.of(this.topRollers.getEncoder().getPosition()))
+                        .linearVelocity(Units.InchesPerSecond.of(this.topRollers.getEncoder().getVelocity()))
+                        .voltage(Units.Volts.of(this.topRollers.getBusVoltage() * this.topRollers.getAppliedOutput()));
 
                     sysIdRoutineLog.motor("shooter-bottom-rollers")
-                        .linearPosition(Units.Inches.of(this.bottomRollers.getEncoder().getPosition() * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER)))
-                        .linearVelocity(Units.InchesPerSecond.of((this.bottomRollers.getEncoder().getVelocity() / 60.0) * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER)))
-                        .voltage(Units.Volts.of(this.bottomRollers.getBusVoltage() * this.bottomRollers.getAppliedOutput()))
-                        .current(Units.Amps.of(this.bottomRollers.getOutputCurrent()));
+                        .linearPosition(Units.Inches.of(this.bottomRollers.getEncoder().getPosition()))
+                        .linearVelocity(Units.InchesPerSecond.of(this.bottomRollers.getEncoder().getVelocity()))
+                        .voltage(Units.Volts.of(this.bottomRollers.getBusVoltage() * this.bottomRollers.getAppliedOutput()));
                 },
                 this
             )

@@ -157,8 +157,7 @@ public final class Constants {
     public final class ShooterConstants {
 
         public static final int TOP_ROLLERS = 36;
-        public static final int BOTTOM_ROLLERS = 37
-        ;
+        public static final int BOTTOM_ROLLERS = 37;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = true;
@@ -170,6 +169,7 @@ public final class Constants {
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
         public static double SHOOT_SPEED = 600.0;
+        public static double SHOOT_TOLERANCE = 25.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(0.75).per(Units.Second), 

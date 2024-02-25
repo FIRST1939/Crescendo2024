@@ -96,8 +96,7 @@ public class Arm extends SubsystemBase {
                     sysIdRoutineLog.motor("arm-pivot")
                         .angularPosition(Units.Rotations.of(this.pivotPosition.getAsDouble()))
                         .angularVelocity(Units.Rotations.of(this.pivotVelocity.getAsDouble()).per(Units.Second))
-                        .voltage(Units.Volts.of(this.pivot.getMotorVoltage().getValue()))
-                        .current(Units.Amps.of(this.pivot.getTorqueCurrent().getValue()));
+                        .voltage(Units.Volts.of(this.pivot.getMotorVoltage().getValue()));
                 },
                 this
             )
