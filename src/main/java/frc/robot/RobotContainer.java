@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
+import frc.robot.commands.ShotFeedback;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.indexer.FeedNote;
@@ -26,6 +27,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Alerts;
@@ -37,6 +39,7 @@ public class RobotContainer {
     private Swerve swerve;
     private Limelight limelight;
     
+    private Logging logging;
     private Intake intake;
     private Indexer indexer;
     private Arm arm;
@@ -56,6 +59,7 @@ public class RobotContainer {
         catch (IOException ioException) {}
         //this.limelight = new Limelight();
 
+        this.logging = new Logging(() -> this.arm.getPosition(), () -> this.shooter.getVelocity(), () -> this.indexer.getBeamBreak());
         this.intake = new Intake();
         this.indexer = new Indexer();
         this.arm = new Arm();
@@ -158,6 +162,9 @@ public class RobotContainer {
             this.indexerStateMachine.activateState(IdleIndexer.class);
             this.armStateMachine.activateState(LockArm.class);
             this.shooterStateMachine.activateState(IdleShooter.class);
+
+            this.logging.setLogging(false);
+            new ShotFeedback(this.logging).schedule();
         }
 
         if (this.driverTwo.getHID().getLeftBumperPressed()) {
@@ -184,6 +191,7 @@ public class RobotContainer {
                 } else if (this.arm.atPosition() && this.shooter.atSpeed()) { 
                     
                     this.indexerStateMachine.activateState(FeedNote.class); 
+                    this.logging.setLogging(true);
                 }
             }
         }
@@ -201,4 +209,6 @@ public class RobotContainer {
             this.shooter, shooterIdle
         ).schedule();
     }
+
+    public void saveLog () { this.logging.saveLog(); }
 }

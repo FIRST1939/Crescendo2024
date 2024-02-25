@@ -82,6 +82,7 @@ public class Arm extends SubsystemBase {
         this.pivot.set(input);
     }
 
+    public double getPosition () { return this.pivotPosition.getAsDouble(); }
     public boolean atPosition () { return this.pivotController.atSetpoint(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {

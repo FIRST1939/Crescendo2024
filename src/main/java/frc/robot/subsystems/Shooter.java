@@ -45,6 +45,13 @@ public class Shooter extends SubsystemBase {
         this.bottomRollers.set(velocity / bottomMax);
     }
 
+    public double getVelocity () {
+
+        double topVelocity = this.topRollers.getEncoder().getVelocity();
+        double bottomVelocity = this.bottomRollers.getEncoder().getVelocity();
+        return (topVelocity + bottomVelocity) / 2.0;
+    }
+
     public boolean atSpeed () { 
         
         boolean topRollersAtSpeed = Math.abs(this.topRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;

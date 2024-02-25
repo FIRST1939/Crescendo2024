@@ -81,6 +81,8 @@ public class Indexer extends SubsystemBase {
     public boolean noteIndexed () { return !this.endBeam.get(); }
     public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
 
+    public boolean getBeamBreak () { return this.endBeam.get(); }
+
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 
         if (idleBehavior == IdleBehavior.COAST) {
