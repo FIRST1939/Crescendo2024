@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.units.Measure;
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 
 public class Arm extends SubsystemBase {
     
@@ -81,6 +83,12 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean atPosition () { return this.pivotController.atSetpoint(); }
+
+    public void setIdleBehavior (IdleBehavior idleBehavior) {
+
+        if (idleBehavior == IdleBehavior.COAST) { this.pivot.setNeutralMode(NeutralModeValue.Coast); }
+        else if (idleBehavior == IdleBehavior.BRAKE) { this.pivot.setNeutralMode(NeutralModeValue.Brake); }
+    }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
     public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }

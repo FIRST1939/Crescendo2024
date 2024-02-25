@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 
 public class Indexer extends SubsystemBase {
 
@@ -78,6 +80,19 @@ public class Indexer extends SubsystemBase {
     public boolean noteContained () { return !this.startBeam.get(); }
     public boolean noteIndexed () { return !this.endBeam.get(); }
     public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
+
+    public void setIdleBehavior (IdleBehavior idleBehavior) {
+
+        if (idleBehavior == IdleBehavior.COAST) {
+
+            this.frontRollers.setIdleMode(IdleMode.kCoast);
+            this.backRollers.setIdleMode(IdleMode.kCoast);
+        } else if (idleBehavior == IdleBehavior.BRAKE) {
+
+            this.frontRollers.setIdleMode(IdleMode.kBrake);
+            this.backRollers.setIdleMode(IdleMode.kBrake);
+        }
+    }
 
     public Command getFrontQuasistaticRoutine (Direction direction) { return this.getFrontSysIdRoutine().quasistatic(direction); }
     public Command getFrontDynamicRoutine (Direction direction) { return this.getFrontSysIdRoutine().dynamic(direction); }

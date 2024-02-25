@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 
 public class Intake extends SubsystemBase {
 
@@ -49,6 +51,19 @@ public class Intake extends SubsystemBase {
 
       this.topRoller.set(velocity / topMax);
       this.bottomRoller.set(velocity / bottomMax);
+   }
+
+   public void setIdleBehavior (IdleBehavior idleBehavior) {
+
+      if (idleBehavior == IdleBehavior.COAST) {
+
+         this.topRoller.setIdleMode(IdleMode.kCoast);
+         this.bottomRoller.setIdleMode(IdleMode.kCoast);
+      } else if (idleBehavior == IdleBehavior.BRAKE) {
+
+         this.topRoller.setIdleMode(IdleMode.kBrake);
+         this.bottomRoller.setIdleMode(IdleMode.kBrake);
+      }
    }
 
    public Command getTopQuasistaticRoutine (Direction direction) { return this.getTopSysIdRoutine().quasistatic(direction); }

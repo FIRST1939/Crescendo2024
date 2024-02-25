@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 import swervelib.SwerveDrive;
 import swervelib.SwerveModule;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -154,7 +155,12 @@ public class Swerve extends SubsystemBase {
         this.swerveDrive.setGyroOffset(rotation3d);
     }
 
+    public void setIdleBehavior (IdleBehavior idleBehavior) {
+
+        if (idleBehavior == IdleBehavior.BRAKE) { this.swerveDrive.setMotorIdleMode(true); }
+        else { this.swerveDrive.setMotorIdleMode(false); }
+    }
+
     public void lock () { this.swerveDrive.lockPose(); }
-    public void setBrakeMode (boolean brake) { this.swerveDrive.setMotorIdleMode(brake); }
     public Command getAutonomousCommand () { return this.autonomousChooser.getSelected(); }
 }

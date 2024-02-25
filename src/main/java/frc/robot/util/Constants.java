@@ -23,6 +23,9 @@ public final class Constants {
 
     public final class SwerveConstants {
 
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
+
         private static final int FREE_SPEED = 5676; // Motor Free Speed [RPM]
         private static final double WHEEL_DIAMETER = 0.10033; // Diameter of the Wheel [m]
 
@@ -49,6 +52,9 @@ public final class Constants {
 
         public static final boolean TOP_ROLLER_INVERTED = false;
         public static final boolean BOTTOM_ROLLER_INVERTED = false;
+
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final double TOP_ROLLER_REDUCTION = (15.0 / 30.0);
         public static final double BOTTOM_ROLLER_REDUCTION = (1.0 / 2.89);
@@ -87,6 +93,9 @@ public final class Constants {
 
         public static final boolean FRONT_ROLLERS_INVERTED = false;
         public static final boolean BACK_ROLLERS_INVERTED = false;
+
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final double FRONT_ROLLERS_REDUCTION = 1.0;
         public static final double BACK_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
@@ -129,6 +138,9 @@ public final class Constants {
         public static final int PIVOT = 35;
         public static final boolean PIVOT_INVERTED = true;
 
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
+
         public static final int PIVOT_ENCODER = 2;
         public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
 
@@ -162,6 +174,9 @@ public final class Constants {
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = true;
 
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+
         public static final double TOP_ROLLERS_REDUCTION = 1.0;
         public static final double BOTTOM_ROLLERS_REDUCTION = 1.0;
 
@@ -176,5 +191,10 @@ public final class Constants {
             Units.Volts.of(7),
             Units.Seconds.of(10)
         );
+    }
+
+    public enum IdleBehavior {
+        COAST,
+        BRAKE
     }
 }

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 
 public class Shooter extends SubsystemBase {
 
@@ -48,6 +50,20 @@ public class Shooter extends SubsystemBase {
         boolean topRollersAtSpeed = Math.abs(this.topRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
         boolean bottomRollersAtSpeed = Math.abs(this.bottomRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
         return topRollersAtSpeed && bottomRollersAtSpeed;
+    }
+
+    public void setIdleBehavior (IdleBehavior idleBehavior) {
+
+        if (idleBehavior == IdleBehavior.COAST) {
+
+            this.topRollers.setIdleMode(IdleMode.kCoast);
+            this.bottomRollers.setIdleMode(IdleMode.kCoast);
+        }
+        else if (idleBehavior == IdleBehavior.BRAKE) {
+
+            this.topRollers.setIdleMode(IdleMode.kBrake);
+            this.bottomRollers.setIdleMode(IdleMode.kBrake);
+        }
     }
 
     public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }

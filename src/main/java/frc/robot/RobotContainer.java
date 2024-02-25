@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
+import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.indexer.FeedNote;
@@ -20,7 +21,6 @@ import frc.robot.commands.intake.IntakeNote;
 import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
-import frc.robot.commands.swerve.BrakeMode;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
@@ -30,6 +30,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Alerts;
 import frc.robot.util.Constants;
+import frc.robot.util.Constants.IdleBehavior;
 
 public class RobotContainer {
 
@@ -189,5 +190,15 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
-    public void setBrakeMode (boolean brake) { new BrakeMode(this.swerve, brake).schedule(); }
+    
+    public void setIdleModes (IdleBehavior swerveIdle, IdleBehavior intakeIdle, IdleBehavior indexerIdle, IdleBehavior armIdle, IdleBehavior shooterIdle) {
+
+        new IdleMode(
+            this.swerve, swerveIdle, 
+            this.intake, intakeIdle, 
+            this.indexer, indexerIdle, 
+            this.arm, armIdle, 
+            this.shooter, shooterIdle
+        ).schedule();
+    }
 }
