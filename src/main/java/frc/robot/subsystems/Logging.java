@@ -17,17 +17,17 @@ import frc.robot.util.Constants;
 public class Logging extends SubsystemBase {
     
     private DoubleSupplier armAngle;
-    private DoubleSupplier shooterVelocity;
+    private DoubleSupplier shooterSpeed;
     private BooleanSupplier indexerBeamBreak;
 
     private boolean currentlyLogging = false;
     private ArrayList<LogEntry> currentLogEntries;
     private ArrayList<Run> runs;
 
-    public Logging (DoubleSupplier armAngle, DoubleSupplier shooterVelocity, BooleanSupplier indexerBeamBreak) {
+    public Logging (DoubleSupplier armAngle, DoubleSupplier shooterSpeed, BooleanSupplier indexerBeamBreak) {
 
         this.armAngle = armAngle;
-        this.shooterVelocity = shooterVelocity;
+        this.shooterSpeed = shooterSpeed;
         this.indexerBeamBreak = indexerBeamBreak;
         this.runs = new ArrayList<>();
     }
@@ -37,7 +37,7 @@ public class Logging extends SubsystemBase {
 
         if (this.currentlyLogging) { 
 
-            LogEntry logEntry = new LogEntry(this.armAngle.getAsDouble(), this.shooterVelocity.getAsDouble(), this.indexerBeamBreak.getAsBoolean());
+            LogEntry logEntry = new LogEntry(this.armAngle.getAsDouble(), this.shooterSpeed.getAsDouble(), this.indexerBeamBreak.getAsBoolean());
             this.currentLogEntries.add(logEntry);
         }
     }
@@ -76,7 +76,7 @@ public class Logging extends SubsystemBase {
                 JSONObject logEntryObject = new JSONObject();
                 logEntryObject.put("timestamp", logEntry.timestamp);
                 logEntryObject.put("arm_angle", logEntry.armAngle);
-                logEntryObject.put("shooter_velocity", logEntry.shooterVelocity);
+                logEntryObject.put("shooter_speed", logEntry.shooterSpeed);
                 logEntryObject.put("indexer_beam_break", logEntry.indexerBeamBreak);
 
                 logEntries.add(logEntryObject);
@@ -109,15 +109,15 @@ public class Logging extends SubsystemBase {
 
         public final double timestamp;
         public final double armAngle;
-        public final double shooterVelocity;
+        public final double shooterSpeed;
         public final boolean indexerBeamBreak;
 
-        public LogEntry (double armAngle, double shooterVelocity, boolean indexerBeamBreak) {
+        public LogEntry (double armAngle, double shooterSpeed, boolean indexerBeamBreak) {
 
             this.timestamp = Timer.getFPGATimestamp();
             
             this.armAngle = armAngle;
-            this.shooterVelocity = shooterVelocity;
+            this.shooterSpeed = shooterSpeed;
             this.indexerBeamBreak = indexerBeamBreak;
         }
     }
