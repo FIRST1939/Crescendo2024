@@ -40,8 +40,6 @@ public class Arm extends SubsystemBase {
         this.pivot.setInverted(Constants.ArmConstants.PIVOT_INVERTED);
 
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
-        this.pivotEncoder.setPositionOffset(Constants.ArmConstants.PIVOT_OFFSET + this.pivotEncoder.getAbsolutePosition());
-
         this.pivotController = new PIDController(
             Constants.ArmConstants.PIVOT_P,
             Constants.ArmConstants.PIVOT_I,
@@ -53,7 +51,7 @@ public class Arm extends SubsystemBase {
 
         this.setpointTimer = new Timer();
 
-        this.pivotPosition = () -> (-this.pivotEncoder.get() * 360) % 360;
+        this.pivotPosition = () -> -(this.pivotEncoder.getAbsolutePosition() - Constants.ArmConstants.PIVOT_OFFSET) * 360;
         this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION * 360;
 
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
