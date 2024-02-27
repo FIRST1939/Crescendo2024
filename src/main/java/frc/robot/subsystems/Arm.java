@@ -73,8 +73,10 @@ public class Arm extends SubsystemBase {
 
     public void setPosition (double position) { 
 
-        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
+        if (this.atPosition() && this.setpointTimer.get() > 0.5) { this.pivotController.setI(0); }
+        else { this.pivotController.setI(Constants.ArmConstants.PIVOT_I); }
 
+        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
         if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ArmConstants.INPUT_TOLERANCE) { input = 0.0; }
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
