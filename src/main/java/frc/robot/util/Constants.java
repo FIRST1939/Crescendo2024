@@ -92,7 +92,7 @@ public final class Constants {
         public static final int BACK_ROLLERS = 34;
 
         public static final boolean FRONT_ROLLERS_INVERTED = false;
-        public static final boolean BACK_ROLLERS_INVERTED = false;
+        public static final boolean BACK_ROLLERS_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
@@ -157,7 +157,7 @@ public final class Constants {
         public static final double PIVOT_TOLERANCE = 0.5;
 
         public static final double LOCK_POSITION = 22.0;
-        public static double PIVOT_POSITION = 22.0;
+        public static double PIVOT_POSITION = 16.5;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(
             Units.Volts.of(0.25).per(Units.Second), 
@@ -183,7 +183,7 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static double SHOOT_SPEED = 600.0;
+        public static double SHOOT_SPEED = 1200.0;
         public static double SHOOT_TOLERANCE = 25.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(

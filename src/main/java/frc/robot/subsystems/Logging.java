@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -11,6 +13,7 @@ import org.json.simple.JSONObject;
 
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 
@@ -29,6 +32,7 @@ public class Logging extends SubsystemBase {
         this.armAngle = armAngle;
         this.shooterSpeed = shooterSpeed;
         this.indexerBeamBreak = indexerBeamBreak;
+        this.currentLogEntries = new ArrayList<>();
         this.runs = new ArrayList<>();
     }
 
@@ -95,6 +99,9 @@ public class Logging extends SubsystemBase {
         log.put("runs", runs);
 
         try {
+
+            File file = new File(Filesystem.getDeployDirectory() + "/logs/");
+            if (!file.exists()) { file.mkdir(); }
 
             FileWriter fileWriter = new FileWriter(Filesystem.getDeployDirectory() + "/logs/" + Timer.getFPGATimestamp() + ".json");
             fileWriter.write(log.toJSONString());
