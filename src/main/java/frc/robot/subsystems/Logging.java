@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.FileSystem;
 import java.util.ArrayList;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -11,9 +10,7 @@ import java.util.function.DoubleSupplier;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 
@@ -100,10 +97,11 @@ public class Logging extends SubsystemBase {
 
         try {
 
-            File file = new File(Filesystem.getDeployDirectory() + "/logs/");
-            if (!file.exists()) { file.mkdir(); }
+            double timestamp = Timer.getFPGATimestamp();
+            File file = new File("/U/logs/" + timestamp + ".json");
+            if (!file.exists()) { file.createNewFile(); }
 
-            FileWriter fileWriter = new FileWriter(Filesystem.getDeployDirectory() + "/logs/" + Timer.getFPGATimestamp() + ".json");
+            FileWriter fileWriter = new FileWriter("/U/logs/" + timestamp + ".json");
             fileWriter.write(log.toJSONString());
             fileWriter.close();
         } catch (IOException ioException) {
