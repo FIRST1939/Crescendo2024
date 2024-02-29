@@ -88,8 +88,6 @@ public class Robot extends TimedRobot {
 			LockArm.class,
 			IdleShooter.class
 		);
-
-		Alerts.logFileSaved.set(false);
 	}
 
 	@Override
@@ -105,7 +103,6 @@ public class Robot extends TimedRobot {
 		this.disabledTimer.start();
 
 		this.robotContainer.saveLog();
-		Alerts.logFileSaved.set(true);
 	}
 
 	@Override

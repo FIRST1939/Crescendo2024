@@ -15,6 +15,4 @@ public final class Alerts {
     public static final Alert indexerStateMachine = new Alert("Indexer State Machine Offline", AlertType.ERROR);
     public static final Alert armStateMachine = new Alert("Arm State Machine Offline", AlertType.ERROR);
     public static final Alert shooterStateMachine = new Alert("Shooter State Machine Offline", AlertType.ERROR);
-
-    public static final Alert logFileSaved = new Alert("Save Log File!", AlertType.INFO);
 }
