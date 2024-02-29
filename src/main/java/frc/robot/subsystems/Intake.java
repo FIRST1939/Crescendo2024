@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
+import frc.robot.util.MotorUtil;
 
 public class Intake extends SubsystemBase {
 
@@ -46,11 +47,20 @@ public class Intake extends SubsystemBase {
 
    public void setVelocity (double velocity) {
 
-      double topMax = 5820 * Constants.IntakeConstants.TOP_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER) * (1 / 60.0);
-      double bottomMax = 11710 * Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER) * (1 / 60.0);
+      double topMaximumVelocity = MotorUtil.getMaxVelocity(
+         frc.robot.util.MotorUtil.MotorType.NEO,
+         Constants.IntakeConstants.TOP_ROLLER_DIAMETER,
+         Constants.IntakeConstants.TOP_ROLLER_REDUCTION
+      );
 
-      this.topRoller.set(velocity / topMax);
-      this.bottomRoller.set(velocity / bottomMax);
+      double bottomMaximumVelocity = MotorUtil.getMaxVelocity(
+         frc.robot.util.MotorUtil.MotorType.NEO550,
+         Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER,
+         Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION
+      );
+
+      this.topRoller.set(velocity / topMaximumVelocity);
+      this.bottomRoller.set(velocity / bottomMaximumVelocity);
    }
 
    public void setIdleBehavior (IdleBehavior idleBehavior) {

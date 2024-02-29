@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
@@ -17,11 +18,12 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
+import frc.robot.util.MotorUtil;
 
 public class Indexer extends SubsystemBase {
 
     private CANSparkMax frontRollers;
-    private CANSparkMax backRollers;
+    private CANSparkFlex backRollers;
     private DigitalInput startBeam;
     private DigitalInput endBeam;
 
@@ -30,7 +32,7 @@ public class Indexer extends SubsystemBase {
     public Indexer () {
 
         this.frontRollers = new CANSparkMax(Constants.IndexerConstants.FRONT_ROLLERS, MotorType.kBrushless);
-        this.backRollers = new CANSparkMax(Constants.IndexerConstants.BACK_ROLLERS, MotorType.kBrushless);
+        this.backRollers = new CANSparkFlex(Constants.IndexerConstants.BACK_ROLLERS, MotorType.kBrushless);
 
         this.frontRollers.setInverted(Constants.IndexerConstants.FRONT_ROLLERS_INVERTED);
         this.backRollers.setInverted(Constants.IndexerConstants.BACK_ROLLERS_INVERTED);
@@ -67,14 +69,25 @@ public class Indexer extends SubsystemBase {
 
     public void setFrontVelocity (double velocity) {
 
-        double frontMax = 6784 * Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER) * (1 / 60.0);
-        this.frontRollers.set(velocity / frontMax);
+        double maximumVelocity = MotorUtil.getMaxVelocity(
+            frc.robot.util.MotorUtil.MotorType.NEO,
+            Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER,
+            Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION
+        );
+        
+        this.frontRollers.set(velocity / maximumVelocity);
     }
 
     public void setBackVelocity (double velocity) {
 
-        double backMax = 5820 * Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER) * (1 / 60.0);
-        this.backRollers.set(velocity / backMax);
+        
+        double maximumVelocity = MotorUtil.getMaxVelocity(
+            frc.robot.util.MotorUtil.MotorType.VORTEX,
+            Constants.IndexerConstants.BACK_ROLLERS_DIAMETER,
+            Constants.IndexerConstants.BACK_ROLLERS_REDUCTION
+        );
+
+        this.backRollers.set(velocity / maximumVelocity);
     }
 
     public boolean noteContained () { return !this.startBeam.get(); }
