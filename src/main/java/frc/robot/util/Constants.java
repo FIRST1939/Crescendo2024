@@ -183,7 +183,8 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static double SHOOT_SPEED = 1200.0;
+        public static double TOP_SHOOT_SPEED = 1200.0;
+        public static double BOTTOM_SHOOT_SPEED = 1200.0;
         public static double SHOOT_TOLERANCE = 25.0;
 
         public static final Config SYSID_ROUTINE_CONFIG = new Config(

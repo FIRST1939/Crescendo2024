@@ -15,5 +15,9 @@ public class ShootNote extends Command {
     }
 
     @Override
-    public void execute () { this.shooter.setVelocity(Constants.ShooterConstants.SHOOT_SPEED); }
+    public void execute () { 
+        
+        this.shooter.setTopVelocity(Constants.ShooterConstants.TOP_SHOOT_SPEED); 
+        this.shooter.setBottomVelocity(Constants.ShooterConstants.BOTTOM_SHOOT_SPEED);
+    }
 }

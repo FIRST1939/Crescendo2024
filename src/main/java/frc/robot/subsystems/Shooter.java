@@ -36,26 +36,25 @@ public class Shooter extends SubsystemBase {
         this.bottomRollers.getEncoder().setVelocityConversionFactor((Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER));
     }
 
-    public void setVelocity (double velocity) {
+    public void setTopVelocity (double velocity) {
 
-        double topMax = 6784 * Constants.ShooterConstants.TOP_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.TOP_ROLLERS_DIAMETER) * (1 / 60.0);
-        double bottomMax = 6784 * Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER) * (1 / 60.0);
-
-        this.topRollers.set(velocity / topMax);
-        this.bottomRollers.set(velocity / bottomMax);
+        if (this.topRollers.getEncoder().getVelocity() < velocity) { this.topRollers.set(1.0); }
+        else { this.topRollers.set(0.0); }
     }
 
-    public double getVelocity () {
+    public void setBottomVelocity (double velocity) {
 
-        double topVelocity = this.topRollers.getEncoder().getVelocity();
-        double bottomVelocity = this.bottomRollers.getEncoder().getVelocity();
-        return (topVelocity + bottomVelocity) / 2.0;
+        if (this.bottomRollers.getEncoder().getVelocity() < velocity) { this.bottomRollers.set(1.0); }
+        else { this.bottomRollers.set(0.0); }
     }
+
+    public double getTopVelocity () { return this.topRollers.getEncoder().getVelocity(); }
+    public double getBottomVelocity () { return this.bottomRollers.getEncoder().getVelocity(); }
 
     public boolean atSpeed () { 
         
-        boolean topRollersAtSpeed = Math.abs(this.topRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
-        boolean bottomRollersAtSpeed = Math.abs(this.bottomRollers.getEncoder().getVelocity() - Constants.ShooterConstants.SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
+        boolean topRollersAtSpeed = Math.abs(this.topRollers.getEncoder().getVelocity() - Constants.ShooterConstants.TOP_SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
+        boolean bottomRollersAtSpeed = Math.abs(this.bottomRollers.getEncoder().getVelocity() - Constants.ShooterConstants.BOTTOM_SHOOT_SPEED) < Constants.ShooterConstants.SHOOT_TOLERANCE;
         return topRollersAtSpeed && bottomRollersAtSpeed;
     }
 

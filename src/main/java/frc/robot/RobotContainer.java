@@ -39,11 +39,11 @@ public class RobotContainer {
     private Swerve swerve;
     private Limelight limelight;
     
-    private Logging logging;
     private Intake intake;
     private Indexer indexer;
     private Arm arm;
     private Shooter shooter;
+    private Logging logging;
 
     private StateMachine intakeStateMachine;
     private StateMachine indexerStateMachine;
@@ -59,11 +59,17 @@ public class RobotContainer {
         catch (IOException ioException) {}
         //this.limelight = new Limelight();
 
-        this.logging = new Logging(() -> this.arm.getPosition(), () -> this.shooter.getVelocity(), () -> this.indexer.getBeamBreak());
         this.intake = new Intake();
         this.indexer = new Indexer();
         this.arm = new Arm();
         this.shooter = new Shooter();
+
+        this.logging = new Logging(
+            () -> this.arm.getPosition(), 
+            () -> this.shooter.getTopVelocity(), 
+            () -> this.shooter.getBottomVelocity(),
+            () -> this.indexer.getBeamBreak()
+        );
 
         this.intakeStateMachine = new StateMachine(Alerts.intakeStateMachine, this.intake);
         this.indexerStateMachine = new StateMachine(Alerts.indexerStateMachine, this.indexer);
