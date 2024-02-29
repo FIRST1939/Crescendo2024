@@ -27,8 +27,16 @@ public class ShotFeedback extends Command {
 
         SmartDashboard.putBoolean("Shot Made", this.shotMade);
         SmartDashboard.putBoolean("Shot Straight", this.shotStraight);
+
+        this.refreshShotAngle();
+
         SmartDashboard.putString("Shot Info", this.shotInfo);
         SmartDashboard.putBoolean("Submit Shot", false);
+    }
+
+    private void refreshShotAngle () {
+
+        if (this.shotAngle != null) { this.shotAngle.close(); }
 
         this.shotAngle = new SendableChooser<>();
         this.shotAngle.setDefaultOption("Center", "Center");
@@ -50,5 +58,13 @@ public class ShotFeedback extends Command {
         this.shotInfo = SmartDashboard.getString("Shot Info", "");
 
         this.logging.logShot(this.shotMade, this.shotStraight, this.shotInfo, this.shotAngle.getSelected());
+
+        SmartDashboard.putBoolean("Shot Made", false);
+        SmartDashboard.putBoolean("Shot Straight", true);
+
+        this.refreshShotAngle();
+
+        SmartDashboard.putString("Shot Info", "");
+        SmartDashboard.putBoolean("Submit Shot", false);
     }
 }
