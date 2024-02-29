@@ -90,7 +90,7 @@ public class Indexer extends SubsystemBase {
         this.backRollers.set(velocity / maximumVelocity);
     }
 
-    public boolean noteContained () { return !this.startBeam.get(); }
+    public boolean noteContained () { return !(this.startBeam.get() && this.endBeam.get()); }
     public boolean noteIndexed () { return !this.endBeam.get(); }
     public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
 
