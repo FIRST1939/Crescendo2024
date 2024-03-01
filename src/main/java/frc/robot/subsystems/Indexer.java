@@ -27,6 +27,7 @@ public class Indexer extends SubsystemBase {
     private DigitalInput startBeam;
     private DigitalInput endBeam;
 
+    private Timer loadCurrentTimer;
     private Timer feedTimer;
 
     public Indexer () {
@@ -53,6 +54,8 @@ public class Indexer extends SubsystemBase {
 
         this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
         this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
+
+        this.loadCurrentTimer = new Timer();
         this.feedTimer = new Timer();
     }
 
@@ -88,6 +91,25 @@ public class Indexer extends SubsystemBase {
         );
 
         this.backRollers.set(velocity / maximumVelocity);
+    }
+
+    public double getBackLoadSpeed () {
+
+        double loadInputCurrent = this.frontRollers.getOutputCurrent();
+        double loadOutputCurrent = this.backRollers.getOutputCurrent();
+        double loadCurrentDifference = Math.abs(loadInputCurrent - loadOutputCurrent);
+
+        if (loadCurrentDifference > Constants.IndexerConstants.LOAD_CURRENT_DIFFERENCE_THRESHOLD) {
+
+            if (this.loadCurrentTimer.get() == 0.0) { this.loadCurrentTimer.start(); }
+            else if (this.loadCurrentTimer.get() > Constants.IndexerConstants.LOAD_CURRENT_WAIT) { return Constants.IndexerConstants.LOAD_SPEED; }
+        } else {
+
+            this.loadCurrentTimer.stop();
+            this.loadCurrentTimer.reset();
+        }
+
+        return Constants.IndexerConstants.BACK_INDEX_SPEED;
     }
 
     public boolean noteContained () { return !(this.startBeam.get() && this.endBeam.get()); }

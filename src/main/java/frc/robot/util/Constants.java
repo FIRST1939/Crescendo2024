@@ -105,6 +105,9 @@ public final class Constants {
 
         public static final int START_BEAM = 9;
         public static final int END_BEAM = 1;
+
+        public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 0.0;
+        public static final double LOAD_CURRENT_WAIT = 0.0;
         public static final double FEED_WAIT = 1.0;
 
         public static final double FRONT_ROLLERS_P = 0.0;
@@ -116,7 +119,8 @@ public final class Constants {
         public static final double BACK_ROLLERS_D = 0.0;
 
         public static final double FRONT_INDEX_SPEED = 100.0;
-        public static final double BACK_INDEX_SPEED = 20.0;
+        public static final double BACK_INDEX_SPEED = 100.0;
+        public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = 0.0;
 
