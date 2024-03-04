@@ -18,6 +18,11 @@
           }
         },
         {
+          "type": "named",
+            "name": "AutoShootNote"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "CR Shoot - C4"
@@ -27,6 +32,31 @@
           "type": "path",
           "data": {
             "pathName": "C4-C3"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIntakeNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoIndexNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AutoShootNote"
+                }
+              }
+            ]
           }
         },
         {
