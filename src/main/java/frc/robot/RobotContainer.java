@@ -2,7 +2,16 @@ package frc.robot;
 
 import java.io.IOException;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -11,6 +20,9 @@ import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
+import frc.robot.commands.auto.AutoIndexNote;
+import frc.robot.commands.auto.AutoIntakeNote;
+import frc.robot.commands.auto.AutoScoreNote;
 import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldNote;
 import frc.robot.commands.indexer.IdleIndexer;
@@ -49,6 +61,8 @@ public class RobotContainer {
 
     private Controller driverOne;
     private Controller driverTwo;
+
+    private SendableChooser<Command> autonomousChooser;
 
     public RobotContainer () {
 
@@ -188,7 +202,68 @@ public class RobotContainer {
         }
     }
 
-    public Command getAutonomousCommand () { return this.swerve.getAutonomousCommand(); }
+    public void initializePathPlanner () {
+
+        NamedCommands.registerCommand("IntakeNote", new AutoIntakeNote(this.intakeStateMachine));
+        NamedCommands.registerCommand("IndexNote", new AutoIndexNote(this.indexerStateMachine));
+        NamedCommands.registerCommand("ScoreNote", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
+
+        AutoBuilder.configureHolonomic(
+            this.swerve::getPose, this.swerve::resetOdometry,
+            this.swerve::getRobotVelocity, this.swerve::setChassisSpeeds,
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(5.0, 0.0, 0.0),
+                new PIDConstants(
+                    this.swerve.getHeadingPIDFConfig().p,
+                    this.swerve.getHeadingPIDFConfig().i,
+                    this.swerve.getHeadingPIDFConfig().d
+                ),
+                Constants.SwerveConstants.MAX_DRIVE_SPEED,
+                this.swerve.getConfiguration().getDriveBaseRadiusMeters(),
+                new ReplanningConfig(
+                    true, true, 
+                    Constants.SwerveConstants.REPLANNING_TOTAL_ERROR,
+                    Constants.SwerveConstants.REPLANNING_ERROR_SPIKE
+                )
+            ),
+            () -> {
+
+                var alliance = DriverStation.getAlliance();
+                return alliance.isPresent() ? alliance.get() == DriverStation.Alliance.Red : false;
+            },
+            this.swerve
+        );
+
+        this.autonomousChooser = AutoBuilder.buildAutoChooser();
+        Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", this.autonomousChooser);
+    }
+
+    public void runAutoStateMachines () {
+
+        Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
+        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
+
+        if (intakeState == IntakeNote.class && this.indexer.noteContained()) { this.intakeStateMachine.activateState(IdleIntake.class); }
+        if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { this.indexerStateMachine.activateState(HoldNote.class); }
+        if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
+            
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+        }
+
+        if (armState == PivotArm.class && shooterState == ShootNote.class) {
+
+            if (this.arm.atPosition() && this.shooter.atSpeed()) { 
+                
+                this.indexerStateMachine.activateState(FeedNote.class); 
+            }
+        }
+    }
+
+    public Command getAutonomousCommand () { return this.autonomousChooser.getSelected(); }
 
     public void setIdleModes (IdleBehavior swerveIdle, IdleBehavior intakeIdle, IdleBehavior indexerIdle, IdleBehavior armIdle, IdleBehavior shooterIdle) {
 
