@@ -82,7 +82,9 @@ public class RobotContainer {
 
         this.driverOne = new Controller(0);
         this.driverTwo = new Controller(1);
+        
         this.configureCommands();
+        this.initializePathPlanner();
     }
 
     private void configureCommands () {
