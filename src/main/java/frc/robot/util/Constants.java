@@ -26,10 +26,10 @@ public final class Constants {
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
-        private static final int FREE_SPEED = 5676; // Motor Free Speed [RPM]
-        private static final double WHEEL_DIAMETER = 0.10033; // Diameter of the Wheel [m]
+        private static final int FREE_SPEED = 5820; // Motor Free Speed [RPM]
+        private static final double WHEEL_DIAMETER = 0.1016; // Diameter of the Wheel [m]
 
-        private static final double DRIVE_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // Gear Reduction of the Driving Motors [Wheel Revolution / Motor Revolution]
+        private static final double DRIVE_REDUCTION = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0); // Gear Reduction of the Driving Motors [Wheel Revolution / Motor Revolution]
         private static final double STEER_REDUCTION = (7.0 / 150.0); // Gear Reduction of the Steering Motors [Wheel Revolution / Motor Revolution]
 
         public static final double MAX_DRIVE_SPEED = FREE_SPEED * DRIVE_REDUCTION * (WHEEL_DIAMETER * Math.PI) / 60.0; // Maximum Driving Speed [m / s]

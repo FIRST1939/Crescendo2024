@@ -13,9 +13,9 @@
     "Justin Checked",
     "Test"
   ],
-  "defaultMaxVel": 4.95,
-  "defaultMaxAccel": 3.25,
-  "defaultMaxAngVel": 1250.0,
-  "defaultMaxAngAccel": 850.0,
-  "maxModuleSpeed": 4.9
+  "defaultMaxVel": 5.0,
+  "defaultMaxAccel": 2.5,
+  "defaultMaxAngVel": 180.0,
+  "defaultMaxAngAccel": 180.0,
+  "maxModuleSpeed": 5.056967240210827
 }
