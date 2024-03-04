@@ -26,19 +26,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C1 - CL Shoot"
+            "pathName": "C1-C2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "CL Shoot - C2"
+            "pathName": "z C2-C3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C2 - CL Shoot"
+            "pathName": "C3 - CC Shoot"
           }
         }
       ]

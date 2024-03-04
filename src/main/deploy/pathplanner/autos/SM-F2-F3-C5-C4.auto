@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3140196323188638,
-      "y": 6.99
+      "x": 1.4,
+      "y": 5.55
     },
     "rotation": 0
   },
@@ -14,13 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start - F1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "F1-F2"
+            "pathName": "Center Start - F2"
           }
         },
         {
@@ -32,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F3-C5"
+            "pathName": "F3 - C5"
           }
         },
         {
@@ -40,10 +34,22 @@
           "data": {
             "pathName": "C5 - CR Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CR Shoot - C4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4 - CC Shoot"
+          }
         }
       ]
     }
   },
-  "folder": "Completed",
+  "folder": "Justin Checked",
   "choreoAuto": false
 }

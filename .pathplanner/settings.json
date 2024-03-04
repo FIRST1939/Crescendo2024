@@ -1,6 +1,6 @@
 {
-  "robotWidth": 0.6858,
-  "robotLength": 0.83,
+  "robotWidth": 0.826,
+  "robotLength": 0.953,
   "holonomicMode": true,
   "pathFolders": [
     "Auto Starts",
@@ -8,13 +8,14 @@
     "Center Line"
   ],
   "autoFolders": [
-    "Completed",
-    "Confirmed",
+    "Built",
+    "Comp Confirmed",
+    "Justin Checked",
     "Test"
   ],
   "defaultMaxVel": 4.3,
   "defaultMaxAccel": 3.25,
   "defaultMaxAngVel": 1250.0,
   "defaultMaxAngAccel": 850.0,
-  "maxModuleSpeed": 4.420011921817435
+  "maxModuleSpeed": 4.42
 }

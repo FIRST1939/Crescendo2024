@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.72
+      "x": 0.55,
+      "y": 2.05
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,31 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start - F1"
+            "pathName": "Right Start - CR Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1-C1"
+            "pathName": "CR Shoot - C4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C1 - CL Shoot"
+            "pathName": "C4-C3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "CL Shoot - C2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C2 - CL Shoot"
+            "pathName": "C3 - CC Shoot"
           }
         }
       ]

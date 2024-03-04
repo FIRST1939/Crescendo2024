@@ -20,25 +20,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1-C1"
+            "pathName": "F1-F2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C1 - CL Shoot"
+            "pathName": "F2-F3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "CL Shoot - C2"
+            "pathName": "F3-C5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C2 - CL Shoot"
+            "pathName": "C5 - CR Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CR Shoot - C4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4 - CC Shoot"
           }
         }
       ]

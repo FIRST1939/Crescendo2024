@@ -3,15 +3,15 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
-        "y": 2.5
+        "x": 0.55,
+        "y": 2.05
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8914961010260565,
-        "y": 2.5091866824358653
+        "x": 1.441496101026057,
+        "y": 2.059186682435865
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "Right Solo Start"
     },
     {

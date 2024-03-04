@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 7.0
+      "x": 0.75,
+      "y": 6.72
     },
-    "rotation": 0.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -50,6 +50,6 @@
       ]
     }
   },
-  "folder": "Completed",
+  "folder": "Justin Checked",
   "choreoAuto": false
 }

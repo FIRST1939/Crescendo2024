@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2,
-        "y": 4.1
+        "x": 0.75,
+        "y": 4.38
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1999999999999997,
-        "y": 4.1
+        "x": 1.3033866247492334,
+        "y": 4.176709296271602
       },
       "isLocked": true,
       "linkedName": "Right Side Start"
     },
     {
       "anchor": {
-        "x": 2.5,
+        "x": 2.45,
         "y": 4.1
       },
       "prevControl": {
-        "x": 2.0,
-        "y": 4.1
+        "x": 2.1450741448502577,
+        "y": 4.059085545254424
       },
       "nextControl": null,
       "isLocked": true,
       "linkedName": "F3"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": -60.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
@@ -66,7 +72,7 @@
   "reversed": false,
   "folder": "Auto Starts",
   "previewStartingState": {
-    "rotation": -38.904251834370505,
+    "rotation": -59.08807527557645,
     "velocity": 0
   },
   "useDefaultConstraints": true
