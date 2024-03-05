@@ -18,9 +18,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "ShootNote"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreNote"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
           }
         },
         {
@@ -30,15 +43,15 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "C4-C3"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "C4-C3"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -50,12 +63,6 @@
                 "data": {
                   "name": "IndexNote"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShootNote"
-                }
               }
             ]
           }
@@ -65,10 +72,29 @@
           "data": {
             "pathName": "C3 - CC Shoot"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreNote"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.5
+                }
+              }
+            ]
+          }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Justin Checked",
   "choreoAuto": false
 }
