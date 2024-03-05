@@ -20,7 +20,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoShootNote"
+            "name": "ShootNote"
           }
         },
         {
@@ -42,19 +42,19 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoIntakeNote"
+                  "name": "IntakeNote"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoIndexNote"
+                  "name": "IndexNote"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoShootNote"
+                  "name": "ShootNote"
                 }
               }
             ]
@@ -69,6 +69,6 @@
       ]
     }
   },
-  "folder": "Justin Checked",
+  "folder": null,
   "choreoAuto": false
 }
