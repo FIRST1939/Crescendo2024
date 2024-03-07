@@ -97,6 +97,9 @@ public class RobotContainer {
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
 
+        this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
+        this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
+
         /*
         this.driverTwo.leftBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kReverse));
         this.driverTwo.rightBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kForward));

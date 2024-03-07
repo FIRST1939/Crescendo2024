@@ -24,6 +24,8 @@ public class Arm extends SubsystemBase {
     private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
+    public double manualPivotAdjustment = 0.0;
+
     public Arm () {
 
         this.pivot = new TalonFX(Constants.ArmConstants.PIVOT);
