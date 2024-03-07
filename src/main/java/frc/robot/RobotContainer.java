@@ -20,9 +20,9 @@ import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
-import frc.robot.commands.auto.AutoIndexNote;
-import frc.robot.commands.auto.AutoIntakeNote;
+import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
+import frc.robot.commands.indexer.EjectNote;
 import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldNote;
 import frc.robot.commands.indexer.IdleIndexer;
@@ -202,13 +202,32 @@ public class RobotContainer {
                 }
             }
         }
+
+        if (this.driverTwo.getRightTriggerAxis() > 0.5) {
+
+            if (!(intakeState == EjectNote.class || indexerState == EjectNote.class || shooterState == EjectNote.class)) {
+
+                this.intakeStateMachine.activateState(frc.robot.commands.intake.EjectNote.class);
+                this.indexerStateMachine.activateState(frc.robot.commands.indexer.EjectNote.class);
+                this.shooterStateMachine.activateState(frc.robot.commands.shooter.EjectNote.class);
+            }
+        } else {
+
+            if (intakeState == frc.robot.commands.intake.EjectNote.class &&
+                indexerState == frc.robot.commands.indexer.EjectNote.class &&
+                shooterState == frc.robot.commands.shooter.EjectNote.class) {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
+                this.shooterStateMachine.activateState(IdleShooter.class);
+            }
+        }
     }
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("IntakeNote", new AutoIntakeNote(this.intakeStateMachine));
-        NamedCommands.registerCommand("IndexNote", new AutoIndexNote(this.indexerStateMachine));
-        NamedCommands.registerCommand("ScoreNote", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("Score", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
 
         AutoBuilder.configureHolonomic(
             this.swerve::getPose, this.swerve::resetOdometry,

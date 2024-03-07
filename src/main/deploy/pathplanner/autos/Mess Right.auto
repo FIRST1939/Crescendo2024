@@ -18,28 +18,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreNote"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CR Shoot - C4"
+            "name": "Score"
           }
         },
         {
@@ -47,21 +28,41 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "C4-C3"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CR Shoot - C4"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "C4-C3"
+                      }
+                    }
+                  ]
                 }
               },
               {
-                "type": "named",
+                "type": "deadline",
                 "data": {
-                  "name": "IntakeNote"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "IndexNote"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.65
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Eject"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -74,22 +75,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreNote"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.5
-                }
-              }
-            ]
+            "name": "Score"
           }
         }
       ]
