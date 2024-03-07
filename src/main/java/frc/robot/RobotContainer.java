@@ -251,7 +251,8 @@ public class RobotContainer {
         if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { this.indexerStateMachine.activateState(HoldNote.class); }
         if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
             
-            this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.intakeStateMachine.activateState(IntakeNote.class);
+            this.indexerStateMachine.activateState(IndexNote.class);
             this.armStateMachine.activateState(LockArm.class);
             this.shooterStateMachine.activateState(IdleShooter.class);
         }
