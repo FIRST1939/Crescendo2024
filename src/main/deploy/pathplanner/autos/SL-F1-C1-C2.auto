@@ -12,9 +12,40 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "ShootNote"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Left Side Start - F1"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IndexNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootNote"
+                }
+              }
+            ]
           }
         },
         {
