@@ -182,6 +182,10 @@ public class RobotContainer {
 
                 this.intakeStateMachine.activateState(OutakeNote.class);
                 this.indexerStateMachine.activateState(ReverseNote.class);
+            } else if (intakeState == OutakeNote.class || indexerState == ReverseNote.class) {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
             }
         }
 
@@ -202,6 +206,10 @@ public class RobotContainer {
                     this.indexerStateMachine.activateState(FeedNote.class); 
                     this.logging.setLogging(true);
                 }
+            } else if (intakeState == IntakeNote.class || indexerState == IndexNote.class) {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
             }
         }
     }
