@@ -2,22 +2,14 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Mechanism;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
 
@@ -29,8 +21,6 @@ public class Arm extends SubsystemBase {
     private Timer setpointTimer;
 
     private DoubleSupplier pivotPosition;
-    private DoubleSupplier pivotVelocity;
-
     private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
@@ -52,8 +42,6 @@ public class Arm extends SubsystemBase {
         this.setpointTimer = new Timer();
 
         this.pivotPosition = () -> -(this.pivotEncoder.getAbsolutePosition() - Constants.ArmConstants.PIVOT_OFFSET) * 360;
-        this.pivotVelocity = () -> this.pivot.getVelocity().getValue() * Constants.ArmConstants.PIVOT_REDUCTION * 360;
-
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
     }
@@ -90,27 +78,4 @@ public class Arm extends SubsystemBase {
         if (idleBehavior == IdleBehavior.COAST) { this.pivot.setNeutralMode(NeutralModeValue.Coast); }
         else if (idleBehavior == IdleBehavior.BRAKE) { this.pivot.setNeutralMode(NeutralModeValue.Brake); }
     }
-
-    public Command getQuasistaticRoutine (Direction direction) { return this.getSysIdRoutine().quasistatic(direction); }
-    public Command getDynamicRoutine (Direction direction) { return this.getSysIdRoutine().dynamic(direction); }
-
-    private SysIdRoutine getSysIdRoutine () {
-
-        return new SysIdRoutine(
-            Constants.ArmConstants.SYSID_ROUTINE_CONFIG,
-            new Mechanism(
-                this::setPivotVoltage,
-                sysIdRoutineLog -> {
-
-                    sysIdRoutineLog.motor("arm-pivot")
-                        .angularPosition(Units.Rotations.of(this.pivotPosition.getAsDouble()))
-                        .angularVelocity(Units.Rotations.of(this.pivotVelocity.getAsDouble()).per(Units.Second))
-                        .voltage(Units.Volts.of(this.pivot.getMotorVoltage().getValue()));
-                },
-                this
-            )
-        );
-    }
-
-    private void setPivotVoltage (Measure<Voltage> voltage) { this.pivot.setControl(new VoltageOut(voltage.magnitude())); }
 }

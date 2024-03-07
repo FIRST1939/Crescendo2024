@@ -3,8 +3,6 @@ package frc.robot.util;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import swervelib.math.Matter;
 
 public final class Constants {
@@ -62,28 +60,8 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double TOP_ROLLER_P = 0.025;
-        public static final double TOP_ROLLER_I = 0.0;
-        public static final double TOP_ROLLER_D = 0.0;
-
-        public static final double BOTTOM_ROLLER_P = 0.025;
-        public static final double BOTTOM_ROLLER_I = 0.0;
-        public static final double BOTTOM_ROLLER_D = 0.0;
-
         public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = 0.0;
-
-        public static final Config TOP_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.75).per(Units.Second), 
-            Units.Volts.of(10),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config BOTTOM_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.5).per(Units.Second), 
-            Units.Volts.of(7),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class IndexerConstants {
@@ -105,32 +83,16 @@ public final class Constants {
 
         public static final int START_BEAM = 9;
         public static final int END_BEAM = 1;
+
+        public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 0.0;
+        public static final double LOAD_CURRENT_WAIT = 0.0;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_ROLLERS_P = 0.0;
-        public static final double FRONT_ROLLERS_I = 0.0;
-        public static final double FRONT_ROLLERS_D = 0.0;
-
-        public static final double BACK_ROLLERS_P = 0.0;
-        public static final double BACK_ROLLERS_I = 0.0;
-        public static final double BACK_ROLLERS_D = 0.0;
-
         public static final double FRONT_INDEX_SPEED = 100.0;
-        public static final double BACK_INDEX_SPEED = 20.0;
+        public static final double BACK_INDEX_SPEED = 100.0;
+        public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = 0.0;
-
-        public static final Config FRONT_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1).per(Units.Second), 
-            Units.Volts.of(3),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config BACK_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.25).per(Units.Second), 
-            Units.Volts.of(4),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class ArmConstants {
@@ -158,12 +120,6 @@ public final class Constants {
 
         public static final double LOCK_POSITION = 22.0;
         public static double PIVOT_POSITION = 16.5;
-
-        public static final Config SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(0.25).per(Units.Second), 
-            Units.Volts.of(3.0),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class ShooterConstants {
@@ -186,12 +142,6 @@ public final class Constants {
         public static double TOP_SHOOT_SPEED = 1200.0;
         public static double BOTTOM_SHOOT_SPEED = 1200.0;
         public static double SHOOT_TOLERANCE = 25.0;
-
-        public static final Config SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(0.75).per(Units.Second), 
-            Units.Volts.of(7),
-            Units.Seconds.of(10)
-        );
     }
 
     public enum IdleBehavior {
