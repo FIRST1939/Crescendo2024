@@ -24,10 +24,10 @@ public final class Constants {
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
-        private static final int FREE_SPEED = 5676; // Motor Free Speed [RPM]
-        private static final double WHEEL_DIAMETER = 0.10033; // Diameter of the Wheel [m]
+        private static final int FREE_SPEED = 5820; // Motor Free Speed [RPM]
+        private static final double WHEEL_DIAMETER = 0.1016; // Diameter of the Wheel [m]
 
-        private static final double DRIVE_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0); // Gear Reduction of the Driving Motors [Wheel Revolution / Motor Revolution]
+        private static final double DRIVE_REDUCTION = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0); // Gear Reduction of the Driving Motors [Wheel Revolution / Motor Revolution]
         private static final double STEER_REDUCTION = (7.0 / 150.0); // Gear Reduction of the Steering Motors [Wheel Revolution / Motor Revolution]
 
         public static final double MAX_DRIVE_SPEED = FREE_SPEED * DRIVE_REDUCTION * (WHEEL_DIAMETER * Math.PI) / 60.0; // Maximum Driving Speed [m / s]
@@ -36,11 +36,29 @@ public final class Constants {
         public static final double TRANSLATION_DEADBAND = 0.0825; // Joystick Deadband [%]
         public static final double OMEGA_DEADBAND = 0.125; // Joystick Deadband [%]
 
-        public static final double TURN_CONSTANT = 0.125; // Turning Power [%]
+        public static final double TURN_CONSTANT = 0.225; // Turning Power [%]
         public static final double LOCK_TIME = 10.0; // Lock Time While Disabled [s]
 
-        public static final double REPLANNING_TOTAL_ERROR = 0.15; // Total Error to Replan Path [m]
-        public static final double REPLANNING_ERROR_SPIKE = 0.1; // Spike in Error to Replan Path [m / 20ms]
+        public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
+        public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
+
+        public static final Config DRIVE_SYSID_CONFIG = new Config(
+            Units.Volts.of(1.5).per(Units.Second),
+            Units.Volts.of(9.6),
+            Units.Seconds.of(10)
+        );
+
+        public static final Config ANGLE_SYSID_CONFIG = new Config(
+            Units.Volts.of(1.25).per(Units.Second),
+            Units.Volts.of(7.8),
+            Units.Seconds.of(10)
+        );
+
+        public static final double DRIVE_SYSID_QUASISTATIC_TIMEOUT = 7.5;
+        public static final double DRIVE_SYSID_DYNAMIC_TIMEOUT = 3.0;
+
+        public static final double ANGLE_SYSID_QUASISTATIC_TIMEOUT = 8.0;
+        public static final double ANGLE_SYSID_DYNAMIC_TIMEOUT = 3.0;
     }
 
     public final class IntakeConstants {
@@ -62,6 +80,7 @@ public final class Constants {
 
         public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = 0.0;
+        public static final double EJECT_SPEED = 0.0;
     }
 
     public final class IndexerConstants {
@@ -93,6 +112,8 @@ public final class Constants {
         public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = 0.0;
+        public static final double FRONT_EJECT_SPEED = 0.0;
+        public static final double BACK_EJECT_SPEED = 0.0;
     }
 
     public final class ArmConstants {
@@ -142,6 +163,7 @@ public final class Constants {
         public static double TOP_SHOOT_SPEED = 1200.0;
         public static double BOTTOM_SHOOT_SPEED = 1200.0;
         public static double SHOOT_TOLERANCE = 30.0;
+        public static final double EJECT_SPEED = 0.0;
     }
 
     public enum IdleBehavior {

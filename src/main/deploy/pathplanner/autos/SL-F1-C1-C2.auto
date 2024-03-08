@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.06,
-      "y": 5.54
+      "x": 0.75,
+      "y": 6.72
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -14,61 +14,67 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot Note"
+            "name": "ShootNote"
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
+          "data": {
+            "pathName": "Left Side Start - F1"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": null
+                  "name": "IntakeNote"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Note"
+                  "name": "IndexNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ShootNote"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Note"
+            "pathName": "F1-C1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake Note"
+            "pathName": "C1 - CL Shoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "CL Shoot - C2"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot Note"
+            "pathName": "C2 - CL Shoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Justin Checked",
   "choreoAuto": false
 }

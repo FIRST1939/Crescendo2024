@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.72
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Side Start - F1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F1-C1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-C2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "z C2-C3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C3 - CC Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Justin Checked",
+  "choreoAuto": false
+}
