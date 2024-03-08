@@ -3,8 +3,6 @@ package frc.robot.util;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import swervelib.math.Matter;
 
 public final class Constants {
@@ -43,24 +41,6 @@ public final class Constants {
 
         public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
         public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
-
-        public static final Config DRIVE_SYSID_CONFIG = new Config(
-            Units.Volts.of(1.5).per(Units.Second),
-            Units.Volts.of(9.6),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config ANGLE_SYSID_CONFIG = new Config(
-            Units.Volts.of(1.25).per(Units.Second),
-            Units.Volts.of(7.8),
-            Units.Seconds.of(10)
-        );
-
-        public static final double DRIVE_SYSID_QUASISTATIC_TIMEOUT = 7.5;
-        public static final double DRIVE_SYSID_DYNAMIC_TIMEOUT = 3.0;
-
-        public static final double ANGLE_SYSID_QUASISTATIC_TIMEOUT = 8.0;
-        public static final double ANGLE_SYSID_DYNAMIC_TIMEOUT = 3.0;
     }
 
     public final class IntakeConstants {
@@ -91,18 +71,6 @@ public final class Constants {
         public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = 0.0;
         public static final double EJECT_SPEED = 0.0;
-
-        public static final Config TOP_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.75).per(Units.Second), 
-            Units.Volts.of(10),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config BOTTOM_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.5).per(Units.Second), 
-            Units.Volts.of(7),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class IndexerConstants {
@@ -140,18 +108,6 @@ public final class Constants {
         public static final double REVERSE_SPEED = 0.0;
         public static final double FRONT_EJECT_SPEED = 0.0;
         public static final double BACK_EJECT_SPEED = 0.0;
-
-        public static final Config FRONT_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1).per(Units.Second), 
-            Units.Volts.of(3),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config BACK_SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(1.25).per(Units.Second), 
-            Units.Volts.of(4),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class ArmConstants {
@@ -179,12 +135,6 @@ public final class Constants {
 
         public static final double LOCK_POSITION = 22.0;
         public static final double PIVOT_POSITION = 22.0;
-
-        public static final Config SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(0.25).per(Units.Second), 
-            Units.Volts.of(3.0),
-            Units.Seconds.of(10)
-        );
     }
 
     public final class ShooterConstants {
@@ -207,12 +157,6 @@ public final class Constants {
         public static final double SHOOT_SPEED = 600.0;
         public static final double SHOOT_TOLERANCE = 25.0;
         public static final double EJECT_SPEED = 0.0;
-
-        public static final Config SYSID_ROUTINE_CONFIG = new Config(
-            Units.Volts.of(0.75).per(Units.Second), 
-            Units.Volts.of(7),
-            Units.Seconds.of(10)
-        );
     }
 
     public enum IdleBehavior {
