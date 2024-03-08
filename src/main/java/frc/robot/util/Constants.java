@@ -61,8 +61,8 @@ public final class Constants {
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
         public static final double INTAKE_SPEED = 150.0;
-        public static final double OUTAKE_SPEED = 0.0;
-        public static final double EJECT_SPEED = 0.0;
+        public static final double OUTAKE_SPEED = -100.0;
+        public static final double EJECT_SPEED = 120.0;
     }
 
     public final class IndexerConstants {
@@ -93,9 +93,9 @@ public final class Constants {
         public static final double BACK_INDEX_SPEED = 100.0;
         public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
-        public static final double REVERSE_SPEED = 0.0;
-        public static final double FRONT_EJECT_SPEED = 0.0;
-        public static final double BACK_EJECT_SPEED = 0.0;
+        public static final double REVERSE_SPEED = -100.0;
+        public static final double FRONT_EJECT_SPEED = 120.0;
+        public static final double BACK_EJECT_SPEED = 120.0;
     }
 
     public final class ArmConstants {
@@ -145,7 +145,7 @@ public final class Constants {
         public static double TOP_SHOOT_SPEED = 1200.0;
         public static double BOTTOM_SHOOT_SPEED = 1200.0;
         public static double SHOOT_TOLERANCE = 30.0;
-        public static final double EJECT_SPEED = 0.0;
+        public static final double EJECT_SPEED = 600.0;
     }
 
     public enum IdleBehavior {

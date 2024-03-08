@@ -151,7 +151,7 @@ public class RobotContainer {
 
         if (this.driverTwo.getHID().getLeftBumperPressed()) {
 
-            if (indexerState == IndexNote.class || indexerState == HoldNote.class) {
+            if (indexerState == IdleIndexer.class || indexerState == IndexNote.class || indexerState == HoldNote.class) {
 
                 this.intakeStateMachine.activateState(OutakeNote.class);
                 this.indexerStateMachine.activateState(ReverseNote.class);
