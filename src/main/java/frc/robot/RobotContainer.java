@@ -120,54 +120,6 @@ public class RobotContainer {
         this.driverTwo.a().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Amp")));
         this.driverTwo.y().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Note")));
         this.driverTwo.b().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Defense")));
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.intake.getTopQuasistaticRoutine(Direction.kForward));
-
-        this.driverTwo.leftTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.intake.getTopDynamicRoutine(Direction.kForward));
-        */
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.intake.getBottomQuasistaticRoutine(Direction.kForward));
-
-        this.driverTwo.leftTrigger().whileTrue(this.intake.getBottomDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.intake.getBottomDynamicRoutine(Direction.kForward));
-        */
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.indexer.getFrontQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.indexer.getFrontQuasistaticRoutine(Direction.kForward));
-        
-        this.driverTwo.leftTrigger().whileTrue(this.indexer.getFrontDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.indexer.getFrontDynamicRoutine(Direction.kForward));
-        */
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.indexer.getBackQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.indexer.getBackQuasistaticRoutine(Direction.kForward));
-        
-        this.driverTwo.leftTrigger().whileTrue(this.indexer.getBackDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.indexer.getBackDynamicRoutine(Direction.kForward));
-        */
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.arm.getQuasistaticRoutine(Direction.kForward));
-        
-        this.driverTwo.leftTrigger().whileTrue(this.arm.getDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.arm.getDynamicRoutine(Direction.kForward));
-        */
-
-        /*
-        this.driverTwo.leftBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kReverse));
-        this.driverTwo.rightBumper().whileTrue(this.shooter.getQuasistaticRoutine(Direction.kForward));
-
-        this.driverTwo.leftTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kReverse));
-        this.driverTwo.rightTrigger().whileTrue(this.shooter.getDynamicRoutine(Direction.kForward));
-        */
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
