@@ -13,7 +13,7 @@ public class MotorUtil {
                 break;
 
             case NEO:
-                maxRPM = 5676;
+                maxRPM = 5820;
                 break;
 
             case FALCON:

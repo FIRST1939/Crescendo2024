@@ -76,7 +76,7 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final double FRONT_ROLLERS_REDUCTION = 1.0;
-        public static final double BACK_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
+        public static final double BACK_ROLLERS_REDUCTION = (44.0 / 42.0);
 
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
@@ -84,8 +84,8 @@ public final class Constants {
         public static final int START_BEAM = 9;
         public static final int END_BEAM = 1;
 
-        public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 0.0;
-        public static final double LOAD_CURRENT_WAIT = 0.0;
+        public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 30.0;
+        public static final double LOAD_CURRENT_WAIT = 0.15;
         public static final double FEED_WAIT = 1.0;
 
         public static final double FRONT_INDEX_SPEED = 100.0;
@@ -141,7 +141,7 @@ public final class Constants {
 
         public static double TOP_SHOOT_SPEED = 1200.0;
         public static double BOTTOM_SHOOT_SPEED = 1200.0;
-        public static double SHOOT_TOLERANCE = 25.0;
+        public static double SHOOT_TOLERANCE = 30.0;
     }
 
     public enum IdleBehavior {

@@ -14,8 +14,8 @@ import frc.robot.util.MotorUtil;
 
 public class Indexer extends SubsystemBase {
 
-    private CANSparkMax frontRollers;
-    private CANSparkFlex backRollers;
+    private CANSparkFlex frontRollers;
+    private CANSparkMax backRollers;
     private DigitalInput startBeam;
     private DigitalInput endBeam;
 
@@ -24,8 +24,8 @@ public class Indexer extends SubsystemBase {
 
     public Indexer () {
 
-        this.frontRollers = new CANSparkMax(Constants.IndexerConstants.FRONT_ROLLERS, MotorType.kBrushless);
-        this.backRollers = new CANSparkFlex(Constants.IndexerConstants.BACK_ROLLERS, MotorType.kBrushless);
+        this.frontRollers = new CANSparkFlex(Constants.IndexerConstants.FRONT_ROLLERS, MotorType.kBrushless);
+        this.backRollers = new CANSparkMax(Constants.IndexerConstants.BACK_ROLLERS, MotorType.kBrushless);
 
         this.frontRollers.setInverted(Constants.IndexerConstants.FRONT_ROLLERS_INVERTED);
         this.backRollers.setInverted(Constants.IndexerConstants.BACK_ROLLERS_INVERTED);
@@ -57,7 +57,7 @@ public class Indexer extends SubsystemBase {
     public void setFrontVelocity (double velocity) {
 
         double maximumVelocity = MotorUtil.getMaxVelocity(
-            frc.robot.util.MotorUtil.MotorType.NEO,
+            frc.robot.util.MotorUtil.MotorType.VORTEX,
             Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER,
             Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION
         );
@@ -67,9 +67,8 @@ public class Indexer extends SubsystemBase {
 
     public void setBackVelocity (double velocity) {
 
-        
         double maximumVelocity = MotorUtil.getMaxVelocity(
-            frc.robot.util.MotorUtil.MotorType.VORTEX,
+            frc.robot.util.MotorUtil.MotorType.NEO,
             Constants.IndexerConstants.BACK_ROLLERS_DIAMETER,
             Constants.IndexerConstants.BACK_ROLLERS_REDUCTION
         );
@@ -79,11 +78,7 @@ public class Indexer extends SubsystemBase {
 
     public double getBackLoadSpeed () {
 
-        double loadInputCurrent = this.frontRollers.getOutputCurrent();
-        double loadOutputCurrent = this.backRollers.getOutputCurrent();
-        double loadCurrentDifference = Math.abs(loadInputCurrent - loadOutputCurrent);
-
-        if (loadCurrentDifference > Constants.IndexerConstants.LOAD_CURRENT_DIFFERENCE_THRESHOLD) {
+        if (this.backRollers.getOutputCurrent() > Constants.IndexerConstants.LOAD_CURRENT_DIFFERENCE_THRESHOLD) {
 
             if (this.loadCurrentTimer.get() == 0.0) { this.loadCurrentTimer.start(); }
             else if (this.loadCurrentTimer.get() > Constants.IndexerConstants.LOAD_CURRENT_WAIT) { return Constants.IndexerConstants.LOAD_SPEED; }
