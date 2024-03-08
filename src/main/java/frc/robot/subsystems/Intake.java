@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
+import frc.robot.util.MotorUtil;
 
 public class Intake extends SubsystemBase {
 
@@ -26,23 +27,24 @@ public class Intake extends SubsystemBase {
 
       this.bottomRoller.getEncoder().setPositionConversionFactor(Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER));
       this.bottomRoller.getEncoder().setVelocityConversionFactor((Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION / 60.0) * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER));
-
-      this.topRoller.getPIDController().setP(Constants.IntakeConstants.TOP_ROLLER_P);
-      this.topRoller.getPIDController().setI(Constants.IntakeConstants.TOP_ROLLER_I);
-      this.topRoller.getPIDController().setD(Constants.IntakeConstants.TOP_ROLLER_D);
-
-      this.bottomRoller.getPIDController().setP(Constants.IntakeConstants.BOTTOM_ROLLER_P);
-      this.bottomRoller.getPIDController().setI(Constants.IntakeConstants.BOTTOM_ROLLER_I);
-      this.bottomRoller.getPIDController().setD(Constants.IntakeConstants.BOTTOM_ROLLER_D);
    }
 
    public void setVelocity (double velocity) {
 
-      double topMax = 5820 * Constants.IntakeConstants.TOP_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.TOP_ROLLER_DIAMETER) * (1 / 60.0);
-      double bottomMax = 11710 * Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION * (Math.PI * Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER) * (1 / 60.0);
+      double topMaximumVelocity = MotorUtil.getMaxVelocity(
+         frc.robot.util.MotorUtil.MotorType.NEO,
+         Constants.IntakeConstants.TOP_ROLLER_DIAMETER,
+         Constants.IntakeConstants.TOP_ROLLER_REDUCTION
+      );
 
-      this.topRoller.set(velocity / topMax);
-      this.bottomRoller.set(velocity / bottomMax);
+      double bottomMaximumVelocity = MotorUtil.getMaxVelocity(
+         frc.robot.util.MotorUtil.MotorType.NEO550,
+         Constants.IntakeConstants.BOTTOM_ROLLER_DIAMETER,
+         Constants.IntakeConstants.BOTTOM_ROLLER_REDUCTION
+      );
+
+      this.topRoller.set(velocity / topMaximumVelocity);
+      this.bottomRoller.set(velocity / bottomMaximumVelocity);
    }
 
    public void setIdleBehavior (IdleBehavior idleBehavior) {

@@ -17,6 +17,7 @@ public class EjectNote extends Command {
     @Override
     public void execute () { 
         
-        this.shooter.setVelocity(Constants.ShooterConstants.EJECT_SPEED);
+        this.shooter.setTopVelocity(Constants.ShooterConstants.EJECT_SPEED);
+        this.shooter.setBottomVelocity(Constants.ShooterConstants.EJECT_SPEED);
     }
 }

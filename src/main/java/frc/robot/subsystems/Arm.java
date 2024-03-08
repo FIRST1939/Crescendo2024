@@ -24,14 +24,14 @@ public class Arm extends SubsystemBase {
     private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
+    public double manualPivotAdjustment = 0.0;
+
     public Arm () {
 
         this.pivot = new TalonFX(Constants.ArmConstants.PIVOT);
         this.pivot.setInverted(Constants.ArmConstants.PIVOT_INVERTED);
 
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
-        this.pivotEncoder.setPositionOffset(Constants.ArmConstants.PIVOT_OFFSET + this.pivotEncoder.getAbsolutePosition());
-
         this.pivotController = new PIDController(
             Constants.ArmConstants.PIVOT_P,
             Constants.ArmConstants.PIVOT_I,
@@ -43,7 +43,7 @@ public class Arm extends SubsystemBase {
 
         this.setpointTimer = new Timer();
 
-        this.pivotPosition = () -> (-this.pivotEncoder.get() * 360) % 360;
+        this.pivotPosition = () -> -(this.pivotEncoder.getAbsolutePosition() - Constants.ArmConstants.PIVOT_OFFSET) * 360;
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
     }
@@ -61,8 +61,10 @@ public class Arm extends SubsystemBase {
 
     public void setPosition (double position) { 
 
-        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
+        if (this.atPosition() && this.setpointTimer.get() > 0.5) { this.pivotController.setI(0); }
+        else { this.pivotController.setI(Constants.ArmConstants.PIVOT_I); }
 
+        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
         if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ArmConstants.INPUT_TOLERANCE) { input = 0.0; }
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
@@ -70,6 +72,7 @@ public class Arm extends SubsystemBase {
         this.pivot.set(input);
     }
 
+    public double getPosition () { return this.pivotPosition.getAsDouble(); }
     public boolean atPosition () { return this.pivotController.atSetpoint(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {

@@ -60,14 +60,6 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double TOP_ROLLER_P = 0.025;
-        public static final double TOP_ROLLER_I = 0.0;
-        public static final double TOP_ROLLER_D = 0.0;
-
-        public static final double BOTTOM_ROLLER_P = 0.025;
-        public static final double BOTTOM_ROLLER_I = 0.0;
-        public static final double BOTTOM_ROLLER_D = 0.0;
-
         public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = 0.0;
         public static final double EJECT_SPEED = 0.0;
@@ -79,31 +71,27 @@ public final class Constants {
         public static final int BACK_ROLLERS = 34;
 
         public static final boolean FRONT_ROLLERS_INVERTED = false;
-        public static final boolean BACK_ROLLERS_INVERTED = false;
+        public static final boolean BACK_ROLLERS_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final double FRONT_ROLLERS_REDUCTION = 1.0;
-        public static final double BACK_ROLLERS_REDUCTION = (1.0 / 2.89) * (16.0 / 30.0);
+        public static final double BACK_ROLLERS_REDUCTION = (44.0 / 42.0);
 
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
         public static final int START_BEAM = 9;
         public static final int END_BEAM = 1;
+
+        public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 30.0;
+        public static final double LOAD_CURRENT_WAIT = 0.15;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_ROLLERS_P = 0.0;
-        public static final double FRONT_ROLLERS_I = 0.0;
-        public static final double FRONT_ROLLERS_D = 0.0;
-
-        public static final double BACK_ROLLERS_P = 0.0;
-        public static final double BACK_ROLLERS_I = 0.0;
-        public static final double BACK_ROLLERS_D = 0.0;
-
         public static final double FRONT_INDEX_SPEED = 100.0;
-        public static final double BACK_INDEX_SPEED = 20.0;
+        public static final double BACK_INDEX_SPEED = 100.0;
+        public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = 0.0;
         public static final double FRONT_EJECT_SPEED = 0.0;
@@ -134,7 +122,7 @@ public final class Constants {
         public static final double PIVOT_TOLERANCE = 0.5;
 
         public static final double LOCK_POSITION = 22.0;
-        public static final double PIVOT_POSITION = 22.0;
+        public static double PIVOT_POSITION = 16.5;
     }
 
     public final class ShooterConstants {
@@ -154,8 +142,9 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static final double SHOOT_SPEED = 600.0;
-        public static final double SHOOT_TOLERANCE = 25.0;
+        public static double TOP_SHOOT_SPEED = 1200.0;
+        public static double BOTTOM_SHOOT_SPEED = 1200.0;
+        public static double SHOOT_TOLERANCE = 30.0;
         public static final double EJECT_SPEED = 0.0;
     }
 

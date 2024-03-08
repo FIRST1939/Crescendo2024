@@ -12,12 +12,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
+import frc.robot.commands.ShotFeedback;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
@@ -38,6 +40,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Alerts;
@@ -53,6 +56,7 @@ public class RobotContainer {
     private Indexer indexer;
     private Arm arm;
     private Shooter shooter;
+    private Logging logging;
 
     private StateMachine intakeStateMachine;
     private StateMachine indexerStateMachine;
@@ -74,6 +78,13 @@ public class RobotContainer {
         this.indexer = new Indexer();
         this.arm = new Arm();
         this.shooter = new Shooter();
+
+        this.logging = new Logging(
+            () -> this.arm.getPosition(), 
+            () -> this.shooter.getTopVelocity(), 
+            () -> this.shooter.getBottomVelocity(),
+            () -> this.indexer.getBeamBreak()
+        );
 
         this.intakeStateMachine = new StateMachine(Alerts.intakeStateMachine, this.intake);
         this.indexerStateMachine = new StateMachine(Alerts.indexerStateMachine, this.indexer);
@@ -101,6 +112,14 @@ public class RobotContainer {
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
+
+        this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
+        this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
+
+        this.driverTwo.x().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Speaker")));
+        this.driverTwo.a().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Amp")));
+        this.driverTwo.y().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Note")));
+        this.driverTwo.b().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Defense")));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -125,6 +144,9 @@ public class RobotContainer {
             this.indexerStateMachine.activateState(IdleIndexer.class);
             this.armStateMachine.activateState(LockArm.class);
             this.shooterStateMachine.activateState(IdleShooter.class);
+
+            this.logging.setLogging(false);
+            new ShotFeedback(this.logging).schedule();
         }
 
         if (this.driverTwo.getHID().getLeftBumperPressed()) {
@@ -133,6 +155,10 @@ public class RobotContainer {
 
                 this.intakeStateMachine.activateState(OutakeNote.class);
                 this.indexerStateMachine.activateState(ReverseNote.class);
+            } else if (intakeState == OutakeNote.class || indexerState == ReverseNote.class) {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
             }
         }
 
@@ -151,7 +177,12 @@ public class RobotContainer {
                 } else if (this.arm.atPosition() && this.shooter.atSpeed()) { 
                     
                     this.indexerStateMachine.activateState(FeedNote.class); 
+                    this.logging.setLogging(true);
                 }
+            } else if (intakeState == IntakeNote.class || indexerState == IndexNote.class) {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
             }
         }
 
@@ -249,4 +280,6 @@ public class RobotContainer {
             this.shooter, shooterIdle
         ).schedule();
     }
+
+    public void saveLog () { this.logging.saveLog(); }
 }

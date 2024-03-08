@@ -112,6 +112,8 @@ public class Robot extends TimedRobot {
 
 		this.disabledTimer.reset();
 		this.disabledTimer.start();
+
+		this.robotContainer.saveLog();
 	}
 
 	@Override
