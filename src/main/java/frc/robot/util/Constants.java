@@ -41,24 +41,6 @@ public final class Constants {
 
         public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
         public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
-
-        public static final Config DRIVE_SYSID_CONFIG = new Config(
-            Units.Volts.of(1.5).per(Units.Second),
-            Units.Volts.of(9.6),
-            Units.Seconds.of(10)
-        );
-
-        public static final Config ANGLE_SYSID_CONFIG = new Config(
-            Units.Volts.of(1.25).per(Units.Second),
-            Units.Volts.of(7.8),
-            Units.Seconds.of(10)
-        );
-
-        public static final double DRIVE_SYSID_QUASISTATIC_TIMEOUT = 7.5;
-        public static final double DRIVE_SYSID_DYNAMIC_TIMEOUT = 3.0;
-
-        public static final double ANGLE_SYSID_QUASISTATIC_TIMEOUT = 8.0;
-        public static final double ANGLE_SYSID_DYNAMIC_TIMEOUT = 3.0;
     }
 
     public final class IntakeConstants {
