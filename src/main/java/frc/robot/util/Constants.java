@@ -63,7 +63,7 @@ public final class Constants {
 
         public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = -100.0;
-        public static final double EJECT_SPEED = 120.0;
+        public static final double EJECT_SPEED = 240.0;
     }
 
     public final class IndexerConstants {
@@ -96,8 +96,8 @@ public final class Constants {
         public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = -100.0;
-        public static final double FRONT_EJECT_SPEED = 120.0;
-        public static final double BACK_EJECT_SPEED = 120.0;
+        public static final double FRONT_EJECT_SPEED = 560.0;
+        public static final double BACK_EJECT_SPEED = 510.0;
     }
 
     public final class ArmConstants {
