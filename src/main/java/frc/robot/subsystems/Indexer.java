@@ -20,6 +20,7 @@ public class Indexer extends SubsystemBase {
     private DigitalInput endBeam;
 
     private Timer loadCurrentTimer;
+    private int loadCurrentCount;
     private Timer feedTimer;
 
     public Indexer () {
@@ -40,6 +41,7 @@ public class Indexer extends SubsystemBase {
         this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
 
         this.loadCurrentTimer = new Timer();
+        this.loadCurrentCount = 0;
         this.feedTimer = new Timer();
     }
 
@@ -80,14 +82,20 @@ public class Indexer extends SubsystemBase {
 
         if (this.backRollers.getOutputCurrent() > Constants.IndexerConstants.LOAD_CURRENT_DIFFERENCE_THRESHOLD) {
 
-            if (this.loadCurrentTimer.get() == 0.0) { this.loadCurrentTimer.start(); }
-            else if (this.loadCurrentTimer.get() > Constants.IndexerConstants.LOAD_CURRENT_WAIT) { return Constants.IndexerConstants.LOAD_SPEED; }
+            if (this.loadCurrentTimer.get() != 0.0) {
+
+                this.loadCurrentTimer.stop();
+                this.loadCurrentTimer.reset();
+            }
+
+            this.loadCurrentCount++;
         } else {
 
-            this.loadCurrentTimer.stop();
-            this.loadCurrentTimer.reset();
+            if (this.loadCurrentTimer.get() == 0.0) { this.loadCurrentTimer.start(); }
+            else if (this.loadCurrentTimer.get() > Constants.IndexerConstants.LOAD_CURRENT_COUNT_PERIOD) { this.loadCurrentCount = 0; }
         }
 
+        if (this.loadCurrentCount > Constants.IndexerConstants.LOAD_CURRENT_COUNT_THRESHOLD) { return Constants.IndexerConstants.LOAD_SPEED; }
         return Constants.IndexerConstants.BACK_INDEX_SPEED;
     }
 

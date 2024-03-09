@@ -87,7 +87,8 @@ public final class Constants {
         public static final int END_BEAM = 1;
 
         public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 30.0;
-        public static final double LOAD_CURRENT_WAIT = 0.15;
+        public static final double LOAD_CURRENT_COUNT_PERIOD = 0.25;
+        public static final int LOAD_CURRENT_COUNT_THRESHOLD = 75;
         public static final double FEED_WAIT = 1.0;
 
         public static final double FRONT_INDEX_SPEED = 100.0;
