@@ -12,6 +12,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -146,8 +147,19 @@ public class RobotContainer {
         Class<? extends Command> armState = this.armStateMachine.getCurrentState();
         Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
 
-        if (intakeState == IntakeNote.class && this.indexer.noteContained()) { this.intakeStateMachine.activateState(IdleIntake.class); }
-        if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { this.indexerStateMachine.activateState(HoldNote.class); }
+        if (intakeState == IntakeNote.class && this.indexer.noteContained()) { 
+            
+            this.intakeStateMachine.activateState(IdleIntake.class); 
+            this.driverOne.getHID().setRumble(RumbleType.kBothRumble, 0.5);
+            this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+        }
+
+        if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { 
+            
+            this.indexerStateMachine.activateState(HoldNote.class); 
+            this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+        }
+
         if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
             
             this.indexerStateMachine.activateState(IdleIndexer.class);
