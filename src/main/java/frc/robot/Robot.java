@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -129,6 +130,9 @@ public class Robot extends TimedRobot {
 				Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
 			);
 		}
+
+		if (RobotController.getBatteryVoltage() < Constants.RobotConstants.MINIMUM_BATTERY_VOLTAGE) { Alerts.lowBattery.set(true); }
+		else { Alerts.lowBattery.set(false); }
 	}
 	
 	@Override

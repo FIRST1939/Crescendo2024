@@ -5,12 +5,18 @@ import java.io.IOException;
 
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -99,16 +105,30 @@ public class Swerve extends SubsystemBase {
         );
     }
 
+    public SwerveDrivePoseEstimator getPoseEstimator () { return this.swerveDrive.swerveDrivePoseEstimator; }
     public Rotation2d getHeading () { return this.swerveDrive.getYaw(); }
     public Pose2d getPose () { return this.swerveDrive.getPose(); }
 
     public ChassisSpeeds getRobotVelocity () { return this.swerveDrive.getRobotVelocity(); }
     public ChassisSpeeds getFieldVelocity () { return this.swerveDrive.getFieldVelocity(); }
 
-    public void zeroGyro () { this.swerveDrive.zeroGyro(); }
+    public void zeroGyro () {
+
+        Translation2d translation = this.getPose().getTranslation();
+        Rotation2d rotation = new Rotation2d();
+
+        if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
+
+            Rotation2d allianceOriented = Rotation2d.fromDegrees(180);
+            rotation = rotation.plus(allianceOriented); 
+        }
+
+        this.resetOdometry(new Pose2d(translation, rotation));
+    }
+
     public void resetOdometry (Pose2d pose) { this.swerveDrive.resetOdometry(pose); }
     public void setChassisSpeeds (ChassisSpeeds chassisSpeeds) { this.swerveDrive.drive(chassisSpeeds); }
-    public void addVisionMeasurement (Pose2d pose2d, double timestamp) { this.swerveDrive.addVisionMeasurement(pose2d, timestamp); }
+    public void addVisionMeasurement (Pose2d pose2d, double timestamp, Matrix<N3,  N1> standardDeviations) { this.swerveDrive.addVisionMeasurement(pose2d, timestamp, standardDeviations); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

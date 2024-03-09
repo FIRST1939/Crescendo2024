@@ -11,6 +11,7 @@ public final class Constants {
 
         public static final double ROBOT_MASS = 35.4626; // Robot Weight [kg]
         public static final double LOOP_TIME = 0.13; // Control Loop Tick Timing [s]
+        public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
 
         private static final Matter BASE = new Matter(new Translation3d(-0.0057, -0.0037, 0.0813), 21.9116); // Weight Distribution of Base
         private static final Matter BATTERY = new Matter(new Translation3d(-0.2286, 0, 0.1225), 5.8468); // Weight Distribution of Battery

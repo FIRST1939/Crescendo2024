@@ -1,6 +1,7 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.util.function.IntSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -10,6 +11,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +38,7 @@ import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.Drive;
+import frc.robot.commands.swerve.TrackAprilTags;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -72,7 +75,7 @@ public class RobotContainer {
 
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
-        //this.limelight = new Limelight();
+        this.limelight = new Limelight();
 
         this.intake = new Intake();
         this.indexer = new Indexer();
@@ -100,15 +103,21 @@ public class RobotContainer {
 
     private void configureCommands () {
 
+        IntSupplier allianceOriented = () -> {
+
+            if (!DriverStation.getAlliance().isPresent()) { return -1; }
+            return DriverStation.getAlliance().get() == Alliance.Red ? 1 : -1;
+        };
+
         this.swerve.setDefaultCommand(new Drive(
             this.swerve, 
-            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftY(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
-            () -> MathUtil.applyDeadband(-this.driverOne.getHID().getLeftX(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
+            () -> MathUtil.applyDeadband(this.driverOne.getHID().getLeftY() * allianceOriented.getAsInt(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
+            () -> MathUtil.applyDeadband(this.driverOne.getHID().getLeftX() * allianceOriented.getAsInt(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getRightX(), Constants.SwerveConstants.OMEGA_DEADBAND), 
             () -> this.driverOne.getHID().getPOV()
         ));
 
-        //this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
+        this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
