@@ -68,8 +68,8 @@ public final class Constants {
 
     public final class IndexerConstants {
 
-        public static final int FRONT_ROLLERS = 33;
-        public static final int BACK_ROLLERS = 34;
+        public static final int FRONT_ROLLERS = 35;
+        public static final int BACK_ROLLERS = 37;
 
         public static final boolean FRONT_ROLLERS_INVERTED = false;
         public static final boolean BACK_ROLLERS_INVERTED = true;
@@ -102,7 +102,7 @@ public final class Constants {
 
     public final class ArmConstants {
 
-        public static final int PIVOT = 35;
+        public static final int PIVOT = 36;
         public static final boolean PIVOT_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
@@ -129,8 +129,8 @@ public final class Constants {
 
     public final class ShooterConstants {
 
-        public static final int TOP_ROLLERS = 36;
-        public static final int BOTTOM_ROLLERS = 37;
+        public static final int TOP_ROLLERS = 38;
+        public static final int BOTTOM_ROLLERS = 39;
 
         public static final boolean TOP_ROLLERS_INVERTED = false;
         public static final boolean BOTTOM_ROLLERS_INVERTED = true;
