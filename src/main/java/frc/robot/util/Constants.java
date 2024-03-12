@@ -66,6 +66,32 @@ public final class Constants {
         public static final double EJECT_SPEED = 240.0;
     }
 
+    public final class ElevatorConstants {
+
+        public static final int LEAD_ELEVATION = 33;
+        public static final int FOLLOWER_ELEVATION = 34;
+
+        public static final boolean LEAD_ELEVATION_INVERTED = false;
+        public static final boolean FOLLOWER_ELEVATION_INVERTED = false;
+
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+
+        public static final int ELEVATION_ENCODER = 9;
+        public static final double ELEVATION_OFFSET = 0.0;
+        public static final int UPPER_BOUND = 0;
+
+        public static final double ELEVATION_P = 0.0;
+        public static final double ELEVATION_I = 0.0;
+        public static final double ELEVATION_IZ = 0.0;
+        public static final double ELEVATION_D = 0.0;
+        public static final double INPUT_TOLERANCE = 0.0;
+        public static final double ELEVATION_TOLERANCE = 0.0;
+
+        public static final double LOCK_POSITION = 0.0;
+        public static final double ELEVATE_POSITION = 0.0;
+    }
+
     public final class IndexerConstants {
 
         public static final int FRONT_ROLLERS = 35;
@@ -109,8 +135,6 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int PIVOT_ENCODER = 2;
-        public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
-
         public static final double PIVOT_OFFSET = 0.76;
 
         public static final int LOWER_BOUND = 6;
