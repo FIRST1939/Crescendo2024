@@ -23,6 +23,7 @@ public class Elevator extends SubsystemBase {
     private Timer setpointTimer;
 
     private DoubleSupplier elevationPosition;
+    private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
     public Elevator () {
@@ -43,6 +44,7 @@ public class Elevator extends SubsystemBase {
         this.setpointTimer = new Timer();
 
         this.elevationPosition = () -> 0.0;
+        this.lowerBound = new DigitalInput(Constants.ElevatorConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ElevatorConstants.UPPER_BOUND);
     }
 
@@ -64,6 +66,7 @@ public class Elevator extends SubsystemBase {
 
         double input = this.elevationController.calculate(this.elevationPosition.getAsDouble(), position);
         if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ElevatorConstants.INPUT_TOLERANCE) { input = 0.0; }
+        if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
 
         this.leadElevation.set(input);

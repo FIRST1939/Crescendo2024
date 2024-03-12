@@ -77,9 +77,11 @@ public final class Constants {
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
 
-        public static final int ELEVATION_ENCODER = 9;
+        public static final int ELEVATION_ENCODER = 8;
         public static final double ELEVATION_OFFSET = 0.0;
-        public static final int UPPER_BOUND = 0;
+
+        public static final int LOWER_BOUND = 3;
+        public static final int UPPER_BOUND = 2;
 
         public static final double ELEVATION_P = 0.0;
         public static final double ELEVATION_I = 0.0;
