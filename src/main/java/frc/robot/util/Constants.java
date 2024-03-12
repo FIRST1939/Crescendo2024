@@ -83,8 +83,8 @@ public final class Constants {
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
-        public static final int START_BEAM = 9;
-        public static final int END_BEAM = 1;
+        public static final int START_BEAM = 7;
+        public static final int END_BEAM = 6;
 
         public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 30.0;
         public static final double LOAD_CURRENT_COUNT_PERIOD = 0.25;
@@ -108,13 +108,13 @@ public final class Constants {
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
-        public static final int PIVOT_ENCODER = 2;
+        public static final int PIVOT_ENCODER = 1;
         public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
 
         public static final double PIVOT_OFFSET = 0.76;
 
-        public static final int LOWER_BOUND = 6;
-        public static final int UPPER_BOUND = 5;
+        public static final int LOWER_BOUND = 5;
+        public static final int UPPER_BOUND = 4;
 
         public static final double PIVOT_P = 0.15;
         public static final double PIVOT_I = 0.15;
