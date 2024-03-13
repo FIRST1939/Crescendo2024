@@ -44,7 +44,7 @@ public class ThroughBoreEncoder {
             this.position += gain;
         } else if (encoderShift > 0.5) {
 
-            double loss = encoderReading + (1.0 - this.lastEncoderReading);
+            double loss = lastEncoderReading + (1.0 - encoderReading);
             this.position -= loss;
         } else {
 
