@@ -6,7 +6,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -18,9 +17,8 @@ public class Elevator extends SubsystemBase {
     private TalonFX followerRaise;
 
     private ThroughBoreEncoder raiseEncoder;
-    private Timer setpointTimer;
-
     private DoubleSupplier raisePosition;
+
     private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
@@ -30,9 +28,8 @@ public class Elevator extends SubsystemBase {
         this.followerRaise = new TalonFX(Constants.ElevatorConstants.FOLLOWER_RAISE);
 
         this.raiseEncoder = new ThroughBoreEncoder(Constants.ElevatorConstants.RAISE_ENCODER);
-        this.setpointTimer = new Timer();
-
         this.raisePosition = () -> (this.raiseEncoder.get() - Constants.ElevatorConstants.RAISE_OFFSET);
+
         this.lowerBound = new DigitalInput(Constants.ElevatorConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ElevatorConstants.UPPER_BOUND);
     }
@@ -41,13 +38,6 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-
-        if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
-        else if (!this.atPosition()) { 
-            
-            this.setpointTimer.stop(); 
-            this.setpointTimer.reset();
-        }
     }
 
     public void setPosition (double position) {}
