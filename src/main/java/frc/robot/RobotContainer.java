@@ -26,6 +26,9 @@ import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
+import frc.robot.commands.elevator.LockElevator;
+import frc.robot.commands.elevator.LowerElevator;
+import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.EjectNote;
 import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldNote;
@@ -40,6 +43,7 @@ import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.commands.swerve.TrackAprilTags;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
@@ -57,12 +61,14 @@ public class RobotContainer {
     private Limelight limelight;
     
     private Intake intake;
+    private Elevator elevator;
     private Indexer indexer;
     private Arm arm;
     private Shooter shooter;
     private Logging logging;
 
     private StateMachine intakeStateMachine;
+    private StateMachine elevatorStateMachine;
     private StateMachine indexerStateMachine;
     private StateMachine armStateMachine;
     private StateMachine shooterStateMachine;
@@ -79,6 +85,7 @@ public class RobotContainer {
         this.limelight = new Limelight();
 
         this.intake = new Intake();
+        this.elevator = new Elevator();
         this.indexer = new Indexer();
         this.arm = new Arm();
         this.shooter = new Shooter();
@@ -91,6 +98,7 @@ public class RobotContainer {
         );
 
         this.intakeStateMachine = new StateMachine(Alerts.intakeStateMachine, this.intake);
+        this.elevatorStateMachine = new StateMachine(Alerts.elevatorStateMachine, this.elevator);
         this.indexerStateMachine = new StateMachine(Alerts.indexerStateMachine, this.indexer);
         this.armStateMachine = new StateMachine(Alerts.armStateMachine, this.arm);
         this.shooterStateMachine = new StateMachine(Alerts.shooterStateMachine, this.shooter);
@@ -132,9 +140,10 @@ public class RobotContainer {
         this.driverTwo.b().onTrue(new InstantCommand(() -> Swerve.target = Target.DEFENSE));
     }
 
-    public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
+    public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
 
         this.intakeStateMachine.activateState(intakeState);
+        this.elevatorStateMachine.activateState(elevatorState);
         this.indexerStateMachine.activateState(indexerState);
         this.armStateMachine.activateState(armState);
         this.shooterStateMachine.activateState(shooterState);
@@ -143,6 +152,7 @@ public class RobotContainer {
     public void runStateMachines () {
 
         Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+        Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
         Class<? extends Command> armState = this.armStateMachine.getCurrentState();
         Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
@@ -224,6 +234,34 @@ public class RobotContainer {
                 this.intakeStateMachine.activateState(IdleIntake.class);
                 this.indexerStateMachine.activateState(IdleIndexer.class);
                 this.shooterStateMachine.activateState(IdleShooter.class);
+            }
+        }
+
+        if (this.driverTwo.getHID().getPOV() == 90) {
+
+            if (elevatorState != RaiseElevator.class) {
+
+                this.elevatorStateMachine.activateState(RaiseElevator.class);
+            }
+        } else {
+
+            if (elevatorState == RaiseElevator.class) {
+
+                this.elevatorStateMachine.activateState(LockElevator.class);
+            }
+        }
+
+        if (this.driverTwo.getHID().getPOV() == 270) {
+
+            if (elevatorState != LowerElevator.class) {
+
+                this.elevatorStateMachine.activateState(LowerElevator.class);
+            }
+        } else {
+
+            if (elevatorState == LowerElevator.class) {
+
+                this.elevatorStateMachine.activateState(LockElevator.class);
             }
         }
     }

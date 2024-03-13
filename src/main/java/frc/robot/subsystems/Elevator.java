@@ -42,6 +42,14 @@ public class Elevator extends SubsystemBase {
 
     public void setPosition (double position) {}
 
+    public void setVelocity (double velocity) {
+
+        if (velocity < 0.0 && this.lowerBound.get()) velocity = 0.0;
+        if (velocity > 0.0 && this.upperBound.get()) velocity = 0.0;
+        this.leadRaise.set(velocity);
+        this.followerRaise.set(velocity);
+    }
+
     public double getPosition () { return this.raisePosition.getAsDouble(); }
     public boolean atPosition () { return false; }
 
