@@ -5,11 +5,10 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
 
@@ -18,8 +17,7 @@ public class Elevator extends SubsystemBase {
     private TalonFX leadElevation;
     private TalonFX followerElevation;
 
-    private DutyCycleEncoder elevationEncoder;
-    private PIDController elevationController;
+    private ThroughBoreEncoder elevationEncoder;
     private Timer setpointTimer;
 
     private DoubleSupplier elevationPosition;
@@ -31,25 +29,18 @@ public class Elevator extends SubsystemBase {
         this.leadElevation = new TalonFX(Constants.ElevatorConstants.LEAD_ELEVATION);
         this.followerElevation = new TalonFX(Constants.ElevatorConstants.FOLLOWER_ELEVATION);
 
-        this.elevationEncoder = new DutyCycleEncoder(Constants.ElevatorConstants.ELEVATION_ENCODER);
-        this.elevationController = new PIDController(
-            Constants.ElevatorConstants.ELEVATION_P,
-            Constants.ElevatorConstants.ELEVATION_I,
-            Constants.ElevatorConstants.ELEVATION_D
-        );
-
-        this.elevationController.setIZone(Constants.ElevatorConstants.ELEVATION_IZ);
-        this.elevationController.setTolerance(Constants.ElevatorConstants.ELEVATION_TOLERANCE);
-
+        this.elevationEncoder = new ThroughBoreEncoder(Constants.ElevatorConstants.ELEVATION_ENCODER);
         this.setpointTimer = new Timer();
 
-        this.elevationPosition = () -> 0.0;
+        this.elevationPosition = () -> (this.elevationEncoder.get() - Constants.ElevatorConstants.ELEVATION_OFFSET) * 360;
         this.lowerBound = new DigitalInput(Constants.ElevatorConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ElevatorConstants.UPPER_BOUND);
     }
 
     @Override
     public void periodic () {
+
+        this.elevationEncoder.poll();
 
         if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
         else if (!this.atPosition()) { 
@@ -59,22 +50,10 @@ public class Elevator extends SubsystemBase {
         }
     }
 
-    public void setPosition (double position) { 
-
-        if (this.atPosition() && this.setpointTimer.get() > 0.5) { this.elevationController.setI(0); }
-        else { this.elevationController.setI(Constants.ElevatorConstants.ELEVATION_I); }
-
-        double input = this.elevationController.calculate(this.elevationPosition.getAsDouble(), position);
-        if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ElevatorConstants.INPUT_TOLERANCE) { input = 0.0; }
-        if (input < 0.0 && this.lowerBound.get()) input = 0.0;
-        if (input > 0.0 && this.upperBound.get()) input = 0.0;
-
-        this.leadElevation.set(input);
-        this.followerElevation.set(input);
-    }
+    public void setPosition (double position) {}
 
     public double getPosition () { return this.elevationPosition.getAsDouble(); }
-    public boolean atPosition () { return this.elevationController.atSetpoint(); }
+    public boolean atPosition () { return false; }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 
