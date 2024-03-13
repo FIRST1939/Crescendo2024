@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj.Timer;
 public class ThroughBoreEncoder {
     
     private final DutyCycleEncoder encoder;
-    private double offset;
-
     private final Timer startupTimer;
     private boolean initialized;
 
@@ -17,8 +15,6 @@ public class ThroughBoreEncoder {
     public ThroughBoreEncoder (int channel) {
 
         this.encoder = new DutyCycleEncoder(channel);
-        this.offset = 0.0;
-
         this.startupTimer = new Timer();
         this.initialized = false;
 
@@ -59,5 +55,4 @@ public class ThroughBoreEncoder {
     }
 
     public double get () { return this.position; }
-    public void setOffset (double offset) { this.offset = offset; }
 }
