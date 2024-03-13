@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -47,6 +46,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Swerve.Target;
 import frc.robot.util.Alerts;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -126,10 +126,10 @@ public class RobotContainer {
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
 
-        this.driverTwo.x().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Speaker")));
-        this.driverTwo.a().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Amp")));
-        this.driverTwo.y().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Note")));
-        this.driverTwo.b().onTrue(new InstantCommand(() -> SmartDashboard.putString("Target", "Defense")));
+        this.driverTwo.x().onTrue(new InstantCommand(() -> Swerve.target = Target.SPEAKER));
+        this.driverTwo.a().onTrue(new InstantCommand(() -> Swerve.target = Target.AMP));
+        this.driverTwo.y().onTrue(new InstantCommand(() -> Swerve.target = Target.NOTE));
+        this.driverTwo.b().onTrue(new InstantCommand(() -> Swerve.target = Target.DEFENSE));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {

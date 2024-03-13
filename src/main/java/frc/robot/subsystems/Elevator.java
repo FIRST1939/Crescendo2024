@@ -14,25 +14,25 @@ import frc.robot.util.Constants.IdleBehavior;
 
 public class Elevator extends SubsystemBase {
     
-    private TalonFX leadElevation;
-    private TalonFX followerElevation;
+    private TalonFX leadRaise;
+    private TalonFX followerRaise;
 
-    private ThroughBoreEncoder elevationEncoder;
+    private ThroughBoreEncoder raiseEncoder;
     private Timer setpointTimer;
 
-    private DoubleSupplier elevationPosition;
+    private DoubleSupplier raisePosition;
     private DigitalInput lowerBound;
     private DigitalInput upperBound;
 
     public Elevator () {
 
-        this.leadElevation = new TalonFX(Constants.ElevatorConstants.LEAD_ELEVATION);
-        this.followerElevation = new TalonFX(Constants.ElevatorConstants.FOLLOWER_ELEVATION);
+        this.leadRaise = new TalonFX(Constants.ElevatorConstants.LEAD_RAISE);
+        this.followerRaise = new TalonFX(Constants.ElevatorConstants.FOLLOWER_RAISE);
 
-        this.elevationEncoder = new ThroughBoreEncoder(Constants.ElevatorConstants.ELEVATION_ENCODER);
+        this.raiseEncoder = new ThroughBoreEncoder(Constants.ElevatorConstants.RAISE_ENCODER);
         this.setpointTimer = new Timer();
 
-        this.elevationPosition = () -> (this.elevationEncoder.get() - Constants.ElevatorConstants.ELEVATION_OFFSET) * 360;
+        this.raisePosition = () -> (this.raiseEncoder.get() - Constants.ElevatorConstants.RAISE_OFFSET);
         this.lowerBound = new DigitalInput(Constants.ElevatorConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ElevatorConstants.UPPER_BOUND);
     }
@@ -40,7 +40,7 @@ public class Elevator extends SubsystemBase {
     @Override
     public void periodic () {
 
-        this.elevationEncoder.poll();
+        this.raiseEncoder.poll();
 
         if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
         else if (!this.atPosition()) { 
@@ -52,19 +52,19 @@ public class Elevator extends SubsystemBase {
 
     public void setPosition (double position) {}
 
-    public double getPosition () { return this.elevationPosition.getAsDouble(); }
+    public double getPosition () { return this.raisePosition.getAsDouble(); }
     public boolean atPosition () { return false; }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 
         if (idleBehavior == IdleBehavior.COAST) { 
             
-            this.leadElevation.setNeutralMode(NeutralModeValue.Coast); 
-            this.followerElevation.setNeutralMode(NeutralModeValue.Coast);
+            this.leadRaise.setNeutralMode(NeutralModeValue.Coast); 
+            this.followerRaise.setNeutralMode(NeutralModeValue.Coast);
         } else if (idleBehavior == IdleBehavior.BRAKE) { 
             
-            this.leadElevation.setNeutralMode(NeutralModeValue.Brake); 
-            this.followerElevation.setNeutralMode(NeutralModeValue.Brake);
+            this.leadRaise.setNeutralMode(NeutralModeValue.Brake); 
+            this.followerRaise.setNeutralMode(NeutralModeValue.Brake);
         }
     }
 }
