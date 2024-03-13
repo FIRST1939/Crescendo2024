@@ -150,14 +150,14 @@ public class RobotContainer {
         if (intakeState == IntakeNote.class && this.indexer.noteContained()) { 
             
             this.intakeStateMachine.activateState(IdleIntake.class); 
-            this.driverOne.getHID().setRumble(RumbleType.kBothRumble, 0.5);
-            this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+            this.driverOne.setRumble(RumbleType.kBothRumble, 0.5);
+            this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
         }
 
         if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { 
             
             this.indexerStateMachine.activateState(HoldNote.class); 
-            this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+            this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
         }
 
         if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
