@@ -10,7 +10,7 @@ public class ThroughBoreEncoder {
     private boolean initialized;
 
     private double lastEncoderReading;
-    private double position;
+    private int fullRotations;
 
     public ThroughBoreEncoder (int channel) {
 
@@ -21,7 +21,7 @@ public class ThroughBoreEncoder {
         this.startupTimer.start();
 
         this.lastEncoderReading = 0.0;
-        this.position = 0.0;
+        this.fullRotations = 0;
     }
 
     public void poll () {
@@ -31,28 +31,16 @@ public class ThroughBoreEncoder {
         if (!this.initialized) {
 
             this.lastEncoderReading = this.encoder.getAbsolutePosition();
-            this.position = this.lastEncoderReading;
             this.initialized = true;
         }
 
         double encoderReading = this.encoder.getAbsolutePosition();
         double encoderShift = encoderReading - this.lastEncoderReading;
 
-        if (encoderShift < -0.5) {
-
-            double gain = (1.0 - this.lastEncoderReading) + encoderReading;
-            this.position += gain;
-        } else if (encoderShift > 0.5) {
-
-            double loss = lastEncoderReading + (1.0 - encoderReading);
-            this.position -= loss;
-        } else {
-
-            this.position += encoderShift;
-        }
-
+        if (encoderShift < -0.5) { this.fullRotations++; } 
+        else if (encoderShift > 0.5) { this.fullRotations--; }
         this.lastEncoderReading = encoderReading;
     }
 
-    public double get () { return this.position; }
+    public double get () { return (this.fullRotations + this.lastEncoderReading); }
 }
