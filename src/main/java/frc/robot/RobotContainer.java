@@ -27,7 +27,8 @@ import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
 import frc.robot.commands.elevator.LockElevator;
-import frc.robot.commands.elevator.LowerElevator;
+import frc.robot.commands.elevator.ManualLowerElevator;
+import frc.robot.commands.elevator.ManualRaiseElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.EjectNote;
 import frc.robot.commands.indexer.FeedNote;
@@ -237,15 +238,23 @@ public class RobotContainer {
             }
         }
 
+        if (this.driverTwo.getLeftTriggerAxis() > 0.5 && elevatorState == LockElevator.class) {
+
+            this.elevatorStateMachine.activateState(RaiseElevator.class);
+        } else if (this.driverTwo.getLeftTriggerAxis() < 0.5 && elevatorState == RaiseElevator.class) {
+
+            this.elevatorStateMachine.activateState(LockElevator.class);
+        }
+
         if (this.driverTwo.getHID().getPOV() == 90) {
 
-            if (elevatorState != RaiseElevator.class) {
+            if (elevatorState != ManualRaiseElevator.class) {
 
-                this.elevatorStateMachine.activateState(RaiseElevator.class);
+                this.elevatorStateMachine.activateState(ManualRaiseElevator.class);
             }
         } else {
 
-            if (elevatorState == RaiseElevator.class) {
+            if (elevatorState == ManualRaiseElevator.class) {
 
                 this.elevatorStateMachine.activateState(LockElevator.class);
             }
@@ -253,13 +262,13 @@ public class RobotContainer {
 
         if (this.driverTwo.getHID().getPOV() == 270) {
 
-            if (elevatorState != LowerElevator.class) {
+            if (elevatorState != ManualLowerElevator.class) {
 
-                this.elevatorStateMachine.activateState(LowerElevator.class);
+                this.elevatorStateMachine.activateState(ManualLowerElevator.class);
             }
         } else {
 
-            if (elevatorState == LowerElevator.class) {
+            if (elevatorState == ManualLowerElevator.class) {
 
                 this.elevatorStateMachine.activateState(LockElevator.class);
             }

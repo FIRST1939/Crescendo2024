@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.util.Constants;
 
-public class LowerElevator extends Command {
+public class ManualRaiseElevator extends Command {
     
     private Elevator elevator;
 
-    public LowerElevator (Elevator elevator) {
+    public ManualRaiseElevator (Elevator elevator) {
 
         this.elevator = elevator;
         this.addRequirements(this.elevator);
@@ -17,6 +17,6 @@ public class LowerElevator extends Command {
     @Override
     public void execute () {
 
-        this.elevator.setVelocity(Constants.ElevatorConstants.LOWER_SPEED);
+        this.elevator.setVelocity(Constants.ElevatorConstants.RAISE_SPEED);
     }
 }
