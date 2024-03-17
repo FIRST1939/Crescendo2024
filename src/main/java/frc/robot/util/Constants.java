@@ -85,9 +85,6 @@ public final class Constants {
 
         public static final double LOCK_POSITION = 0.0;
         public static final double RAISE_POSITION = 0.0;
-
-        public static final double RAISE_SPEED = 0.0;
-        public static final double LOWER_SPEED = -0.0;
     }
 
     public final class IndexerConstants {
@@ -120,6 +117,7 @@ public final class Constants {
         public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
         public static final double REVERSE_SPEED = -100.0;
+        public static final double DROP_SPEED = -100.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
     }
