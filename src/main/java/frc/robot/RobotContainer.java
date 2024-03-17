@@ -32,6 +32,7 @@ import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.indexer.IndexNote;
+import frc.robot.commands.indexer.LoadNote;
 import frc.robot.commands.indexer.ReverseNote;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.intake.IntakeNote;
@@ -150,11 +151,12 @@ public class RobotContainer {
         if (intakeState == IntakeNote.class && this.indexer.noteContained()) { 
             
             this.intakeStateMachine.activateState(IdleIntake.class); 
+            this.indexerStateMachine.activateState(LoadNote.class);
             this.driverOne.setRumble(RumbleType.kBothRumble, 0.5);
             this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
         }
 
-        if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { 
+        if (indexerState == LoadNote.class && this.indexer.noteIndexed()) { 
             
             this.indexerStateMachine.activateState(HoldNote.class); 
             this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
@@ -172,7 +174,7 @@ public class RobotContainer {
 
         if (this.driverTwo.getHID().getLeftBumperPressed()) {
 
-            if (indexerState == IdleIndexer.class || indexerState == IndexNote.class || indexerState == HoldNote.class) {
+            if (indexerState == IdleIndexer.class || indexerState == IndexNote.class || indexerState == LoadNote.class || indexerState == HoldNote.class) {
 
                 this.intakeStateMachine.activateState(OutakeNote.class);
                 this.indexerStateMachine.activateState(ReverseNote.class);
