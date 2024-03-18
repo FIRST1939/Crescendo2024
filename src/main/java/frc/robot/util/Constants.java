@@ -83,6 +83,14 @@ public final class Constants {
         public static final int LOWER_BOUND = 3;
         public static final int UPPER_BOUND = 2;
 
+        public static final double RAISE_FF = 0.0;
+        public static final double RAISE_P = 0.0;
+        public static final double RAISE_I = 0.0;
+        public static final double RAISE_IZ = 0.0;
+        public static final double RAISE_D = 0.0;
+        public static final double INPUT_TOLERANCE = 0.0;
+        public static final double RAISE_TOLERANCE = 0.0;
+
         public static final double LOCK_POSITION = 0.0;
         public static final double RAISE_POSITION = 0.0;
     }
