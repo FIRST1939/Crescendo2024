@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -42,6 +43,8 @@ public class Indexer extends SubsystemBase {
 
     @Override
     public void periodic () {
+
+        SmartDashboard.putBoolean("End Beam", this.endBeam.get());
 
         if (this.endBeam.get() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
         else if (!this.endBeam.get()) {

@@ -86,13 +86,13 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
-        public static final double LOAD_WAIT = 2.0;
+        public static final double LOAD_WAIT = 60.0;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_INDEX_SPEED = 100.0;
-        public static final double BACK_INDEX_SPEED = 100.0;
-        public static final double LOAD_SPEED = 20.0;
-        public static final double FEED_SPEED = 100.0;
+        public static final double FRONT_INDEX_SPEED = -100.0;
+        public static final double BACK_INDEX_SPEED = 300.0;
+        public static final double LOAD_SPEED = 375.0;
+        public static final double FEED_SPEED = 375.0;
         public static final double REVERSE_SPEED = -100.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
@@ -107,12 +107,10 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int PIVOT_ENCODER = 1;
-        public static final double PIVOT_REDUCTION = (1.0 / 36.0) * (36.0 / 44.0) * (15.0 / 54.0);
+        public static final double PIVOT_OFFSET = 0.3468;
 
-        public static final double PIVOT_OFFSET = 0.76;
-
-        public static final int LOWER_BOUND = 5;
-        public static final int UPPER_BOUND = 4;
+        public static final int LOWER_BOUND = 4;
+        public static final int UPPER_BOUND = 5;
 
         public static final double PIVOT_P = 0.15;
         public static final double PIVOT_I = 0.15;
@@ -121,8 +119,8 @@ public final class Constants {
         public static final double INPUT_TOLERANCE = 0.075;
         public static final double PIVOT_TOLERANCE = 0.5;
 
-        public static final double LOCK_POSITION = 22.0;
-        public static double PIVOT_POSITION = 16.5;
+        public static final double LOCK_POSITION = 24.0;
+        public static double PIVOT_POSITION = 60.0;
     }
 
     public final class ShooterConstants {

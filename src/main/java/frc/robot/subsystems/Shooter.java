@@ -41,7 +41,9 @@ public class Shooter extends SubsystemBase {
     public void setTopVelocity (double velocity) {
 
         this.topBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { return; }
+        if (velocity == 0.0) { 
+            this.topRollers.set(0);
+            return; }
 
         this.topRollers.set(this.topBangBangController.calculate(this.getTopVelocity()));
     }
@@ -49,7 +51,9 @@ public class Shooter extends SubsystemBase {
     public void setBottomVelocity (double velocity) {
 
         this.bottomBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { return; }
+        if (velocity == 0.0) { 
+            this.bottomRollers.set(0);
+            return; }
 
         this.bottomRollers.set(this.bottomBangBangController.calculate(this.getBottomVelocity()));
     }

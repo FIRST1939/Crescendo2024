@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -51,6 +52,10 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic () {
 
+        SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
+        SmartDashboard.putBoolean("Upper Bound", this.upperBound.get());
+        SmartDashboard.putBoolean("Lower Bound", this.lowerBound.get());
+
         if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
         else if (!this.atPosition()) { 
             
@@ -69,7 +74,7 @@ public class Arm extends SubsystemBase {
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
 
-        this.pivot.set(input);
+        this.pivot.set(input/10);
     }
 
     public double getPosition () { return this.pivotPosition.getAsDouble(); }

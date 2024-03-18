@@ -42,7 +42,7 @@ public class Controller extends CommandXboxController implements Subsystem {
 
     public void setRumble (RumbleType rumbleType, double value) {
 
-        this.getHID().setRumble(rumbleType, value);
+//this.getHID().setRumble(rumbleType, value);
         this.rumbleTimer.restart();
     }
 }
