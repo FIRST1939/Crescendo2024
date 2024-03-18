@@ -233,7 +233,7 @@ public class RobotContainer {
 
             if (rightBumper) {
 
-                if (indexerState == HoldNote.class) {
+                if (indexerState == IdleIndexer.class || indexerState == HoldNote.class) {
 
                     if (elevatorState == LockElevator.class) {
 
