@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.6111841932161877,
-        "y": 4.281472617922088
+        "x": 0.55,
+        "y": 2.05
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7868608269406936,
-        "y": 3.004646322299011
+        "x": 2.6261908111200483,
+        "y": 1.0955712556679744
       },
       "isLocked": false,
-      "linkedName": "F3"
-    },
-    {
-      "anchor": {
-        "x": 4.757076736375695,
-        "y": 2.0913990253906443
-      },
-      "prevControl": {
-        "x": 4.360169439714464,
-        "y": 2.303258020674296
-      },
-      "nextControl": {
-        "x": 5.708295703628444,
-        "y": 1.5836625932511128
-      },
-      "isLocked": true,
-      "linkedName": null
+      "linkedName": "Right Solo Start"
     },
     {
       "anchor": {
         "x": 8.35,
-        "y": 0.77
+        "y": 2.45
       },
       "prevControl": {
-        "x": 7.85,
-        "y": 0.77
+        "x": 7.6666746501172405,
+        "y": 1.751326033685054
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "C5"
+      "isLocked": false,
+      "linkedName": "C4"
     }
   ],
   "rotationTargets": [],
@@ -61,7 +45,7 @@
   "reversed": false,
   "folder": "Auto Starts",
   "previewStartingState": {
-    "rotation": 1.51274588000325,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true
