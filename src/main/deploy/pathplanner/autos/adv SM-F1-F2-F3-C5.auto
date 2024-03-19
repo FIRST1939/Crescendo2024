@@ -5,7 +5,7 @@
       "x": 0.75,
       "y": 6.72
     },
-    "rotation": 60.0
+    "rotation": 61.344387646500785
   },
   "command": {
     "type": "sequential",
@@ -44,13 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F2-C1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C1 - CL Shoot"
+            "pathName": "F2-F3"
           }
         },
         {
@@ -62,13 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CL Shoot - C2"
+            "pathName": "F3 - C5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C2 - CL Shoot"
+            "pathName": "C5 - CR Shoot"
           }
         },
         {

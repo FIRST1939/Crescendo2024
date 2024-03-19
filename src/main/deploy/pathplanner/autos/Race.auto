@@ -2,37 +2,50 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.72
+      "x": 0.55,
+      "y": 2.05
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Left Side Start - F1"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eject"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1-C1"
+            "pathName": "Right Start - C4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mess C1-C4"
+            "pathName": "C4-C3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C4 - CC Shoot"
+            "pathName": "C3-C2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-C1"
           }
         }
       ]
