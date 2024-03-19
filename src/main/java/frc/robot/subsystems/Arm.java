@@ -74,7 +74,7 @@ public class Arm extends SubsystemBase {
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
 
-        this.pivot.set(input/10);
+        this.pivot.set(input);
     }
 
     public double getPosition () { return this.pivotPosition.getAsDouble(); }
