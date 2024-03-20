@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.72
+      "x": 1.45,
+      "y": 5.55
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start - F1"
+            "pathName": "Center Start - F2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nF2-FS"
           }
         },
         {
@@ -32,7 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1-F2"
+            "pathName": "FS-F1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nF1-FS"
           }
         },
         {
@@ -44,31 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F2-C1"
+            "pathName": "nFS-F3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C1 - CL Shoot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CL Shoot - C2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C2 - CL Shoot"
+            "pathName": "nF3-FS"
           }
         },
         {

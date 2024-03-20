@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.35,
-        "y": 7.45
+        "x": 2.45,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.144420832172105,
-        "y": 7.318877311691256
+        "x": 1.6130033175141583,
+        "y": 6.762042989255249
       },
-      "isLocked": true,
-      "linkedName": "C1"
+      "isLocked": false,
+      "linkedName": "zF1"
     },
     {
       "anchor": {
-        "x": 5.28,
-        "y": 6.365748765532543
+        "x": 1.4,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 6.424992048519978,
-        "y": 6.632255647432301
+        "x": 1.4033305329703833,
+        "y": 6.106748904108341
       },
       "nextControl": null,
-      "isLocked": true,
-      "linkedName": "Center Shoot (C1,C2)"
+      "isLocked": false,
+      "linkedName": "Center Start"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 10.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,11 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 16.237000428988424,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Auto Starts",
-  "previewStartingState": null,
+  "folder": "Front Line",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

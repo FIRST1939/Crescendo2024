@@ -157,6 +157,7 @@ public class RobotContainer {
         Class<? extends Command> armState = this.armStateMachine.getCurrentState();
         Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
 
+
         boolean leftBumper = this.driverTwo.getHID().getLeftBumperPressed();
         boolean rightBumper = this.driverTwo.getHID().getRightBumperPressed();
 
@@ -250,7 +251,7 @@ public class RobotContainer {
             }
         }
 
-        if (this.driverTwo.getRightTriggerAxis() > 0.5) {
+        if (this.driverTwo.getLeftTriggerAxis() > 0.5) {
 
             if (!(intakeState == EjectNote.class || indexerState == EjectNote.class || shooterState == EjectNote.class)) {
 

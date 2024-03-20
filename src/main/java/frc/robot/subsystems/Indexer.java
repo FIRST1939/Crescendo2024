@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -16,11 +17,11 @@ public class Indexer extends SubsystemBase {
 
     private CANSparkFlex frontRollers;
     private CANSparkMax backRollers;
+    
     private DigitalInput startBeam;
     private DigitalInput endBeam;
 
-    private Timer loadCurrentTimer;
-    private int loadCurrentCount;
+    private Timer loadTimer;
     private Timer feedTimer;
 
     public Indexer () {
@@ -40,13 +41,21 @@ public class Indexer extends SubsystemBase {
         this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
         this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
 
-        this.loadCurrentTimer = new Timer();
-        this.loadCurrentCount = 0;
+        this.loadTimer = new Timer();
         this.feedTimer = new Timer();
     }
 
     @Override
     public void periodic () {
+
+        SmartDashboard.putBoolean("End Beam", this.endBeam.get());
+
+        if (!this.endBeam.get() && this.loadTimer.get() == 0.0) { this.loadTimer.start(); }
+        else if (this.endBeam.get()) {
+
+            this.loadTimer.stop();
+            this.loadTimer.reset();
+        }
 
         if (this.endBeam.get() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
         else if (!this.endBeam.get()) {
@@ -78,29 +87,8 @@ public class Indexer extends SubsystemBase {
         this.backRollers.set(velocity / maximumVelocity);
     }
 
-    public double getBackLoadSpeed () {
-
-        if (this.backRollers.getOutputCurrent() > Constants.IndexerConstants.LOAD_CURRENT_DIFFERENCE_THRESHOLD) {
-
-            if (this.loadCurrentTimer.get() != 0.0) {
-
-                this.loadCurrentTimer.stop();
-                this.loadCurrentTimer.reset();
-            }
-
-            this.loadCurrentCount++;
-        } else {
-
-            if (this.loadCurrentTimer.get() == 0.0) { this.loadCurrentTimer.start(); }
-            else if (this.loadCurrentTimer.get() > Constants.IndexerConstants.LOAD_CURRENT_COUNT_PERIOD) { this.loadCurrentCount = 0; }
-        }
-
-        if (this.loadCurrentCount > Constants.IndexerConstants.LOAD_CURRENT_COUNT_THRESHOLD) { return Constants.IndexerConstants.LOAD_SPEED; }
-        return Constants.IndexerConstants.BACK_INDEX_SPEED;
-    }
-
     public boolean noteContained () { return !(this.startBeam.get() && this.endBeam.get()); }
-    public boolean noteIndexed () { return !this.endBeam.get(); }
+    public boolean noteIndexed () { return !this.endBeam.get() && this.loadTimer.get() > Constants.IndexerConstants.LOAD_TIME; }
     public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
 
     public boolean getBeamBreak () { return this.endBeam.get(); }

@@ -24,11 +24,17 @@
         "y": 6.706003621895844
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "Center Shoot (C1,C2)"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 10.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {

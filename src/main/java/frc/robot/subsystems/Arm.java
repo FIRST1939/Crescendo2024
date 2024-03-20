@@ -2,13 +2,14 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -17,8 +18,9 @@ public class Arm extends SubsystemBase {
     
     private TalonFX pivot;
     private DutyCycleEncoder pivotEncoder;
+
     private PIDController pivotController;
-    private Timer setpointTimer;
+    private VoltageOut voltageOut = new VoltageOut(0);
 
     private DoubleSupplier pivotPosition;
     private DigitalInput lowerBound;
@@ -34,14 +36,9 @@ public class Arm extends SubsystemBase {
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
         this.pivotController = new PIDController(
             Constants.ArmConstants.PIVOT_P,
-            Constants.ArmConstants.PIVOT_I,
-            Constants.ArmConstants.PIVOT_D
+            0.0,
+            0.0
         );
-
-        this.pivotController.setIZone(Constants.ArmConstants.PIVOT_IZ);
-        this.pivotController.setTolerance(Constants.ArmConstants.PIVOT_TOLERANCE);
-
-        this.setpointTimer = new Timer();
 
         this.pivotPosition = () -> -(this.pivotEncoder.getAbsolutePosition() - Constants.ArmConstants.PIVOT_OFFSET) * 360;
         this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
@@ -51,25 +48,20 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic () {
 
-        if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
-        else if (!this.atPosition()) { 
-            
-            this.setpointTimer.stop(); 
-            this.setpointTimer.reset();
-        }
+        SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
+        SmartDashboard.putBoolean("Upper Bound", this.upperBound.get());
+        SmartDashboard.putBoolean("Lower Bound", this.lowerBound.get());
     }
 
     public void setPosition (double position) { 
 
-        if (this.atPosition() && this.setpointTimer.get() > 0.5) { this.pivotController.setI(0); }
-        else { this.pivotController.setI(Constants.ArmConstants.PIVOT_I); }
+        double error = position - this.pivotPosition.getAsDouble();
+        double feedforward = 0.15 * -Math.signum(error);
+        double input = feedforward - this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
 
-        double input = -this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
-        if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ArmConstants.INPUT_TOLERANCE) { input = 0.0; }
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
         if (input > 0.0 && this.upperBound.get()) input = 0.0;
-
-        this.pivot.set(input);
+        this.pivot.setControl(this.voltageOut.withOutput(input));
     }
 
     public double getPosition () { return this.pivotPosition.getAsDouble(); }
