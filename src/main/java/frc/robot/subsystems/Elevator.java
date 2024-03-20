@@ -82,7 +82,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getPosition () { return this.raisePosition.getAsDouble(); }
-    public boolean atPosition () { return false; }
+    public boolean atPosition () { return this.raiseController.atSetpoint(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 
