@@ -37,6 +37,15 @@ public class Swerve extends SubsystemBase {
     private final SwerveDrive swerveDrive;
     private Field2d field = new Field2d();
 
+    public static Target target;
+
+    public enum Target {
+        SPEAKER,
+        AMP,
+        NOTE,
+        DEFENSE
+    }
+
     public Swerve () throws IOException {
 
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;

@@ -13,6 +13,7 @@ public final class Alerts {
     public static final Alert driverTwoDisconnected = new Alert("Driver Two Controller Disconnected", AlertType.ERROR);
 
     public static final Alert intakeStateMachine = new Alert("Intake State Machine Offline", AlertType.ERROR);
+    public static final Alert elevatorStateMachine = new Alert("Elevator State Machine Offline", AlertType.ERROR);
     public static final Alert indexerStateMachine = new Alert("Indexer State Machine Offline", AlertType.ERROR);
     public static final Alert armStateMachine = new Alert("Arm State Machine Offline", AlertType.ERROR);
     public static final Alert shooterStateMachine = new Alert("Shooter State Machine Offline", AlertType.ERROR);
