@@ -61,7 +61,7 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double INTAKE_SPEED = 150.0;
+        public static final double INTAKE_SPEED = 300.0;
         public static final double OUTAKE_SPEED = -100.0;
         public static final double EJECT_SPEED = 240.0;
     }
@@ -75,24 +75,21 @@ public final class Constants {
         public static final boolean FOLLOWER_RAISE_INVERTED = false;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
-        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int RAISE_ENCODER = 8;
-        public static final double RAISE_OFFSET = 0.0;
+        public static final double RAISE_OFFSET = 0.48445;
 
         public static final int LOWER_BOUND = 3;
         public static final int UPPER_BOUND = 2;
 
-        public static final double RAISE_FF = 0.0;
-        public static final double RAISE_P = 0.0;
-        public static final double RAISE_I = 0.0;
-        public static final double RAISE_IZ = 0.0;
-        public static final double RAISE_D = 0.0;
-        public static final double INPUT_TOLERANCE = 0.0;
-        public static final double RAISE_TOLERANCE = 0.0;
+        public static final double RAISE_FF = 0.16;
+        public static final double RAISE_P = 60.0;
+        public static final double RAISE_CAP = 8.0;
+        public static final double RAISE_TOLERANCE = 0.001;
 
         public static final double LOCK_POSITION = 0.0;
-        public static final double RAISE_POSITION = 0.0;
+        public static final double RAISE_POSITION = 2.0;
     }
 
     public final class IndexerConstants {
@@ -112,19 +109,19 @@ public final class Constants {
         public static final double FRONT_ROLLERS_DIAMETER = 2.0;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
-        public static final int START_BEAM = 9;
-        public static final int END_BEAM = 1;
+        public static final int START_BEAM = 7;
+        public static final int END_BEAM = 6;
 
         public static final double LOAD_CURRENT_DIFFERENCE_THRESHOLD = 30.0;
         public static final double LOAD_CURRENT_COUNT_PERIOD = 0.25;
         public static final int LOAD_CURRENT_COUNT_THRESHOLD = 75;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_INDEX_SPEED = 100.0;
-        public static final double BACK_INDEX_SPEED = 100.0;
+        public static final double FRONT_INDEX_SPEED = 250.0;
+        public static final double BACK_INDEX_SPEED = 0.0;
         public static final double LOAD_SPEED = 20.0;
         public static final double FEED_SPEED = 100.0;
-        public static final double REVERSE_SPEED = -100.0;
+        public static final double REVERSE_SPEED = -285.0;
         public static final double DROP_SPEED = -100.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
@@ -138,16 +135,16 @@ public final class Constants {
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
-        public static final int PIVOT_ENCODER = 2;
+        public static final int PIVOT_ENCODER = 1;
         public static final double PIVOT_OFFSET = 0.76;
 
-        public static final int LOWER_BOUND = 6;
+        public static final int LOWER_BOUND = 4;
         public static final int UPPER_BOUND = 5;
 
-        public static final double PIVOT_P = 0.15;
-        public static final double PIVOT_I = 0.15;
-        public static final double PIVOT_IZ = 0.25;
-        public static final double PIVOT_D = 0.0075;
+        public static final double PIVOT_P = 0.0;
+        public static final double PIVOT_I = 0.0;
+        public static final double PIVOT_IZ = 0.0;
+        public static final double PIVOT_D = 0.0;
         public static final double INPUT_TOLERANCE = 0.075;
         public static final double PIVOT_TOLERANCE = 0.5;
 
@@ -172,8 +169,8 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static double TOP_SHOOT_SPEED = 1200.0;
-        public static double BOTTOM_SHOOT_SPEED = 1200.0;
+        public static double TOP_SHOOT_SPEED = 0.0;
+        public static double BOTTOM_SHOOT_SPEED = 0.0;
         public static double SHOOT_TOLERANCE = 30.0;
         public static final double EJECT_SPEED = 600.0;
     }

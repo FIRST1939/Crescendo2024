@@ -233,7 +233,7 @@ public class RobotContainer {
 
             if (rightBumper) {
 
-                if (indexerState == IdleIndexer.class || indexerState == HoldNote.class) {
+                if (indexerState == HoldNote.class) {
 
                     if (elevatorState == LockElevator.class) {
 
@@ -244,6 +244,7 @@ public class RobotContainer {
                     }
                 } else if (indexerState == DropNote.class) {
 
+                    this.elevatorStateMachine.activateState(LockElevator.class);
                     this.indexerStateMachine.activateState(IdleIndexer.class);
                 }
             }
@@ -333,11 +334,12 @@ public class RobotContainer {
 
     public Command getAutonomousCommand () { return this.autonomousChooser.getSelected(); }
 
-    public void setIdleModes (IdleBehavior swerveIdle, IdleBehavior intakeIdle, IdleBehavior indexerIdle, IdleBehavior armIdle, IdleBehavior shooterIdle) {
+    public void setIdleModes (IdleBehavior swerveIdle, IdleBehavior intakeIdle, IdleBehavior elevatorIdle, IdleBehavior indexerIdle, IdleBehavior armIdle, IdleBehavior shooterIdle) {
 
         new IdleMode(
             this.swerve, swerveIdle, 
             this.intake, intakeIdle, 
+            this.elevator, elevatorIdle,
             this.indexer, indexerIdle, 
             this.arm, armIdle, 
             this.shooter, shooterIdle

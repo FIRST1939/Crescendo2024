@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 		this.robotContainer.setIdleModes(
 			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
@@ -90,6 +91,7 @@ public class Robot extends TimedRobot {
 		this.robotContainer.setIdleModes(
 			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
@@ -128,10 +130,14 @@ public class Robot extends TimedRobot {
 			this.robotContainer.setIdleModes(
 				Constants.SwerveConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.IntakeConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.ElevatorConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.IndexerConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
 			);
+
+			this.disabledTimer.stop();
+			this.disabledTimer.reset();
 		}
 
 		if (RobotController.getBatteryVoltage() < Constants.RobotConstants.MINIMUM_BATTERY_VOLTAGE) { Alerts.lowBattery.set(true); }

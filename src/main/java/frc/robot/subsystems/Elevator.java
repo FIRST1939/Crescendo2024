@@ -2,12 +2,14 @@ package frc.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -19,7 +21,7 @@ public class Elevator extends SubsystemBase {
     private TalonFX followerRaise;
 
     private PIDController raiseController;
-    private Timer setpointTimer;
+    private VoltageOut voltageOut = new VoltageOut(0);
 
     private ThroughBoreEncoder raiseEncoder;
     private DoubleSupplier raisePosition;
@@ -34,17 +36,14 @@ public class Elevator extends SubsystemBase {
 
         this.raiseController = new PIDController(
             Constants.ElevatorConstants.RAISE_P,
-            Constants.ElevatorConstants.RAISE_I,
-            Constants.ElevatorConstants.RAISE_D
+            0.0,
+            0.0
         );
 
-        this.raiseController.setIZone(Constants.ElevatorConstants.RAISE_IZ);
         this.raiseController.setTolerance(Constants.ElevatorConstants.RAISE_TOLERANCE);
 
-        this.setpointTimer = new Timer();
-
         this.raiseEncoder = new ThroughBoreEncoder(Constants.ElevatorConstants.RAISE_ENCODER);
-        this.raisePosition = () -> (this.raiseEncoder.get() - Constants.ElevatorConstants.RAISE_OFFSET);
+        this.raisePosition = () -> -(this.raiseEncoder.get() - Constants.ElevatorConstants.RAISE_OFFSET);
 
         this.lowerBound = new DigitalInput(Constants.ElevatorConstants.LOWER_BOUND);
         this.upperBound = new DigitalInput(Constants.ElevatorConstants.UPPER_BOUND);
@@ -55,26 +54,23 @@ public class Elevator extends SubsystemBase {
 
         this.raiseEncoder.poll();
 
-        if (this.atPosition() && this.setpointTimer.get() == 0.0) { this.setpointTimer.start(); }
-        else if (!this.atPosition()) { 
-            
-            this.setpointTimer.stop(); 
-            this.setpointTimer.reset();
-        }
+        SmartDashboard.putBoolean("Lower Bound", this.lowerBound.get());
+        SmartDashboard.putBoolean("Upper Bound", this.upperBound.get());
+        SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
     }
 
     public void setPosition (double position) {
 
-        if (this.atPosition() && this.setpointTimer.get() > 0.5) { this.raiseController.setI(0); }
-        else { this.raiseController.setI(Constants.ElevatorConstants.RAISE_I); }
+        double error = position - this.raisePosition.getAsDouble();
+        double feedforward = Constants.ElevatorConstants.RAISE_FF * Math.signum(error);
+        double input = feedforward + this.raiseController.calculate(this.raisePosition.getAsDouble(), position);
 
-        double input = this.raiseController.calculate(this.raisePosition.getAsDouble(), position) + Constants.ElevatorConstants.RAISE_FF;
-        if (this.setpointTimer.get() > 0.5 && Math.abs(input) < Constants.ElevatorConstants.INPUT_TOLERANCE) { input = 0.0; }
-        if (input < 0.0 && this.lowerBound.get()) input = 0.0;
-        if (input > 0.0 && this.upperBound.get()) input = 0.0;
+        if (input < 0.0 && this.lowerBound.get()) { input = 0.0; }
+        if (input > 0.0 && this.upperBound.get()) { input = 0.0; }
+        input = Math.signum(input) * Math.min(Math.abs(input), Constants.ElevatorConstants.RAISE_CAP);
 
-        this.leadRaise.set(input);
-        this.followerRaise.set(input);
+        this.leadRaise.setControl(this.voltageOut.withOutput(input));
+        this.followerRaise.setControl(this.voltageOut.withOutput(input));
     }
 
     public void setVelocity (double velocity) {
