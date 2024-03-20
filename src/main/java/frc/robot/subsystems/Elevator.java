@@ -8,8 +8,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -53,10 +51,6 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-
-        SmartDashboard.putBoolean("Lower Bound", this.lowerBound.get());
-        SmartDashboard.putBoolean("Upper Bound", this.upperBound.get());
-        SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
     }
 
     public void setPosition (double position) {

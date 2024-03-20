@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
 		this.disabledTimer = new Timer();
 
 		Shuffleboard.getTab("Autonomous").add("Command Scheduler", CommandScheduler.getInstance());
+		CameraServer.startAutomaticCapture();
 	}
 
 	@Override
@@ -119,8 +121,6 @@ public class Robot extends TimedRobot {
 
 		this.disabledTimer.reset();
 		this.disabledTimer.start();
-
-		this.robotContainer.saveLog();
 	}
 
 	@Override

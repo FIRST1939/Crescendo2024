@@ -61,7 +61,7 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double INTAKE_SPEED = 200.0;
+        public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = -100.0;
         public static final double EJECT_SPEED = 240.0;
     }
@@ -112,14 +112,16 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
+        public static final double OVERLOAD_TIME = 0.5;
         public static final double LOAD_TIME = 0.1;
         public static final double FEED_WAIT = 1.0;
 
         public static final double FRONT_INDEX_SPEED = 200.0;
         public static final double BACK_INDEX_SPEED = 80.0;
+        public static final double LOAD_SPEED = -60.0;
         public static final double FEED_SPEED = 700.0;
         public static final double REVERSE_SPEED = -100.0;
-        public static final double DROP_SPEED = -100.0;
+        public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
     }
@@ -142,7 +144,7 @@ public final class Constants {
         public static final double PIVOT_P = 0.2;
         public static final double PIVOT_TOLERANCE = 0.5;
 
-        public static final double LOCK_POSITION = 28.0;
+        public static final double LOCK_POSITION = 26.0;
         public static double PIVOT_POSITION = 49.0;
     }
 

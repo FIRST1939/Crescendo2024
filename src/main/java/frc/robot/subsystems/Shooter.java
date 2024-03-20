@@ -40,22 +40,26 @@ public class Shooter extends SubsystemBase {
 
     public void setTopVelocity (double velocity) {
 
-        this.topBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { 
-            this.topRollers.set(0);
-            return; }
+        if (velocity == 0.0) {
 
-        this.topRollers.set(this.topBangBangController.calculate(this.getTopVelocity()));
+            this.topRollers.setVoltage(0.0);
+            return;
+        }
+
+        double input = 0.12 + (0.0085 * velocity) + (0.005 * (velocity - this.getTopVelocity()));
+        this.topRollers.setVoltage(input);
     }
 
     public void setBottomVelocity (double velocity) {
 
-        this.bottomBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { 
-            this.bottomRollers.set(0);
-            return; }
+        if (velocity == 0.0) {
 
-        this.bottomRollers.set(this.bottomBangBangController.calculate(this.getBottomVelocity()));
+            this.bottomRollers.setVoltage(0.0);
+            return;
+        }
+
+        double input = 0.12 + (0.0085 * velocity) + (0.005 * (velocity - this.getBottomVelocity()));
+        this.bottomRollers.setVoltage(input);
     }
 
     public double getTopVelocity () { return this.topRollers.getEncoder().getVelocity(); }

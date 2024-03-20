@@ -45,14 +45,6 @@ public class Arm extends SubsystemBase {
         this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
     }
 
-    @Override
-    public void periodic () {
-
-        SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
-        SmartDashboard.putBoolean("Upper Bound", this.upperBound.get());
-        SmartDashboard.putBoolean("Lower Bound", this.lowerBound.get());
-    }
-
     public void setPosition (double position) { 
 
         double error = position - this.pivotPosition.getAsDouble();

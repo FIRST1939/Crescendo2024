@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
-import frc.robot.commands.ShotFeedback;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
@@ -34,6 +33,7 @@ import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.indexer.IndexNote;
+import frc.robot.commands.indexer.LoadNote;
 import frc.robot.commands.indexer.ReverseNote;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.intake.IntakeNote;
@@ -47,7 +47,6 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.Logging;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Swerve.Target;
@@ -65,7 +64,6 @@ public class RobotContainer {
     private Indexer indexer;
     private Arm arm;
     private Shooter shooter;
-    private Logging logging;
 
     private StateMachine intakeStateMachine;
     private StateMachine elevatorStateMachine;
@@ -89,13 +87,6 @@ public class RobotContainer {
         this.indexer = new Indexer();
         this.arm = new Arm();
         this.shooter = new Shooter();
-
-        this.logging = new Logging(
-            () -> this.arm.getPosition(), 
-            () -> this.shooter.getTopVelocity(), 
-            () -> this.shooter.getBottomVelocity(),
-            () -> this.indexer.getBeamBreak()
-        );
 
         this.intakeStateMachine = new StateMachine(Alerts.intakeStateMachine, this.intake);
         this.elevatorStateMachine = new StateMachine(Alerts.elevatorStateMachine, this.elevator);
@@ -192,14 +183,19 @@ public class RobotContainer {
             if (intakeState == IntakeNote.class && this.indexer.noteContained()) { 
                 
                 this.intakeStateMachine.activateState(IdleIntake.class); 
-                this.driverOne.getHID().setRumble(RumbleType.kBothRumble, 0.5);
-                this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+                this.driverOne.setRumble(RumbleType.kBothRumble, 0.5);
+                this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
             }
 
             if (indexerState == IndexNote.class && this.indexer.noteIndexed()) { 
                 
-                this.indexerStateMachine.activateState(HoldNote.class); 
-                this.driverTwo.getHID().setRumble(RumbleType.kRightRumble, 0.5);
+                this.indexerStateMachine.activateState(LoadNote.class); 
+            }
+
+            if (indexerState == LoadNote.class && this.indexer.noteLoaded()) {
+
+                this.indexerStateMachine.activateState(HoldNote.class);
+                this.driverTwo.setRumble(RumbleType.kRightRumble, 0.5);
             }
 
             if (indexerState == FeedNote.class && this.indexer.noteFed()) { 
@@ -207,9 +203,6 @@ public class RobotContainer {
                 this.indexerStateMachine.activateState(IdleIndexer.class);
                 this.armStateMachine.activateState(LockArm.class);
                 this.shooterStateMachine.activateState(IdleShooter.class);
-
-                this.logging.setLogging(false);
-                new ShotFeedback(this.logging).schedule();
             }
 
             if (rightBumper && indexerState == HoldNote.class) {
@@ -221,7 +214,6 @@ public class RobotContainer {
                 } else if (this.arm.atPosition() && this.shooter.atSpeed()) { 
                         
                     this.indexerStateMachine.activateState(FeedNote.class); 
-                    this.logging.setLogging(true);
                 }
             }
         } else if (Swerve.target == Target.AMP) {
@@ -229,6 +221,11 @@ public class RobotContainer {
             if (intakeState == IntakeNote.class && indexerState == IndexNote.class && this.indexer.noteContained()) { 
                 
                 this.intakeStateMachine.activateState(IdleIntake.class); 
+                this.indexerStateMachine.activateState(LoadNote.class);
+            }
+
+            if (indexerState == LoadNote.class && !this.indexer.noteContained()) {
+
                 this.indexerStateMachine.activateState(HoldNote.class);
             }
 
@@ -346,6 +343,4 @@ public class RobotContainer {
             this.shooter, shooterIdle
         ).schedule();
     }
-
-    public void saveLog () { this.logging.saveLog(); }
 }
