@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
+		
 	}
 
 	@Override
@@ -129,6 +130,9 @@ public class Robot extends TimedRobot {
 				Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
 			);
+
+			this.disabledTimer.stop();
+			this.disabledTimer.reset();
 		}
 
 		if (RobotController.getBatteryVoltage() < Constants.RobotConstants.MINIMUM_BATTERY_VOLTAGE) { Alerts.lowBattery.set(true); }

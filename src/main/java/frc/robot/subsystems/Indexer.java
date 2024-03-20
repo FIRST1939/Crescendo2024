@@ -20,6 +20,8 @@ public class Indexer extends SubsystemBase {
     
     private DigitalInput startBeam;
     private DigitalInput endBeam;
+
+    private Timer loadTimer;
     private Timer feedTimer;
 
     public Indexer () {
@@ -38,6 +40,8 @@ public class Indexer extends SubsystemBase {
 
         this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
         this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
+
+        this.loadTimer = new Timer();
         this.feedTimer = new Timer();
     }
 
@@ -45,6 +49,13 @@ public class Indexer extends SubsystemBase {
     public void periodic () {
 
         SmartDashboard.putBoolean("End Beam", this.endBeam.get());
+
+        if (!this.endBeam.get() && this.loadTimer.get() == 0.0) { this.loadTimer.start(); }
+        else if (this.endBeam.get()) {
+
+            this.loadTimer.stop();
+            this.loadTimer.reset();
+        }
 
         if (this.endBeam.get() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
         else if (!this.endBeam.get()) {
@@ -77,7 +88,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean noteContained () { return !(this.startBeam.get() && this.endBeam.get()); }
-    public boolean noteIndexed () { return !this.endBeam.get(); }
+    public boolean noteIndexed () { return !this.endBeam.get() && this.loadTimer.get() > Constants.IndexerConstants.LOAD_TIME; }
     public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
 
     public boolean getBeamBreak () { return this.endBeam.get(); }

@@ -71,7 +71,7 @@ public final class Constants {
         public static final int FRONT_ROLLERS = 35;
         public static final int BACK_ROLLERS = 37;
 
-        public static final boolean FRONT_ROLLERS_INVERTED = false;
+        public static final boolean FRONT_ROLLERS_INVERTED = true;
         public static final boolean BACK_ROLLERS_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
@@ -86,12 +86,11 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
-        public static final double LOAD_WAIT = 0;
+        public static final double LOAD_TIME = 0.1;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_INDEX_SPEED = -300.0;
-        public static final double BACK_INDEX_SPEED = 250.0;
-        public static final double LOAD_SPEED = 225.0;
+        public static final double FRONT_INDEX_SPEED = 200.0;
+        public static final double BACK_INDEX_SPEED = 80.0;
         public static final double FEED_SPEED = 700.0;
         public static final double REVERSE_SPEED = -100.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
@@ -112,14 +111,11 @@ public final class Constants {
         public static final int LOWER_BOUND = 4;
         public static final int UPPER_BOUND = 5;
 
-        public static final double PIVOT_P = 0.03; // 0.15
-        public static final double PIVOT_I = 0.0; //.15
-        public static final double PIVOT_IZ = 0.0; //.25
-        public static final double PIVOT_D = 0.0; //.0075
-        public static final double INPUT_TOLERANCE = 0.075;
+        public static final double PIVOT_FF = 0.15;
+        public static final double PIVOT_P = 0.2;
         public static final double PIVOT_TOLERANCE = 0.5;
 
-        public static final double LOCK_POSITION = 30.0;//22
+        public static final double LOCK_POSITION = 28.0;
         public static double PIVOT_POSITION = 49.0;
     }
 
