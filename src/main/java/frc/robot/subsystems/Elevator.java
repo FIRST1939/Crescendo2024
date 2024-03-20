@@ -33,7 +33,7 @@ public class Elevator extends SubsystemBase {
         this.followerRaise = new TalonFX(Constants.ElevatorConstants.FOLLOWER_RAISE);
 
         this.raiseController = new PIDController(
-            Constants.ElevatorConstants.RAISE_P,
+            Constants.ElevatorConstants.RAISE_KP,
             0.0,
             0.0
         );
@@ -56,7 +56,7 @@ public class Elevator extends SubsystemBase {
     public void setPosition (double position) {
 
         double error = position - this.raisePosition.getAsDouble();
-        double feedforward = Constants.ElevatorConstants.RAISE_FF * Math.signum(error);
+        double feedforward = Constants.ElevatorConstants.RAISE_KS * Math.signum(error);
         double input = feedforward + this.raiseController.calculate(this.raisePosition.getAsDouble(), position);
 
         if (input < 0.0 && this.lowerBound.get()) { input = 0.0; }

@@ -9,7 +9,6 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -35,7 +34,7 @@ public class Arm extends SubsystemBase {
 
         this.pivotEncoder = new DutyCycleEncoder(Constants.ArmConstants.PIVOT_ENCODER);
         this.pivotController = new PIDController(
-            Constants.ArmConstants.PIVOT_P,
+            Constants.ArmConstants.PIVOT_KP,
             0.0,
             0.0
         );
@@ -48,7 +47,7 @@ public class Arm extends SubsystemBase {
     public void setPosition (double position) { 
 
         double error = position - this.pivotPosition.getAsDouble();
-        double feedforward = 0.15 * -Math.signum(error);
+        double feedforward = Constants.ArmConstants.PIVOT_KS * -Math.signum(error);
         double input = feedforward - this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
 
         if (input < 0.0 && this.lowerBound.get()) input = 0.0;
