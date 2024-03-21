@@ -24,7 +24,10 @@ import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
+import frc.robot.commands.elevator.IdleElevator;
 import frc.robot.commands.elevator.LockElevator;
+import frc.robot.commands.elevator.ManualLowerElevator;
+import frc.robot.commands.elevator.ManualRaiseElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.DropNote;
 import frc.robot.commands.indexer.FeedNote;
@@ -126,6 +129,7 @@ public class RobotContainer {
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
         this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));
+        this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Target.STAGE)));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -232,6 +236,36 @@ public class RobotContainer {
                     this.elevatorStateMachine.activateState(LockElevator.class);
                 }
             }
+        } else if (Swerve.target == Target.STAGE) {
+
+            if (elevatorState == RaiseElevator.class) { 
+                
+                if (this.elevator.atHeight()) {
+
+                    this.elevatorStateMachine.activateState(IdleElevator.class); 
+                }
+            } else if (elevatorState == IdleElevator.class) {
+
+                if (this.driverOne.getLeftTriggerAxis() > 0.5) {
+
+                    this.elevatorStateMachine.activateState(ManualLowerElevator.class);
+                } else if (this.driverOne.getRightTriggerAxis() > 0.5) {
+
+                    this.elevatorStateMachine.activateState(ManualRaiseElevator.class);
+                }
+            } else if (elevatorState == ManualLowerElevator.class) {
+
+                if (this.driverOne.getLeftTriggerAxis() < 0.5) {
+
+                    this.elevatorStateMachine.activateState(IdleElevator.class);
+                }
+            } else if (elevatorState == ManualRaiseElevator.class) {
+
+                if (this.driverOne.getRightTriggerAxis() < 0.5) {
+
+                    this.elevatorStateMachine.activateState(IdleElevator.class);
+                }
+            }
         }
 
         if (this.driverTwo.getLeftTriggerAxis() > 0.5) {
@@ -258,6 +292,12 @@ public class RobotContainer {
 
             if (indexerState == IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
             if (indexerState == HoldAmpNote.class && elevatorState == LockElevator.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
+        } else if (Swerve.target != Target.STAGE && target == Target.STAGE) {
+
+            this.elevatorStateMachine.activateState(RaiseElevator.class);
+        } else if (Swerve.target == Target.STAGE && target != Target.STAGE) {
+
+            this.elevatorStateMachine.activateState(LockElevator.class);
         }
 
         Swerve.target = target;

@@ -61,12 +61,12 @@ public class Elevator extends SubsystemBase {
         this.followerRaise.setControl(this.voltageOut.withOutput(input));
     }
 
-    public void setVelocity (double velocity) {
+    public void setInput (double input) {
 
-        if (velocity < 0.0 && Sensors.getElevatorLowerBound()) { velocity = 0.0; }
-        if (velocity > 0.0 && Sensors.getElevatorUpperBound()) { velocity = 0.0; }
-        this.leadRaise.set(velocity);
-        this.followerRaise.set(velocity);
+        if (input < 0.0 && Sensors.getElevatorLowerBound()) { input = 0.0; }
+        if (input > 0.0 && Sensors.getElevatorUpperBound()) { input = 0.0; }
+        this.leadRaise.set(input);
+        this.followerRaise.set(input);
     }
 
     public double getPosition () { return this.raisePosition.getAsDouble(); }

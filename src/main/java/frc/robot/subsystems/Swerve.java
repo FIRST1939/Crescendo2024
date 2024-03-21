@@ -42,8 +42,7 @@ public class Swerve extends SubsystemBase {
     public enum Target {
         SPEAKER,
         AMP,
-        NOTE,
-        DEFENSE
+        STAGE
     }
 
     public Swerve () throws IOException {

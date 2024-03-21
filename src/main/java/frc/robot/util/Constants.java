@@ -85,6 +85,9 @@ public final class Constants {
 
         public static final double LOCK_POSITION = 0.0;
         public static final double RAISE_POSITION = 2.0;
+
+        public static final double MANUAL_LOWER_SPEED = -0.25;
+        public static final double MANUAL_RAISE_SPEED = 0.25;
     }
 
     public final class IndexerConstants {
