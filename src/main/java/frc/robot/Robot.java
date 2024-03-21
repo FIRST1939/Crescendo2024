@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.arm.LockArm;
+import frc.robot.commands.elevator.LockElevator;
 import frc.robot.commands.indexer.HoldNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.intake.IdleIntake;
@@ -44,12 +46,14 @@ public class Robot extends TimedRobot {
 		this.disabledTimer = new Timer();
 
 		Shuffleboard.getTab("Autonomous").add("Command Scheduler", CommandScheduler.getInstance());
+		CameraServer.startAutomaticCapture();
 	}
 
 	@Override
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
+		
 	}
 
 	@Override
@@ -58,6 +62,7 @@ public class Robot extends TimedRobot {
 		this.robotContainer.setIdleModes(
 			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
@@ -65,6 +70,7 @@ public class Robot extends TimedRobot {
 
 		this.robotContainer.initializeStateMachines(
 			IdleIntake.class,
+			LockElevator.class,
 			HoldNote.class,
 			LockArm.class,
 			IdleShooter.class
@@ -88,6 +94,7 @@ public class Robot extends TimedRobot {
 		this.robotContainer.setIdleModes(
 			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
 			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
@@ -96,6 +103,7 @@ public class Robot extends TimedRobot {
 		// TODO: Other State Machine Configurations
 		this.robotContainer.initializeStateMachines(
 			IdleIntake.class,
+			LockElevator.class,
 			IdleIndexer.class,
 			LockArm.class,
 			IdleShooter.class
@@ -113,8 +121,6 @@ public class Robot extends TimedRobot {
 
 		this.disabledTimer.reset();
 		this.disabledTimer.start();
-
-		this.robotContainer.saveLog();
 	}
 
 	@Override
@@ -125,10 +131,14 @@ public class Robot extends TimedRobot {
 			this.robotContainer.setIdleModes(
 				Constants.SwerveConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.IntakeConstants.DISABLED_IDLE_BEHAVIOR,
+				Constants.ElevatorConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.IndexerConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
 				Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
 			);
+
+			this.disabledTimer.stop();
+			this.disabledTimer.reset();
 		}
 
 		if (RobotController.getBatteryVoltage() < Constants.RobotConstants.MINIMUM_BATTERY_VOLTAGE) { Alerts.lowBattery.set(true); }

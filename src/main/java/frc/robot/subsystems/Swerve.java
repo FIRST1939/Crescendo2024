@@ -37,6 +37,15 @@ public class Swerve extends SubsystemBase {
     private final SwerveDrive swerveDrive;
     private Field2d field = new Field2d();
 
+    public static Target target;
+
+    public enum Target {
+        SPEAKER,
+        AMP,
+        NOTE,
+        DEFENSE
+    }
+
     public Swerve () throws IOException {
 
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
@@ -128,7 +137,14 @@ public class Swerve extends SubsystemBase {
 
     public void resetOdometry (Pose2d pose) { this.swerveDrive.resetOdometry(pose); }
     public void setChassisSpeeds (ChassisSpeeds chassisSpeeds) { this.swerveDrive.drive(chassisSpeeds); }
-    public void addVisionMeasurement (Pose2d pose2d, double timestamp, Matrix<N3,  N1> standardDeviations) { this.swerveDrive.addVisionMeasurement(pose2d, timestamp, standardDeviations); }
+
+    public void addVisionMeasurement (Pose2d limelightPose, double timestamp, Matrix<N3,  N1> standardDeviations) { 
+        
+        Translation2d translation = limelightPose.getTranslation();
+        Pose2d pose = new Pose2d(translation, this.getHeading());
+
+        this.swerveDrive.addVisionMeasurement(pose, timestamp, standardDeviations); 
+    }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

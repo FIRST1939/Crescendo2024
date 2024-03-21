@@ -12,12 +12,7 @@ public final class Constants {
         public static final double ROBOT_MASS = 35.4626; // Robot Weight [kg]
         public static final double LOOP_TIME = 0.13; // Control Loop Tick Timing [s]
         public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
-
-        private static final Matter BASE = new Matter(new Translation3d(-0.0057, -0.0037, 0.0813), 21.9116); // Weight Distribution of Base
-        private static final Matter BATTERY = new Matter(new Translation3d(-0.2286, 0, 0.1225), 5.8468); // Weight Distribution of Battery
-        private static final Matter BUMPERS = new Matter(new Translation3d(), 6.8039); // Weight Distribution of Bumpers
-
-        public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(BASE, BATTERY, BUMPERS);
+        public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
     }
 
     public final class SwerveConstants {
@@ -61,9 +56,35 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double INTAKE_SPEED = 200.0;
+        public static final double INTAKE_SPEED = 150.0;
         public static final double OUTAKE_SPEED = -100.0;
         public static final double EJECT_SPEED = 240.0;
+    }
+
+    public final class ElevatorConstants {
+
+        public static final int LEAD_RAISE = 33;
+        public static final int FOLLOWER_RAISE = 34;
+
+        public static final boolean LEAD_RAISE_INVERTED = false;
+        public static final boolean FOLLOWER_RAISE_INVERTED = false;
+
+        public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
+        public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
+
+        public static final int RAISE_ENCODER = 8;
+        public static final double RAISE_OFFSET = 0.48445;
+
+        public static final int LOWER_BOUND = 3;
+        public static final int UPPER_BOUND = 2;
+
+        public static final double RAISE_KS = 0.16;
+        public static final double RAISE_KP = 60.0;
+        public static final double RAISE_CAP = 8.0;
+        public static final double RAISE_TOLERANCE = 0.001;
+
+        public static final double LOCK_POSITION = 0.0;
+        public static final double RAISE_POSITION = 2.0;
     }
 
     public final class IndexerConstants {
@@ -71,7 +92,7 @@ public final class Constants {
         public static final int FRONT_ROLLERS = 35;
         public static final int BACK_ROLLERS = 37;
 
-        public static final boolean FRONT_ROLLERS_INVERTED = false;
+        public static final boolean FRONT_ROLLERS_INVERTED = true;
         public static final boolean BACK_ROLLERS_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
@@ -86,14 +107,16 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
-        public static final double LOAD_WAIT = 0;
+        public static final double OVERLOAD_TIME = 0.5;
+        public static final double LOAD_TIME = 0.1;
         public static final double FEED_WAIT = 1.0;
 
-        public static final double FRONT_INDEX_SPEED = -300.0;
-        public static final double BACK_INDEX_SPEED = 250.0;
-        public static final double LOAD_SPEED = 225.0;
+        public static final double FRONT_INDEX_SPEED = 200.0;
+        public static final double BACK_INDEX_SPEED = 80.0;
+        public static final double LOAD_SPEED = -60.0;
         public static final double FEED_SPEED = 700.0;
         public static final double REVERSE_SPEED = -100.0;
+        public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
     }
@@ -112,14 +135,11 @@ public final class Constants {
         public static final int LOWER_BOUND = 4;
         public static final int UPPER_BOUND = 5;
 
-        public static final double PIVOT_P = 0.03; // 0.15
-        public static final double PIVOT_I = 0.0; //.15
-        public static final double PIVOT_IZ = 0.0; //.25
-        public static final double PIVOT_D = 0.0; //.0075
-        public static final double INPUT_TOLERANCE = 0.075;
+        public static final double PIVOT_KS = 0.15;
+        public static final double PIVOT_KP = 0.2;
         public static final double PIVOT_TOLERANCE = 0.5;
 
-        public static final double LOCK_POSITION = 30.0;//22
+        public static final double LOCK_POSITION = 26.0;
         public static double PIVOT_POSITION = 49.0;
     }
 
@@ -140,9 +160,13 @@ public final class Constants {
         public static final double TOP_ROLLERS_DIAMETER = 4.0;
         public static final double BOTTOM_ROLLERS_DIAMETER = 4.0;
 
-        public static double TOP_SHOOT_SPEED = 700.0;
-        public static double BOTTOM_SHOOT_SPEED = 700.0;
-        public static double SHOOT_TOLERANCE = 30.0;
+        public static final double SPEED_KS = 0.12;
+        public static final double SPEED_KV = 0.0085;
+        public static final double SPEED_KP = 0.005;
+        public static final double SPEED_TOLERANCE = 30.0;
+
+        public static final double TOP_SHOOT_SPEED = 700.0;
+        public static final double BOTTOM_SHOOT_SPEED = 700.0;
         public static final double EJECT_SPEED = 600.0;
     }
 

@@ -4,7 +4,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -14,8 +14,8 @@ public class Shooter extends SubsystemBase {
     private CANSparkFlex topRollers;
     private CANSparkFlex bottomRollers;
 
-    private BangBangController topBangBangController;
-    private BangBangController bottomBangBangController;
+    private PIDController topController;
+    private PIDController bottomController;
 
     public Shooter () {
 
@@ -31,31 +31,46 @@ public class Shooter extends SubsystemBase {
         this.bottomRollers.getEncoder().setPositionConversionFactor(Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER));
         this.bottomRollers.getEncoder().setVelocityConversionFactor((Constants.ShooterConstants.BOTTOM_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.ShooterConstants.BOTTOM_ROLLERS_DIAMETER));
 
-        this.topBangBangController = new BangBangController();
-        this.topBangBangController.setTolerance(Constants.ShooterConstants.SHOOT_TOLERANCE);
-        
-        this.bottomBangBangController = new BangBangController();
-        this.bottomBangBangController.setTolerance(Constants.ShooterConstants.SHOOT_TOLERANCE);
+        this.topController = new PIDController(
+            Constants.ShooterConstants.SPEED_KP,
+            0.0,
+            0.0
+        );
+
+        this.bottomController = new PIDController(
+            Constants.ShooterConstants.SPEED_KP,
+            0.0,
+            0.0
+        );
+
+        this.topController.setTolerance(Constants.ShooterConstants.SPEED_TOLERANCE);
+        this.bottomController.setTolerance(Constants.ShooterConstants.SPEED_TOLERANCE);
     }
 
     public void setTopVelocity (double velocity) {
 
-        this.topBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { 
-            this.topRollers.set(0);
-            return; }
+        if (velocity == 0.0) {
 
-        this.topRollers.set(this.topBangBangController.calculate(this.getTopVelocity()));
+            this.topRollers.setVoltage(0.0);
+            return;
+        }
+
+        double feedforward = Constants.ShooterConstants.SPEED_KS + (Constants.ShooterConstants.SPEED_KV * velocity);
+        double input = feedforward + this.topController.calculate(this.getTopVelocity(), velocity);
+        this.topRollers.setVoltage(input);
     }
 
     public void setBottomVelocity (double velocity) {
 
-        this.bottomBangBangController.setSetpoint(velocity);
-        if (velocity == 0.0) { 
-            this.bottomRollers.set(0);
-            return; }
+        if (velocity == 0.0) {
 
-        this.bottomRollers.set(this.bottomBangBangController.calculate(this.getBottomVelocity()));
+            this.bottomRollers.setVoltage(0.0);
+            return;
+        }
+
+        double feedforward = Constants.ShooterConstants.SPEED_KS + (Constants.ShooterConstants.SPEED_KV * velocity);
+        double input = feedforward + this.bottomController.calculate(this.getBottomVelocity(), velocity);
+        this.bottomRollers.setVoltage(input);
     }
 
     public double getTopVelocity () { return this.topRollers.getEncoder().getVelocity(); }
@@ -63,7 +78,7 @@ public class Shooter extends SubsystemBase {
 
     public boolean atSpeed () { 
         
-        return this.topBangBangController.atSetpoint() && this.bottomBangBangController.atSetpoint();
+        return this.topController.atSetpoint() && this.bottomController.atSetpoint();
     }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
