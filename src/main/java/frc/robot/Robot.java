@@ -30,9 +30,10 @@ import frc.robot.util.Constants;
 public class Robot extends TimedRobot {
 
 	private RobotContainer robotContainer;
+	private boolean statesInitialized = false;
 	private Command autonomousCommand;
 	private Timer disabledTimer;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -53,7 +54,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
-		
 	}
 
 	@Override
@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
 			LockArm.class,
 			IdleShooter.class
 		);
+
+		this.statesInitialized = true;
 
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
@@ -100,20 +102,22 @@ public class Robot extends TimedRobot {
 			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
 		);
 
-		// TODO: Other State Machine Configurations
-		this.robotContainer.initializeStateMachines(
-			IdleIntake.class,
-			LockElevator.class,
-			IdleIndexer.class,
-			LockArm.class,
-			IdleShooter.class
-		);
+		if (!this.statesInitialized) {
+			this.robotContainer.initializeStateMachines(
+				IdleIntake.class,
+				LockElevator.class,
+				IdleIndexer.class,
+				LockArm.class,
+				IdleShooter.class
+			);
+		}
 	}
 
 	@Override
 	public void teleopPeriodic () {
 
 		this.robotContainer.runStateMachines();
+		this.robotContainer.runLEDs();
 	}
 
 	@Override

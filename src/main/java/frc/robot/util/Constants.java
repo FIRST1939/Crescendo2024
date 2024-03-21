@@ -13,6 +13,8 @@ public final class Constants {
         public static final double LOOP_TIME = 0.13; // Control Loop Tick Timing [s]
         public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
         public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
+
+        public static final int BLINKIN = 1;
     }
 
     public final class SwerveConstants {
@@ -86,8 +88,8 @@ public final class Constants {
         public static final double LOCK_POSITION = 0.0;
         public static final double RAISE_POSITION = 2.0;
 
-        public static final double MANUAL_LOWER_SPEED = -0.25;
-        public static final double MANUAL_RAISE_SPEED = 0.25;
+        public static final double MANUAL_LOWER_SPEED = -0.40;
+        public static final double MANUAL_RAISE_SPEED = 0.40;
     }
 
     public final class IndexerConstants {

@@ -37,7 +37,7 @@ public class Swerve extends SubsystemBase {
     private final SwerveDrive swerveDrive;
     private Field2d field = new Field2d();
 
-    public static Target target;
+    public static Target target = Target.SPEAKER;
 
     public enum Target {
         SPEAKER,
