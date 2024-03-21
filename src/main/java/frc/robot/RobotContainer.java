@@ -124,10 +124,8 @@ public class RobotContainer {
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
 
-        this.driverTwo.x().onTrue(new InstantCommand(() -> Swerve.target = Target.SPEAKER));
-        this.driverTwo.a().onTrue(new InstantCommand(() -> Swerve.target = Target.AMP));
-        this.driverTwo.y().onTrue(new InstantCommand(() -> Swerve.target = Target.NOTE));
-        this.driverTwo.b().onTrue(new InstantCommand(() -> Swerve.target = Target.DEFENSE));
+        this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
+        this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -249,6 +247,20 @@ public class RobotContainer {
             if (indexerState == frc.robot.commands.indexer.EjectNote.class) { this.indexerStateMachine.activateState(IdleIndexer.class); }
             if (shooterState == frc.robot.commands.shooter.EjectNote.class) { this.shooterStateMachine.activateState(IdleShooter.class); }
         }
+    }
+
+    public void transferObjective (Target target) {
+
+        Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
+        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+
+        if (Swerve.target == Target.AMP && target == Target.SPEAKER) {
+
+            if (indexerState == IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
+            if (indexerState == HoldAmpNote.class && elevatorState == LockElevator.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
+        }
+
+        Swerve.target = target;
     }
 
     public void initializePathPlanner () {
