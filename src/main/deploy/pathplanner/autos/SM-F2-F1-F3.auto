@@ -70,6 +70,12 @@
           "data": {
             "name": "Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Subwoof-Tele"
+          }
         }
       ]
     }
