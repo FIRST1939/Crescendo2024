@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.elevator.LockElevator;
-import frc.robot.commands.indexer.HoldNote;
+import frc.robot.commands.indexer.HoldSpeakerNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.shooter.IdleShooter;
@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
 		this.robotContainer.initializeStateMachines(
 			IdleIntake.class,
 			LockElevator.class,
-			HoldNote.class,
+			HoldSpeakerNote.class,
 			LockArm.class,
 			IdleShooter.class
 		);

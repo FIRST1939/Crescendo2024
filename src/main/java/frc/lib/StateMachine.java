@@ -18,6 +18,7 @@ public class StateMachine {
     }
 
     public Class<? extends Command> getCurrentState () { return this.currentState; }
+    public boolean currentCommandFinished () { return this.currentCommand.isFinished(); }
 
     public void activateState (Class<? extends Command> state) { 
     
