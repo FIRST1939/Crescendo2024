@@ -86,7 +86,7 @@ public final class Constants {
         public static final double RAISE_TOLERANCE = 0.001;
 
         public static final double LOCK_POSITION = 0.0;
-        public static final double RAISE_POSITION = 2.0;
+        public static final double RAISE_POSITION = 2.04;
 
         public static final double MANUAL_LOWER_SPEED = -0.40;
         public static final double MANUAL_RAISE_SPEED = 0.40;
@@ -142,10 +142,10 @@ public final class Constants {
 
         public static final double PIVOT_KS = 0.15;
         public static final double PIVOT_KP = 0.2;
-        public static final double PIVOT_TOLERANCE = 0.5;
+        public static final double PIVOT_TOLERANCE = 0.65;
 
         public static final double LOCK_POSITION = 26.0;
-        public static double PIVOT_POSITION = 49.0;
+        public static double PIVOT_POSITION = 55.0;
     }
 
     public final class ShooterConstants {
@@ -170,8 +170,8 @@ public final class Constants {
         public static final double SPEED_KP = 0.005;
         public static final double SPEED_TOLERANCE = 30.0;
 
-        public static final double TOP_SHOOT_SPEED = 700.0;
-        public static final double BOTTOM_SHOOT_SPEED = 700.0;
+        public static double TOP_SHOOT_SPEED = 800.0;
+        public static double BOTTOM_SHOOT_SPEED = 800.0;
         public static final double EJECT_SPEED = 600.0;
     }
 

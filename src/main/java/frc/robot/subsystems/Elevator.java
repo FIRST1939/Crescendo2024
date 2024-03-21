@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -45,6 +46,7 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
+        SmartDashboard.putNumber("Test", this.raisePosition.getAsDouble());
     }
 
     public void setPosition (double position) {

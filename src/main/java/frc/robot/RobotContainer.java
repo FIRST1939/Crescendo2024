@@ -124,13 +124,27 @@ public class RobotContainer {
             () -> this.driverOne.getHID().getPOV()
         ));
 
-        this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
+        //this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
 
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
+
+        this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
+
+            Constants.ArmConstants.PIVOT_POSITION = 55.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+        }));
+
+        this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
+
+            Constants.ArmConstants.PIVOT_POSITION = 55.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+        }));
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
         this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));

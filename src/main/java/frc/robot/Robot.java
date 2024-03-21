@@ -30,7 +30,7 @@ import frc.robot.util.Constants;
 public class Robot extends TimedRobot {
 
 	private RobotContainer robotContainer;
-	private boolean statesInitialized = false;
+	private boolean autoInitialized = false;
 	private Command autonomousCommand;
 	private Timer disabledTimer;
 	
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
 			IdleShooter.class
 		);
 
-		this.statesInitialized = true;
+		this.autoInitialized = true;
 
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
@@ -93,16 +93,16 @@ public class Robot extends TimedRobot {
 
 		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
 
-		this.robotContainer.setIdleModes(
-			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
-		);
+		if (!this.autoInitialized) {
+			this.robotContainer.setIdleModes(
+				Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
+			);
 
-		if (!this.statesInitialized) {
 			this.robotContainer.initializeStateMachines(
 				IdleIntake.class,
 				LockElevator.class,
