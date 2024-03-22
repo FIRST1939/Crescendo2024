@@ -12,16 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "deadline",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Eject"
-                }
-              }
-            ]
+            "name": "StageShoot"
           }
         },
         {
