@@ -18,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Blinkin;
+import frc.lib.Blinkin.LEDPatterns;
 import frc.lib.Controller;
 import frc.lib.StateMachine;
-import frc.lib.Blinkin.LEDPatterns;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
@@ -45,7 +45,6 @@ import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.Drive;
-import frc.robot.commands.swerve.TrackAprilTags;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Indexer;
@@ -56,8 +55,8 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Swerve.Target;
 import frc.robot.util.Alerts;
 import frc.robot.util.Constants;
-import frc.robot.util.Sensors;
 import frc.robot.util.Constants.IdleBehavior;
+import frc.robot.util.Sensors;
 
 public class RobotContainer {
 
@@ -337,7 +336,7 @@ public class RobotContainer {
 
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
 
-        if ((!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam()) || indexerState == HoldSpeakerNote.class || indexerState == HoldAmpNote.class) {
+        if (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam()) {
 
             this.blinkin.set(LEDPatterns.VIOLET);
         } else if (Swerve.target == Target.SPEAKER) {
