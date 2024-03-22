@@ -311,12 +311,10 @@ public class RobotContainer {
             if (indexerState == IndexSourceNote.class && shooterState == PullSourceNote.class && indexerFinished && shooterFinished) {
 
                 this.indexerStateMachine.activateState(IndexSpeakerNote.class);
+                this.armStateMachine.activateState(LockArm.class);
                 this.shooterStateMachine.activateState(IdleShooter.class);
                 Swerve.target = Target.SPEAKER;
             }
-
-            this.indexerStateMachine.activateState(IndexSourceNote.class);
-            this.shooterStateMachine.activateState(PullSourceNote.class);
         }
 
         if (this.driverTwo.getLeftTriggerAxis() > 0.5) {
@@ -349,6 +347,12 @@ public class RobotContainer {
         } else if (Swerve.target == Target.STAGE && target != Target.STAGE) {
 
             this.elevatorStateMachine.activateState(LockElevator.class);
+        } else if (Swerve.target != Target.SOURCE && target == Target.SOURCE) {
+
+            Constants.ArmConstants.PIVOT_POSITION = 55.0;
+            this.indexerStateMachine.activateState(IndexSourceNote.class);
+            this.armStateMachine.activateState(PivotArm.class);
+            this.shooterStateMachine.activateState(PullSourceNote.class);
         }
 
         Swerve.target = target;
