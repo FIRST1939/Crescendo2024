@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.55,
+        "y": 2.05
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.441496101026057,
+        "y": 2.059186682435865
+      },
+      "isLocked": true,
+      "linkedName": "Right Solo Start"
+    },
+    {
+      "anchor": {
+        "x": 3.3,
+        "y": 2.847929092921265
+      },
+      "prevControl": {
+        "x": 2.5549971439641954,
+        "y": 3.5709515251495785
+      },
+      "nextControl": null,
+      "isLocked": true,
+      "linkedName": "Center Shoot (C5)"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -38.76650000000001,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Auto Starts",
+  "previewStartingState": null,
+  "useDefaultConstraints": true
+}

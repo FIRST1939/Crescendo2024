@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start - F1"
+            "pathName": "Left Side Start-F1 v"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F1-F2"
+            "pathName": "F1-F2 v"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F2-F3"
+            "pathName": "F2-F3 v"
           }
         },
         {
@@ -62,7 +62,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C5 - CR Shoot"
+            "pathName": "C5-CR Shoot v"
           }
         },
         {
@@ -74,13 +74,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CR Shoot - C4"
+            "pathName": "CR Shoot-C4 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C4 - CC Shoot"
+            "pathName": "C4-CC Shoot v"
           }
         },
         {
@@ -92,6 +92,6 @@
       ]
     }
   },
-  "folder": "Confirmed",
+  "folder": "Justin Checked",
   "choreoAuto": false
 }

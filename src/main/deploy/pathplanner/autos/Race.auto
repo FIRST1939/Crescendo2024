@@ -27,7 +27,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Start - C4"
+            "pathName": "Right Start-C4 v"
           }
         },
         {
@@ -51,6 +51,6 @@
       ]
     }
   },
-  "folder": "STL",
+  "folder": "Justin Checked",
   "choreoAuto": false
 }

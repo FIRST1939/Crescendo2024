@@ -4,8 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "Auto Starts",
+    "Center Shoot",
     "Front Line",
-    "Center Line"
+    "Center Lines",
+    "Test"
   ],
   "autoFolders": [
     "Built",

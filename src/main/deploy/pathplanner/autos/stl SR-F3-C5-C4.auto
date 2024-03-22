@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 4.38
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Side Start-F3 v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FLShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F3-C5 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5-CR Shoot v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StageShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CR Shoot-C4 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4-CC Shoot v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StageShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "STL",
+  "choreoAuto": false
+}

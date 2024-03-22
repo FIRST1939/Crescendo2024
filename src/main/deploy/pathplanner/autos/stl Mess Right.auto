@@ -1,0 +1,56 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.55,
+      "y": 2.05
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eject"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Start-C5 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "M Right"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-CL Shoot v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StageShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "STL",
+  "choreoAuto": false
+}
