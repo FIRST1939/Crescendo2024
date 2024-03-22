@@ -1,5 +1,8 @@
 package frc.lib;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -7,6 +10,7 @@ public class StateMachine {
     
     private Alert alert;
     private Subsystem[] subsystems;
+    private final Map<Class<? extends Command>, Command> stateMap = new HashMap<>();
 
     private Command currentCommand;
     private Class<? extends Command> currentState;
@@ -27,7 +31,11 @@ public class StateMachine {
 
         try {
 
-            Command command = (Command) state.getConstructors()[0].newInstance((Object[]) this.subsystems);
+            Command command = this.stateMap.get(state);
+            if (command == null) {
+                command = (Command) state.getConstructors()[0].newInstance((Object[]) this.subsystems);
+                this.stateMap.put(state, command);
+            }
             this.currentCommand = command;
 
             this.currentCommand.schedule();
