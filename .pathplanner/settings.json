@@ -10,9 +10,7 @@
     "Test"
   ],
   "autoFolders": [
-    "Built",
-    "Confirmed",
-    "Justin Checked",
+    "Checked",
     "STL"
   ],
   "defaultMaxVel": 5.0,
