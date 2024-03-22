@@ -4,28 +4,44 @@
     {
       "anchor": {
         "x": 8.35,
-        "y": 4.12
+        "y": 2.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.186010071311231,
-        "y": 4.4927065620913655
+        "x": 7.793324137574201,
+        "y": 2.8232521002079047
       },
-      "isLocked": false,
+      "isLocked": true,
+      "linkedName": "C4"
+    },
+    {
+      "anchor": {
+        "x": 5.365707226784823,
+        "y": 4.227158181168214
+      },
+      "prevControl": {
+        "x": 6.327318460192476,
+        "y": 3.7862291743102006
+      },
+      "nextControl": {
+        "x": 4.694510885912594,
+        "y": 4.534922822122719
+      },
+      "isLocked": true,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.35,
-        "y": 5.758972874214737
+        "x": 4.23,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 6.913134214867967,
-        "y": 5.760771342253044
+        "x": 4.680512619870004,
+        "y": 4.964240371679739
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "Center Shoot (C4,C3)"
     }
   ],
   "rotationTargets": [],
@@ -43,9 +59,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center Lines",
+  "folder": "Center Shoot",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

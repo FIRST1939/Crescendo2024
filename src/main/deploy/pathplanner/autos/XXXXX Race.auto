@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.55,
+      "y": 2.05
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right Start-C4 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4-C3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C3-C2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-C1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Checked",
+  "choreoAuto": false
+}

@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase {
 
     public Swerve () throws IOException {
 
-        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
         File swerveConfigurationDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
         this.swerveDrive = new SwerveParser(swerveConfigurationDirectory).createSwerveDrive(Constants.SwerveConstants.MAX_DRIVE_SPEED);
         

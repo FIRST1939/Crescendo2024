@@ -58,7 +58,7 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double INTAKE_SPEED = 150.0;
+        public static final double INTAKE_SPEED = 200.0;
         public static final double OUTAKE_SPEED = -100.0;
         public static final double EJECT_SPEED = 240.0;
     }

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.Blinkin;
 import frc.lib.Blinkin.LEDPatterns;
 import frc.lib.Controller;
@@ -62,7 +63,7 @@ import frc.robot.util.Sensors;
 public class RobotContainer {
 
     private Swerve swerve;
-    private Limelight limelight;
+    //private Limelight limelight;
     
     private Intake intake;
     private Elevator elevator;
@@ -86,7 +87,7 @@ public class RobotContainer {
 
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
-        this.limelight = new Limelight();
+        //this.limelight = new Limelight();
 
         this.intake = new Intake();
         this.elevator = new Elevator();
@@ -129,9 +130,6 @@ public class RobotContainer {
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
 
-        this.driverTwo.povUp().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment += 0.5));
-        this.driverTwo.povDown().onTrue(new InstantCommand(() -> this.arm.manualPivotAdjustment -= 0.5));
-
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
             Constants.ArmConstants.PIVOT_POSITION = 55.0;
@@ -141,9 +139,9 @@ public class RobotContainer {
 
         this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
 
-            Constants.ArmConstants.PIVOT_POSITION = 55.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            Constants.ArmConstants.PIVOT_POSITION = 24.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
         }));
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
@@ -366,9 +364,38 @@ public class RobotContainer {
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("Shoot", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
-        NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("SubShoot", new SequentialCommandGroup(
+            new InstantCommand(() -> {
 
+                Constants.ArmConstants.PIVOT_POSITION = 55.0;
+                Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            }),
+            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
+        ));
+
+        NamedCommands.registerCommand("FLShoot", new SequentialCommandGroup(
+            new InstantCommand(() -> {
+
+                Constants.ArmConstants.PIVOT_POSITION = 30.0;
+                Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            }),
+            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
+        ));
+
+        NamedCommands.registerCommand("StageShoot", new SequentialCommandGroup(
+            new InstantCommand(() -> {
+
+                Constants.ArmConstants.PIVOT_POSITION = 24.0;
+                Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
+                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
+            }),
+            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
+        ));
+
+        NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
+        
         AutoBuilder.configureHolonomic(
             this.swerve::getPose, this.swerve::resetOdometry,
             this.swerve::getRobotVelocity, this.swerve::setChassisSpeeds,

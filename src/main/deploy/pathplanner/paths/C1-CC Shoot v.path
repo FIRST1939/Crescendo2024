@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.364332529880336,
-        "y": 6.597620636828368
+        "x": 7.076993343584488,
+        "y": 7.399333401169697
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": "C1"
     },
     {
       "anchor": {
-        "x": 8.35,
-        "y": 2.45
+        "x": 4.23,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 8.327552258620141,
-        "y": 3.9117955858886257
+        "x": 4.3185144182036055,
+        "y": 6.345980726756014
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": "C4"
+      "isLocked": true,
+      "linkedName": "Center Shoot (C4,C3)"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -37.08533780802251,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center Lines",
+  "folder": "Center Shoot",
   "previewStartingState": {
-    "rotation": -34.36734561436878,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

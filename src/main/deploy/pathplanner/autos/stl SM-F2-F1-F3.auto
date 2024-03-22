@@ -1,0 +1,79 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.45,
+      "y": 5.55
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center Start-F2 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SM-F2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FS-F1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nF1-FS"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nFS-F3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nF3-FS"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "STL",
+  "choreoAuto": false
+}
