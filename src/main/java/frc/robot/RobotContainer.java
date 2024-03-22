@@ -211,7 +211,18 @@ public class RobotContainer {
 
                         this.armStateMachine.activateState(PivotArm.class);
                         this.shooterStateMachine.activateState(ShootNote.class);
-                    } else if ((this.arm.atPosition() && this.shooter.atSpeed()) || this.driverTwo.getRightTriggerAxis() > 0.5) {
+                    } else if (this.arm.atPosition() && this.shooter.atSpeed()) {
+
+                        this.indexerStateMachine.activateState(FeedNote.class);
+                    }
+                }
+            }
+
+            if (indexerState == HoldSpeakerNote.class) {
+
+                if (armState == PivotArm.class && shooterState == ShootNote.class) {
+
+                    if (this.driverTwo.getRightTriggerAxis() > 0.5) {
 
                         this.indexerStateMachine.activateState(FeedNote.class);
                     }
@@ -345,7 +356,7 @@ public class RobotContainer {
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("Score", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("Shoot", new AutoScoreNote(this.armStateMachine, this.shooterStateMachine));
         NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
 
         AutoBuilder.configureHolonomic(

@@ -9,7 +9,7 @@ public final class Constants {
     
     public final class RobotConstants {
 
-        public static final double ROBOT_MASS = 35.4626; // Robot Weight [kg]
+        public static final double ROBOT_MASS = 60.3; // Robot Weight [kg]
         public static final double LOOP_TIME = 0.13; // Control Loop Tick Timing [s]
         public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
         public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
@@ -69,7 +69,7 @@ public final class Constants {
         public static final int FOLLOWER_RAISE = 34;
 
         public static final boolean LEAD_RAISE_INVERTED = false;
-        public static final boolean FOLLOWER_RAISE_INVERTED = false;
+        public static final boolean FOLLOWER_RAISE_INVERTED = true;
 
         public static final IdleBehavior DISABLED_IDLE_BEHAVIOR = IdleBehavior.COAST;
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
@@ -112,12 +112,12 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
-        public static final double OVERLOAD_TIME = 0.5;
-        public static final double LOAD_TIME = 0.1;
+        public static final double OVERLOAD_TIME = 0.75;
+        public static final double LOAD_TIME = 0.2;
         public static final double FEED_WAIT = 1.0;
 
         public static final double FRONT_INDEX_SPEED = 200.0;
-        public static final double BACK_INDEX_SPEED = 80.0;
+        public static final double BACK_INDEX_SPEED = 120.0;
         public static final double LOAD_SPEED = -60.0;
         public static final double FEED_SPEED = 700.0;
         public static final double REVERSE_SPEED = -100.0;
@@ -135,16 +135,16 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int PIVOT_ENCODER = 1;
-        public static final double PIVOT_OFFSET = 0.3468;
+        public static final double PIVOT_OFFSET = 0.3514;
 
         public static final int LOWER_BOUND = 4;
         public static final int UPPER_BOUND = 5;
 
         public static final double PIVOT_KS = 0.15;
         public static final double PIVOT_KP = 0.2;
-        public static final double PIVOT_TOLERANCE = 0.65;
+        public static final double PIVOT_TOLERANCE = 0.35;
 
-        public static final double LOCK_POSITION = 26.0;
+        public static final double LOCK_POSITION = 22.0;
         public static double PIVOT_POSITION = 55.0;
     }
 
@@ -168,7 +168,7 @@ public final class Constants {
         public static final double SPEED_KS = 0.12;
         public static final double SPEED_KV = 0.0085;
         public static final double SPEED_KP = 0.005;
-        public static final double SPEED_TOLERANCE = 30.0;
+        public static final double SPEED_TOLERANCE = 25.0;
 
         public static double TOP_SHOOT_SPEED = 800.0;
         public static double BOTTOM_SHOOT_SPEED = 800.0;

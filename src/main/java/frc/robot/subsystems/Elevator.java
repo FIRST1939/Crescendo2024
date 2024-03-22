@@ -7,7 +7,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -30,6 +29,9 @@ public class Elevator extends SubsystemBase {
         this.leadRaise = new TalonFX(Constants.ElevatorConstants.LEAD_RAISE);
         this.followerRaise = new TalonFX(Constants.ElevatorConstants.FOLLOWER_RAISE);
 
+        this.leadRaise.setInverted(Constants.ElevatorConstants.LEAD_RAISE_INVERTED);
+        this.followerRaise.setInverted(Constants.ElevatorConstants.FOLLOWER_RAISE_INVERTED);
+
         this.raiseController = new PIDController(
             Constants.ElevatorConstants.RAISE_KP,
             0.0,
@@ -46,7 +48,6 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-        SmartDashboard.putNumber("Test", this.raisePosition.getAsDouble());
     }
 
     public void setPosition (double position) {

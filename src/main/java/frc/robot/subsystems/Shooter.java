@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -45,6 +46,14 @@ public class Shooter extends SubsystemBase {
 
         this.topController.setTolerance(Constants.ShooterConstants.SPEED_TOLERANCE);
         this.bottomController.setTolerance(Constants.ShooterConstants.SPEED_TOLERANCE);
+    }
+
+    @Override
+    public void periodic () {
+
+        SmartDashboard.putNumber("Top Error", this.topController.getPositionError());
+        SmartDashboard.putNumber("Bottom Error", this.bottomController.getPositionError());
+        SmartDashboard.putBoolean("Shooter At", this.atSpeed());
     }
 
     public void setTopVelocity (double velocity) {

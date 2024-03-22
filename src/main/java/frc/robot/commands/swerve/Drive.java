@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
 import frc.robot.util.Constants;
@@ -33,6 +34,7 @@ public class Drive extends Command {
 
         double vx = this.vx.getAsDouble();
         double vy = this.vy.getAsDouble();
+
         double rx, ry;
 
         if (Math.abs(vx) == Math.abs(vy)) { 
@@ -55,11 +57,14 @@ public class Drive extends Command {
         vy = ry * power;
 
         Translation2d translation = new Translation2d(vx, vy);
+        
+        /**
         translation = SwerveMath.limitVelocity(
             translation, this.swerve.getFieldVelocity(), this.swerve.getPose(), 
             Constants.RobotConstants.LOOP_TIME, Constants.RobotConstants.ROBOT_MASS, 
             Constants.RobotConstants.WEIGHT_DISTRIBUTION, this.swerve.getConfiguration()
         );
+        */
 
         double headingX = 0.0;
         double headingY = 0.0;
