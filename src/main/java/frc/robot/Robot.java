@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.elevator.LockElevator;
-import frc.robot.commands.indexer.HoldNote;
+import frc.robot.commands.indexer.HoldSpeakerNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.shooter.IdleShooter;
@@ -30,9 +30,10 @@ import frc.robot.util.Constants;
 public class Robot extends TimedRobot {
 
 	private RobotContainer robotContainer;
+	private boolean autoInitialized = false;
 	private Command autonomousCommand;
 	private Timer disabledTimer;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be used for any
 	 * initialization code.
@@ -53,7 +54,6 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
-		
 	}
 
 	@Override
@@ -71,10 +71,12 @@ public class Robot extends TimedRobot {
 		this.robotContainer.initializeStateMachines(
 			IdleIntake.class,
 			LockElevator.class,
-			HoldNote.class,
+			HoldSpeakerNote.class,
 			LockArm.class,
 			IdleShooter.class
 		);
+
+		this.autoInitialized = true;
 
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
@@ -91,29 +93,31 @@ public class Robot extends TimedRobot {
 
 		if (this.autonomousCommand != null) { this.autonomousCommand.cancel(); }
 
-		this.robotContainer.setIdleModes(
-			Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
-			Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
-		);
+		if (!this.autoInitialized) {
+			this.robotContainer.setIdleModes(
+				Constants.SwerveConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.IntakeConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ElevatorConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.IndexerConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ArmConstants.ENABLED_IDLE_BEHAVIOR,
+				Constants.ShooterConstants.ENABLED_IDLE_BEHAVIOR
+			);
 
-		// TODO: Other State Machine Configurations
-		this.robotContainer.initializeStateMachines(
-			IdleIntake.class,
-			LockElevator.class,
-			IdleIndexer.class,
-			LockArm.class,
-			IdleShooter.class
-		);
+			this.robotContainer.initializeStateMachines(
+				IdleIntake.class,
+				LockElevator.class,
+				IdleIndexer.class,
+				LockArm.class,
+				IdleShooter.class
+			);
+		}
 	}
 
 	@Override
 	public void teleopPeriodic () {
 
 		this.robotContainer.runStateMachines();
+		this.robotContainer.runLEDs();
 	}
 
 	@Override

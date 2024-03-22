@@ -7,11 +7,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
+import frc.robot.util.Sensors;
 
 public class Arm extends SubsystemBase {
     
@@ -19,11 +20,8 @@ public class Arm extends SubsystemBase {
     private DutyCycleEncoder pivotEncoder;
 
     private PIDController pivotController;
-    private VoltageOut voltageOut = new VoltageOut(0);
-
     private DoubleSupplier pivotPosition;
-    private DigitalInput lowerBound;
-    private DigitalInput upperBound;
+    private VoltageOut voltageOut = new VoltageOut(0);
 
     public double manualPivotAdjustment = 0.0;
 
@@ -39,9 +37,15 @@ public class Arm extends SubsystemBase {
             0.0
         );
 
+        this.pivotController.setTolerance(Constants.ArmConstants.PIVOT_TOLERANCE);
         this.pivotPosition = () -> -(this.pivotEncoder.getAbsolutePosition() - Constants.ArmConstants.PIVOT_OFFSET) * 360;
-        this.lowerBound = new DigitalInput(Constants.ArmConstants.LOWER_BOUND);
-        this.upperBound = new DigitalInput(Constants.ArmConstants.UPPER_BOUND);
+    }
+
+    @Override
+    public void periodic () {
+        
+        SmartDashboard.putNumber("Arm Error", this.pivotController.getPositionError());
+        SmartDashboard.putBoolean("Arm At", this.atPosition());
     }
 
     public void setPosition (double position) { 
@@ -50,8 +54,11 @@ public class Arm extends SubsystemBase {
         double feedforward = Constants.ArmConstants.PIVOT_KS * -Math.signum(error);
         double input = feedforward - this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
 
-        if (input < 0.0 && this.lowerBound.get()) input = 0.0;
-        if (input > 0.0 && this.upperBound.get()) input = 0.0;
+        SmartDashboard.putNumber("I1", input);
+        if (input < 0.0 && Sensors.getArmLowerBound()) input = 0.0;
+        if (input > 0.0 && Sensors.getArmUpperBound()) input = 0.0;
+        SmartDashboard.putNumber("I2", input);
+        
         this.pivot.setControl(this.voltageOut.withOutput(input));
     }
 

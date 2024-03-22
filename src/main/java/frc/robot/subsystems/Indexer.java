@@ -5,8 +5,6 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -16,13 +14,6 @@ public class Indexer extends SubsystemBase {
 
     private CANSparkFlex frontRollers;
     private CANSparkMax backRollers;
-    
-    private DigitalInput startBeam;
-    private DigitalInput endBeam;
-
-    private Timer overloadTimer;
-    private Timer loadTimer;
-    private Timer feedTimer;
 
     public Indexer () {
 
@@ -37,31 +28,6 @@ public class Indexer extends SubsystemBase {
 
         this.backRollers.getEncoder().setPositionConversionFactor(Constants.IndexerConstants.BACK_ROLLERS_REDUCTION * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
         this.backRollers.getEncoder().setVelocityConversionFactor((Constants.IndexerConstants.BACK_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
-
-        this.startBeam = new DigitalInput(Constants.IndexerConstants.START_BEAM);
-        this.endBeam = new DigitalInput(Constants.IndexerConstants.END_BEAM);
-
-        this.overloadTimer = new Timer();
-        this.loadTimer = new Timer();
-        this.feedTimer = new Timer();
-    }
-
-    @Override
-    public void periodic () {
-
-        if (!this.endBeam.get() && this.overloadTimer.get() == 0.0) { this.overloadTimer.start(); }
-        else if (this.endBeam.get()) {
-
-            this.overloadTimer.stop();
-            this.overloadTimer.reset();
-        }
-
-        if (this.endBeam.get() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
-        else if (!this.endBeam.get()) {
-
-            this.feedTimer.stop();
-            this.feedTimer.reset();
-        }
     }
 
     public void setFrontVelocity (double velocity) {
@@ -85,15 +51,6 @@ public class Indexer extends SubsystemBase {
 
         this.backRollers.set(velocity / maximumVelocity);
     }
-
-    public void restartLoadTimer () {  this.loadTimer.restart(); }
-
-    public boolean noteContained () { return !(this.startBeam.get() && this.endBeam.get()); }
-    public boolean noteIndexed () { return !this.endBeam.get() && this.overloadTimer.get() > Constants.IndexerConstants.OVERLOAD_TIME; }
-    public boolean noteLoaded () { return this.loadTimer.get() > Constants.IndexerConstants.LOAD_TIME; }
-    public boolean noteFed () { return this.endBeam.get() && this.feedTimer.get() > Constants.IndexerConstants.FEED_WAIT; }
-
-    public boolean getBeamBreak () { return this.endBeam.get(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

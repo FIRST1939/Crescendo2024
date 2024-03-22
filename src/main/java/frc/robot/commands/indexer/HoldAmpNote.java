@@ -3,20 +3,20 @@ package frc.robot.commands.indexer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 
-public class HoldNote extends Command {
-
+public class HoldAmpNote extends Command {
+    
     private Indexer indexer;
 
-    public HoldNote (Indexer indexer) {
+    public HoldAmpNote (Indexer indexer) {
 
         this.indexer = indexer;
-        this.addRequirements(this.indexer);
+        this.addRequirements(indexer);
     }
-    
+
     @Override
-    public void execute () { 
-        
-        this.indexer.setFrontVelocity(0.0); 
+    public void initialize () {
+
+        this.indexer.setFrontVelocity(0.0);
         this.indexer.setBackVelocity(0.0);
     }
 }

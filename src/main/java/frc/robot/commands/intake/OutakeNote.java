@@ -15,5 +15,8 @@ public class OutakeNote extends Command {
     }
     
     @Override
-    public void execute () { this.intake.setVelocity(Constants.IntakeConstants.OUTAKE_SPEED); }
+    public void execute () { 
+        
+        this.intake.setVelocity(Constants.IntakeConstants.OUTAKE_SPEED); 
+    }
 }
