@@ -29,6 +29,7 @@ import frc.robot.commands.auto.AutoScoreNote;
 import frc.robot.commands.elevator.IdleElevator;
 import frc.robot.commands.elevator.LockElevator;
 import frc.robot.commands.elevator.ManualLowerElevator;
+import frc.robot.commands.elevator.ManualLowerSlowElevator;
 import frc.robot.commands.elevator.ManualRaiseElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.DropNote;
@@ -275,22 +276,32 @@ public class RobotContainer {
                 }
             } else if (elevatorState == IdleElevator.class) {
 
-                if (this.driverOne.getLeftTriggerAxis() > 0.5) {
+                if (this.driverOne.getHID().getAButton()) {
+
+                    this.elevatorStateMachine.activateState(ManualLowerSlowElevator.class);
+                }
+                else if (this.driverOne.getHID().getBButton()) {
 
                     this.elevatorStateMachine.activateState(ManualLowerElevator.class);
-                } else if (this.driverOne.getRightTriggerAxis() > 0.5) {
+                } else if (this.driverOne.getHID().getYButton()) {
 
                     this.elevatorStateMachine.activateState(ManualRaiseElevator.class);
                 }
+            } else if (elevatorState == ManualLowerSlowElevator.class) {
+
+                if (!this.driverOne.getHID().getAButton()) {
+
+                    this.elevatorStateMachine.activateState(IdleElevator.class);
+                }
             } else if (elevatorState == ManualLowerElevator.class) {
 
-                if (this.driverOne.getLeftTriggerAxis() < 0.5) {
+                if (!this.driverOne.getHID().getBButton()) {
 
                     this.elevatorStateMachine.activateState(IdleElevator.class);
                 }
             } else if (elevatorState == ManualRaiseElevator.class) {
 
-                if (this.driverOne.getRightTriggerAxis() < 0.5) {
+                if (!this.driverOne.getHID().getYButton()) {
 
                     this.elevatorStateMachine.activateState(IdleElevator.class);
                 }
