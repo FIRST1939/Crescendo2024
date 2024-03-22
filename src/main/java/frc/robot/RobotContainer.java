@@ -39,19 +39,20 @@ import frc.robot.commands.indexer.HoldAmpNote;
 import frc.robot.commands.indexer.HoldSpeakerNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.indexer.IndexAmpNote;
+import frc.robot.commands.indexer.IndexSourceNote;
 import frc.robot.commands.indexer.IndexSpeakerNote;
 import frc.robot.commands.indexer.ReverseNote;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.intake.IntakeNote;
 import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
+import frc.robot.commands.shooter.PullSourceNote;
 import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.Drive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Swerve.Target;
@@ -147,6 +148,7 @@ public class RobotContainer {
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
         this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));
         this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Target.STAGE)));
+        this.driverTwo.b().onTrue(new InstantCommand(() -> this.transferObjective(Target.SOURCE)));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -304,6 +306,17 @@ public class RobotContainer {
                     this.elevatorStateMachine.activateState(IdleElevator.class);
                 }
             }
+        } else if (Swerve.target == Target.SOURCE) {
+
+            if (indexerState == IndexSourceNote.class && shooterState == PullSourceNote.class && indexerFinished && shooterFinished) {
+
+                this.indexerStateMachine.activateState(IndexSpeakerNote.class);
+                this.shooterStateMachine.activateState(IdleShooter.class);
+                Swerve.target = Target.SPEAKER;
+            }
+
+            this.indexerStateMachine.activateState(IndexSourceNote.class);
+            this.shooterStateMachine.activateState(PullSourceNote.class);
         }
 
         if (this.driverTwo.getLeftTriggerAxis() > 0.5) {
@@ -359,6 +372,9 @@ public class RobotContainer {
         } else if (Swerve.target == Target.STAGE) {
 
             this.blinkin.set(LEDPatterns.YELLOW);
+        } else if (Swerve.target == Target.SOURCE) {
+
+            this.blinkin.set(LEDPatterns.RED);
         }
     }
 
