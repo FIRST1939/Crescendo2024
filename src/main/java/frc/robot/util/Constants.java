@@ -121,6 +121,7 @@ public final class Constants {
         public static final double BACK_INDEX_SPEED = 120.0;
         public static final double LOAD_SPEED = -60.0;
         public static final double FEED_SPEED = 700.0;
+        public static final double SOURCE_SPEED = -80.0;
         public static final double REVERSE_SPEED = -100.0;
         public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
@@ -173,6 +174,7 @@ public final class Constants {
 
         public static double TOP_SHOOT_SPEED = 800.0;
         public static double BOTTOM_SHOOT_SPEED = 800.0;
+        public static double PULL_SOURCE_SPEED = -400.0;
         public static final double EJECT_SPEED = 600.0;
     }
 
