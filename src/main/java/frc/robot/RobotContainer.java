@@ -133,16 +133,31 @@ public class RobotContainer {
 
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
-            Constants.ArmConstants.PIVOT_POSITION = 55.0;
+            Constants.ArmConstants.PIVOT_POSITION = 59.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
         }));
 
-        this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
+        this.driverTwo.povDown().onTrue(new InstantCommand(() -> {
 
-            Constants.ArmConstants.PIVOT_POSITION = 24.0;
+            Constants.ArmConstants.PIVOT_POSITION = 34.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+        }));
+
+        this.driverTwo.povUp().onTrue(new InstantCommand(() -> {
+
+            Constants.ArmConstants.PIVOT_POSITION = 28.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
+        }));
+
+
+        this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
+
+            Constants.ArmConstants.PIVOT_POSITION = 54.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 900.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 900.0;
         }));
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
@@ -308,7 +323,7 @@ public class RobotContainer {
             }
         } else if (Swerve.target == Target.SOURCE) {
 
-            if (indexerState == IndexSourceNote.class && shooterState == PullSourceNote.class && indexerFinished && shooterFinished) {
+            if ((indexerState == IndexSourceNote.class && shooterState == PullSourceNote.class && indexerFinished && shooterFinished) || this.driverTwo.getRightTriggerAxis() > 0.5) {
 
                 this.indexerStateMachine.activateState(IndexSpeakerNote.class);
                 this.armStateMachine.activateState(LockArm.class);
@@ -344,12 +359,13 @@ public class RobotContainer {
         } else if (Swerve.target != Target.STAGE && target == Target.STAGE) {
 
             this.elevatorStateMachine.activateState(RaiseElevator.class);
+            this.armStateMachine.activateState(LockArm.class);
         } else if (Swerve.target == Target.STAGE && target != Target.STAGE) {
 
             this.elevatorStateMachine.activateState(LockElevator.class);
         } else if (Swerve.target != Target.SOURCE && target == Target.SOURCE) {
 
-            Constants.ArmConstants.PIVOT_POSITION = 55.0;
+            Constants.ArmConstants.PIVOT_POSITION = 34.0;
             this.indexerStateMachine.activateState(IndexSourceNote.class);
             this.armStateMachine.activateState(PivotArm.class);
             this.shooterStateMachine.activateState(PullSourceNote.class);
@@ -387,7 +403,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("SubShoot", new SequentialCommandGroup(
             new InstantCommand(() -> {
 
-                Constants.ArmConstants.PIVOT_POSITION = 55.0;
+                Constants.ArmConstants.PIVOT_POSITION = 59.0;
                 Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
                 Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
             }),
@@ -397,7 +413,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("FLShoot", new SequentialCommandGroup(
             new InstantCommand(() -> {
 
-                Constants.ArmConstants.PIVOT_POSITION = 30.0;
+                Constants.ArmConstants.PIVOT_POSITION = 34.0;
                 Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
                 Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
             }),
@@ -407,7 +423,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("StageShoot", new SequentialCommandGroup(
             new InstantCommand(() -> {
 
-                Constants.ArmConstants.PIVOT_POSITION = 24.0;
+                Constants.ArmConstants.PIVOT_POSITION = 28.0;
                 Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
                 Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
             }),

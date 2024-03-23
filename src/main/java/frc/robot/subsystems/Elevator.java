@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.ThroughBoreEncoder;
 import frc.robot.util.Constants;
@@ -48,6 +49,7 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
+        SmartDashboard.putNumber("Elevator", this.raisePosition.getAsDouble());
     }
 
     public void setPosition (double position) {
@@ -60,8 +62,10 @@ public class Elevator extends SubsystemBase {
         if (input > 0.0 && Sensors.getElevatorUpperBound()) { input = 0.0; }
         input = Math.signum(input) * Math.min(Math.abs(input), Constants.ElevatorConstants.RAISE_CAP);
 
-        this.leadRaise.setControl(this.voltageOut.withOutput(input));
-        this.followerRaise.setControl(this.voltageOut.withOutput(input));
+        this.leadRaise.set(0.0);
+        this.followerRaise.set(0.0);
+        //this.leadRaise.setControl(this.voltageOut.withOutput(input));
+        //this.followerRaise.setControl(this.voltageOut.withOutput(input));
     }
 
     public void setInput (double input) {
@@ -73,7 +77,11 @@ public class Elevator extends SubsystemBase {
     }
 
     public double getPosition () { return this.raisePosition.getAsDouble(); }
-    public boolean atHeight () { return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); }
+    public boolean atHeight () { 
+        
+        //return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); 
+        return true;
+    }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

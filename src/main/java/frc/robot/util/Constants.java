@@ -58,7 +58,7 @@ public final class Constants {
         public static final double TOP_ROLLER_DIAMETER = 2.0;
         public static final double BOTTOM_ROLLER_DIAMETER = 1.625;
 
-        public static final double INTAKE_SPEED = 200.0;
+        public static final double INTAKE_SPEED = 240.0;
         public static final double OUTAKE_SPEED = -100.0;
         public static final double EJECT_SPEED = 240.0;
     }
@@ -121,7 +121,7 @@ public final class Constants {
         public static final double BACK_INDEX_SPEED = 120.0;
         public static final double LOAD_SPEED = -60.0;
         public static final double FEED_SPEED = 700.0;
-        public static final double SOURCE_SPEED = -80.0;
+        public static final double SOURCE_SPEED = -120.0;
         public static final double REVERSE_SPEED = -100.0;
         public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
@@ -146,7 +146,7 @@ public final class Constants {
         public static final double PIVOT_KP = 0.2;
         public static final double PIVOT_TOLERANCE = 0.35;
 
-        public static final double LOCK_POSITION = 22.0;
+        public static final double LOCK_POSITION = 28.0;
         public static double PIVOT_POSITION = 55.0;
     }
 
@@ -174,7 +174,7 @@ public final class Constants {
 
         public static double TOP_SHOOT_SPEED = 800.0;
         public static double BOTTOM_SHOOT_SPEED = 800.0;
-        public static double PULL_SOURCE_SPEED = -400.0;
+        public static double PULL_SOURCE_SPEED = -200.0;
         public static final double EJECT_SPEED = 600.0;
     }
 
