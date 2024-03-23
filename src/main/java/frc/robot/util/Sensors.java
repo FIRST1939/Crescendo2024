@@ -15,6 +15,10 @@ public class Sensors {
     public static boolean getElevatorUpperBound () {  return elevatorUpperBound.get(); }
     public static boolean getIndexerStartBeam () {  return indexerStartBeam.get(); }
     public static boolean getIndexerEndBeam () {  return indexerEndBeam.get(); }
-    public static boolean getArmLowerBound () {  return armLowerBound.get(); }
+    public static boolean getArmLowerBound () {  
+     
+        return false;
+        //return armLowerBound.get(); 
+    }
     public static boolean getArmUpperBound () {  return armUpperBound.get(); }
 }

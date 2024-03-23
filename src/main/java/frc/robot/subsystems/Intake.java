@@ -31,6 +31,13 @@ public class Intake extends SubsystemBase {
 
    public void setVelocity (double velocity) {
 
+      if (velocity == 0.0) { 
+         
+         this.topRoller.set(0.0);
+         this.bottomRoller.set(0.0);
+         return; 
+      }
+
       double topMaximumVelocity = MotorUtil.getMaxVelocity(
          frc.robot.util.MotorUtil.MotorType.NEO,
          Constants.IntakeConstants.TOP_ROLLER_DIAMETER,
@@ -44,7 +51,7 @@ public class Intake extends SubsystemBase {
       );
 
       this.topRoller.set(velocity / topMaximumVelocity);
-      this.bottomRoller.set(velocity / bottomMaximumVelocity);
+      this.bottomRoller.set(Math.signum(velocity) * (Math.abs(velocity) - 40) / bottomMaximumVelocity);
    }
 
    public void setIdleBehavior (IdleBehavior idleBehavior) {
