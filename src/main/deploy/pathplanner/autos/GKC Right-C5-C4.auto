@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.55,
+      "x": 1.4,
       "y": 2.05
     },
     "rotation": 0
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "C4-CC Shoot v"
+            "pathName": "C4-CR Shoot v"
           }
         },
         {
