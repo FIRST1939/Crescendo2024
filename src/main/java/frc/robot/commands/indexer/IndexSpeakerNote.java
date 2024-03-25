@@ -26,6 +26,18 @@ public class IndexSpeakerNote extends Command {
     }
 
     @Override
+    public void initialize () {
+
+        this.stage = Stages.HANDOFF;
+
+        this.overloadTimer.stop();
+        this.overloadTimer.reset();
+        
+        this.loadTimer.stop();
+        this.loadTimer.reset();
+    }
+
+    @Override
     public void execute () {
     
         if (!Sensors.getIndexerEndBeam() && this.overloadTimer.get() == 0.0) {

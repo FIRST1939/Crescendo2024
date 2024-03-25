@@ -23,8 +23,6 @@ public class Arm extends SubsystemBase {
     private DoubleSupplier pivotPosition;
     private VoltageOut voltageOut = new VoltageOut(0);
 
-    public double manualPivotAdjustment = 0.0;
-
     public Arm () {
 
         this.pivot = new TalonFX(Constants.ArmConstants.PIVOT);

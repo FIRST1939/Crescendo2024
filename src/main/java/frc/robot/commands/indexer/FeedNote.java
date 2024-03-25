@@ -17,11 +17,18 @@ public class FeedNote extends Command {
         this.feedTimer = new Timer();
         this.addRequirements(this.indexer);
     }
+
+    @Override
+    public void initialize () { 
+    
+        this.feedTimer.stop();
+        this.feedTimer.reset(); 
+    }
     
     @Override
     public void execute () { 
         
-        if (Sensors.getIndexerEndBeam() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }
+        if (Sensors.getIndexerEndBeam()) { this.feedTimer.start(); }
         this.indexer.setBackVelocity(Constants.IndexerConstants.FEED_SPEED); 
     }
 
@@ -29,5 +36,11 @@ public class FeedNote extends Command {
     public boolean isFinished () {
 
         return (this.feedTimer.get() >= Constants.IndexerConstants.FEED_WAIT);
+    }
+
+    @Override
+    public void end (boolean interrupted) { 
+        
+        this.indexer.setBackVelocity(0.0); 
     }
 }

@@ -15,15 +15,8 @@ public class LockArm extends Command {
     }
 
     @Override
-    public void initialize () { 
-        
-        this.arm.manualPivotAdjustment = 0.0; 
-    }
-
-    @Override
     public void execute () { 
         
-        double armPosition = Constants.ArmConstants.LOCK_POSITION + this.arm.manualPivotAdjustment;
-        this.arm.setPosition(armPosition); 
+        this.arm.setPosition(Constants.ArmConstants.LOCK_POSITION); 
     }
 }
