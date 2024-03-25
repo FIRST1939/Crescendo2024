@@ -1,22 +1,29 @@
 package frc.robot.commands.swerve;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Swerve.Target;
 import frc.robot.util.Constants;
-import swervelib.math.SwerveMath;
 
 public class Drive extends Command {
     
     private final Swerve swerve;
     private final DoubleSupplier vx, vy;
-    private final DoubleSupplier omega, headingLock;
+    private final DoubleSupplier omega;
 
-    public Drive (Swerve swerve, DoubleSupplier vx, DoubleSupplier vy, DoubleSupplier omega, DoubleSupplier headingLock) {
+    private boolean sourceHeadingLock = false;
+    private boolean objectiveHeadingLock = false;
+    private final BooleanSupplier leftBumper, rightBumper;
+
+    public Drive (Swerve swerve, DoubleSupplier vx, DoubleSupplier vy, DoubleSupplier omega, BooleanSupplier leftBumper, BooleanSupplier rightBumper) {
 
         this.swerve = swerve;
 
@@ -24,7 +31,8 @@ public class Drive extends Command {
         this.vy = vy;
 
         this.omega = omega;
-        this.headingLock = headingLock;
+        this.leftBumper = leftBumper;
+        this.rightBumper = rightBumper;
 
         this.addRequirements(this.swerve);
     }
@@ -66,19 +74,59 @@ public class Drive extends Command {
         );
         */
 
-        double headingX = 0.0;
-        double headingY = 0.0;
-        double headingLock = this.headingLock.getAsDouble();
+        if (this.leftBumper.getAsBoolean()) { this.sourceHeadingLock = true; }
+        if (this.rightBumper.getAsBoolean()) { this.objectiveHeadingLock = true; }
 
-        if (headingLock != -1.0) {
+        if (this.omega.getAsDouble() != 0.0) {
 
-            if (headingLock >= 45 && headingLock <= 135) { headingX = -1.0; }
-            else if (headingLock >= 225 && headingLock <= 315) { headingX = 1.0; }
+            this.sourceHeadingLock = false;
+            this.objectiveHeadingLock = false;
+        }
 
-            if (headingLock >= 315 || headingLock <= 45) { headingY = 1.0; }
-            else if (headingLock >= 135 && headingLock <= 225) { headingY = -1.0; }
+        if (this.sourceHeadingLock) {
 
-            this.swerve.driveHeadingLock(translation, new Rotation2d(headingX, headingY));
+            Rotation2d source = new Rotation2d();
+
+            if (DriverStation.getAlliance().get() == Alliance.Blue) { 
+                        
+                source = new Rotation2d(-60.0); 
+            } else {
+
+                source = new Rotation2d(220.0);
+            }
+
+            this.swerve.driveHeadingLock(translation, source);
+            return;
+        }
+
+        if (this.objectiveHeadingLock) {
+
+            Rotation2d objective = new Rotation2d();
+
+            if (Swerve.target == Target.SPEAKER) {
+
+                Pose2d pose = this.swerve.getPose();
+
+                if (DriverStation.getAlliance().isPresent()) {
+
+                    if (DriverStation.getAlliance().get() == Alliance.Blue) { 
+                        
+                        double headingX = 5.5531 - pose.getY();
+                        double headingY = 16.5418 - pose.getX();
+                        objective = new Rotation2d(headingX, headingY);
+                    } else {
+
+                        double headingX = 5.5531 - pose.getY();
+                        double headingY = -pose.getX();
+                        objective = new Rotation2d(headingX, headingY);
+                    }
+                }
+            } else if (Swerve.target == Target.AMP) { 
+                
+                objective = new Rotation2d(90.0); 
+            }
+
+            this.swerve.driveHeadingLock(translation, objective);
             return;
         }
 
