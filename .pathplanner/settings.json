@@ -10,10 +10,10 @@
     "Test"
   ],
   "autoFolders": [
-    "Checked",
-    "STL"
+    "GKC",
+    "Test"
   ],
-  "defaultMaxVel": 5.0,
+  "defaultMaxVel": 5.05,
   "defaultMaxAccel": 2.5,
   "defaultMaxAngVel": 180.0,
   "defaultMaxAngAccel": 180.0,

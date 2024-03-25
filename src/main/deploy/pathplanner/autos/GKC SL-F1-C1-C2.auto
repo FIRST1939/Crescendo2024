@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.75,
-      "y": 4.38
+      "y": 6.72
     },
-    "rotation": -60.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right Side Start-F3 v"
+            "pathName": "Left Side Start-F1 v"
           }
         },
         {
@@ -32,13 +32,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "F3-C5 v"
+            "pathName": "F1-C1 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C5-CR Shoot v"
+            "pathName": "C1-CL Shoot v"
           }
         },
         {
@@ -50,13 +50,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CR Shoot-C4 v"
+            "pathName": "CL Shoot-C2 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C4-CC Shoot v"
+            "pathName": "C2-CL Shoot v"
           }
         },
         {
@@ -68,6 +68,6 @@
       ]
     }
   },
-  "folder": "STL",
+  "folder": "GKC",
   "choreoAuto": false
 }

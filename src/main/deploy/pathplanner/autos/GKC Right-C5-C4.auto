@@ -26,6 +26,24 @@
         {
           "type": "path",
           "data": {
+            "pathName": "CR Shoot-C5 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5-CR Shoot v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StageShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
             "pathName": "CR Shoot-C4 v"
           }
         },
@@ -40,28 +58,10 @@
           "data": {
             "name": "StageShoot"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CC Shoot-C3 v"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C3-CC Shoot v"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StageShoot"
-          }
         }
       ]
     }
   },
-  "folder": "STL",
+  "folder": "GKC",
   "choreoAuto": false
 }

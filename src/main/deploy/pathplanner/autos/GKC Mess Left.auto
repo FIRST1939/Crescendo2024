@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.45,
-      "y": 5.55
+      "x": 0.75,
+      "y": 6.72
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -20,60 +20,42 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Center Start-F2 v"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "SM-F2"
+            "pathName": "Left Side Start-F1 v"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "SubShoot"
+            "name": "FLShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "FS-F1"
+            "pathName": "F1-C1 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "nF1-FS"
+            "pathName": "Mess C1-C4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C4-CC Shoot v"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "SubShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "nFS-F3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "nF3-FS"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SubShoot"
+            "name": "StageShoot"
           }
         }
       ]
     }
   },
-  "folder": "STL",
+  "folder": "GKC",
   "choreoAuto": false
 }

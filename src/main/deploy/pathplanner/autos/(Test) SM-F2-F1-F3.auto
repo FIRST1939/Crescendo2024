@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.72
+      "x": 1.45,
+      "y": 5.55
     },
-    "rotation": 61.344387646500785
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,60 +20,60 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start-F1 v"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "FLShoot"
+            "pathName": "Center Start-F2 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1-F2 v"
+            "pathName": "SM-F2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FLShoot"
+            "name": "SubShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F2-F3 v"
+            "pathName": "FS-F1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "nF1-FS"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FLShoot"
+            "name": "SubShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F3-C5 v"
+            "pathName": "nFS-F3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C5-CR Shoot v"
+            "pathName": "nF3-FS"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "StageShoot"
+            "name": "SubShoot"
           }
         }
       ]
     }
   },
-  "folder": "STL",
+  "folder": "Test",
   "choreoAuto": false
 }

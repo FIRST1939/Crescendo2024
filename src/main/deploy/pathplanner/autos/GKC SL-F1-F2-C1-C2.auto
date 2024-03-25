@@ -2,19 +2,55 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.55,
-      "y": 2.05
+      "x": 0.75,
+      "y": 6.72
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SubShoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Right Start-CR Shoot v"
+            "pathName": "Left Side Start-F1 v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FLShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F1-F2 v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "FLShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "F2-C1 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-CL Shoot v"
           }
         },
         {
@@ -26,31 +62,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CR Shoot-C5 v"
+            "pathName": "CL Shoot-C2 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C5-CR Shoot v"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StageShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CR Shoot-C4 v"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4-CC Shoot v"
+            "pathName": "C2-CL Shoot v"
           }
         },
         {
@@ -62,6 +80,6 @@
       ]
     }
   },
-  "folder": "STL",
+  "folder": "GKC",
   "choreoAuto": false
 }
