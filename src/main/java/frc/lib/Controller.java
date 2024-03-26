@@ -1,8 +1,6 @@
 package frc.lib;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.Alerts;
@@ -10,13 +8,13 @@ import frc.robot.util.Alerts;
 public class Controller extends CommandXboxController implements Subsystem {
     
     private int port;
-    private Timer rumbleTimer;
+    private boolean lastLeftTrigger;
+    private boolean lastRightTrigger;
 
     public Controller (int port) { 
         
         super(port); 
         this.port = port;
-        this.rumbleTimer = new Timer();
     }
 
     @Override
@@ -31,18 +29,34 @@ public class Controller extends CommandXboxController implements Subsystem {
             if (this.port == 0) { Alerts.driverOneDisconnected.set(false);}
             if (this.port == 1) { Alerts.driverTwoDisconnected.set(false); }
         }
-
-        if (this.rumbleTimer.get() > 0.75) {
-
-            this.getHID().setRumble(RumbleType.kBothRumble, 0.0);
-            this.rumbleTimer.reset();
-            this.rumbleTimer.stop();
-        }
     }
 
-    public void setRumble (RumbleType rumbleType, double value) {
+    public Actions getLeftTrigger () {
 
-        //this.getHID().setRumble(rumbleType, value);
-        this.rumbleTimer.restart();
+        boolean current = this.getHID().getLeftTriggerAxis() > 0.5;
+        boolean pressed = current && !this.lastLeftTrigger;
+        boolean released = !current && this.lastLeftTrigger;
+        this.lastLeftTrigger = current;
+        
+        if (pressed) { return Actions.PRESS; }
+        if (released) { return Actions.RELEASE; }
+        return null;
+    }
+
+    public Actions getRightTrigger () {
+
+        boolean current = this.getHID().getRightTriggerAxis() > 0.5;
+        boolean pressed = current && !this.lastRightTrigger;
+        boolean released = !current && this.lastRightTrigger;
+        this.lastRightTrigger = current;
+
+        if (pressed) { return Actions.PRESS; }
+        if (released) { return Actions.RELEASE; }
+        return null;
+    }
+
+    public enum Actions {
+        PRESS,
+        RELEASE
     }
 }

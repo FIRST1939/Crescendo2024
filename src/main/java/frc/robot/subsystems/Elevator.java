@@ -49,7 +49,8 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-        SmartDashboard.putNumber("Elevator", this.raisePosition.getAsDouble());
+        SmartDashboard.putBoolean("Bottom Elevator", Sensors.getElevatorLowerBound());
+        SmartDashboard.putBoolean("Top Elevator", Sensors.getElevatorUpperBound());
     }
 
     public void setPosition (double position) {
@@ -62,10 +63,11 @@ public class Elevator extends SubsystemBase {
         if (input > 0.0 && Sensors.getElevatorUpperBound()) { input = 0.0; }
         input = Math.signum(input) * Math.min(Math.abs(input), Constants.ElevatorConstants.RAISE_CAP);
 
-        this.leadRaise.set(0.0);
-        this.followerRaise.set(0.0);
         //this.leadRaise.setControl(this.voltageOut.withOutput(input));
         //this.followerRaise.setControl(this.voltageOut.withOutput(input));
+
+        if (position != 0.0) { this.setInput(0.45); }
+        else { this.setInput(-0.45); }
     }
 
     public void setInput (double input) {
@@ -80,7 +82,7 @@ public class Elevator extends SubsystemBase {
     public boolean atHeight () { 
         
         //return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); 
-        return true;
+        return (Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
     }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {

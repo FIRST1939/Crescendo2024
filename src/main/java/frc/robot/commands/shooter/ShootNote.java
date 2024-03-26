@@ -19,6 +19,13 @@ public class ShootNote extends Command {
     }
 
     @Override
+    public void initialize () { 
+        
+        this.feedTimer.stop();
+        this.feedTimer.reset(); 
+    }
+
+    @Override
     public void execute () { 
         
         if (Sensors.getIndexerEndBeam() && this.feedTimer.get() == 0.0) { this.feedTimer.start(); }

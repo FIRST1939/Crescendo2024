@@ -21,17 +21,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.Blinkin;
 import frc.lib.Blinkin.LEDPatterns;
 import frc.lib.Controller;
+import frc.lib.Controller.Actions;
 import frc.lib.StateMachine;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
-import frc.robot.commands.elevator.IdleElevator;
 import frc.robot.commands.elevator.LockElevator;
-import frc.robot.commands.elevator.ManualLowerElevator;
-import frc.robot.commands.elevator.ManualLowerSlowElevator;
-import frc.robot.commands.elevator.ManualRaiseElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.DropNote;
 import frc.robot.commands.indexer.FeedNote;
@@ -39,20 +36,20 @@ import frc.robot.commands.indexer.HoldAmpNote;
 import frc.robot.commands.indexer.HoldSpeakerNote;
 import frc.robot.commands.indexer.IdleIndexer;
 import frc.robot.commands.indexer.IndexAmpNote;
-import frc.robot.commands.indexer.IndexSourceNote;
 import frc.robot.commands.indexer.IndexSpeakerNote;
 import frc.robot.commands.indexer.ReverseNote;
 import frc.robot.commands.intake.IdleIntake;
 import frc.robot.commands.intake.IntakeNote;
 import frc.robot.commands.intake.OutakeNote;
 import frc.robot.commands.shooter.IdleShooter;
-import frc.robot.commands.shooter.PullSourceNote;
 import frc.robot.commands.shooter.ShootNote;
 import frc.robot.commands.swerve.Drive;
+import frc.robot.commands.swerve.TrackAprilTags;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Swerve.Target;
@@ -64,7 +61,7 @@ import frc.robot.util.Sensors;
 public class RobotContainer {
 
     private Swerve swerve;
-    //private Limelight limelight;
+    private Limelight limelight;
     
     private Intake intake;
     private Elevator elevator;
@@ -88,7 +85,7 @@ public class RobotContainer {
 
         try { this.swerve = new Swerve(); }
         catch (IOException ioException) {}
-        //this.limelight = new Limelight();
+        this.limelight = new Limelight();
 
         this.intake = new Intake();
         this.elevator = new Elevator();
@@ -123,10 +120,11 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getLeftY() * allianceOriented.getAsInt(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getLeftX() * allianceOriented.getAsInt(), Constants.SwerveConstants.TRANSLATION_DEADBAND),
             () -> MathUtil.applyDeadband(this.driverOne.getHID().getRightX(), Constants.SwerveConstants.OMEGA_DEADBAND), 
-            () -> this.driverOne.getHID().getPOV()
+            () -> this.driverOne.getHID().getLeftBumperPressed(),
+            () -> this.driverOne.getHID().getRightBumperPressed()
         ));
 
-        //this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
+        this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
@@ -163,7 +161,6 @@ public class RobotContainer {
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
         this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));
         this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Target.STAGE)));
-        this.driverTwo.b().onTrue(new InstantCommand(() -> this.transferObjective(Target.SOURCE)));
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -188,162 +185,103 @@ public class RobotContainer {
         boolean armFinished = this.armStateMachine.currentCommandFinished();
         boolean shooterFinished = this.shooterStateMachine.currentCommandFinished();
 
+        if (intakeState != IdleIndexer.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+        }
+
+        if (indexerState == IndexSpeakerNote.class && indexerFinished) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.indexerStateMachine.activateState(HoldSpeakerNote.class);
+        }
+
+        if (indexerState == IndexAmpNote.class && indexerFinished) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.indexerStateMachine.activateState(HoldAmpNote.class);
+        }
+
+        if (indexerState == FeedNote.class && indexerFinished) {
+
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+        }
+
+        if (indexerState == DropNote.class && indexerFinished) {
+
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+        }
+
         boolean leftBumper = this.driverTwo.getHID().getLeftBumperPressed();
         boolean rightBumper = this.driverTwo.getHID().getRightBumperPressed();
+        Actions leftTrigger = this.driverTwo.getLeftTrigger();
+        Actions rightTrigger = this.driverTwo.getRightTrigger();
 
-        if (Swerve.target == Target.SPEAKER) {
+        if (leftBumper) {
 
-            if (intakeState == IntakeNote.class && intakeFinished) { this.intakeStateMachine.activateState(IdleIntake.class); }
-            if (indexerState == IndexSpeakerNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldSpeakerNote.class); }
-            if (indexerState == FeedNote.class && indexerFinished) { this.indexerStateMachine.activateState(IdleIndexer.class); }
-            if (armState == PivotArm.class && armFinished) { this.armStateMachine.activateState(LockArm.class); }
-            if (shooterState == ShootNote.class && shooterFinished) { this.shooterStateMachine.activateState(IdleShooter.class); }
-            
-            if (leftBumper) {
+            if (intakeState != OutakeNote.class) { this.intakeStateMachine.activateState(OutakeNote.class); }
+            else { this.intakeStateMachine.activateState(IdleIntake.class); }
 
-                if (intakeState != OutakeNote.class) { this.intakeStateMachine.activateState(OutakeNote.class); }
-                else { this.intakeStateMachine.activateState(IdleIntake.class); }
+            if (indexerState != ReverseNote.class) { this.indexerStateMachine.activateState(ReverseNote.class); }
+            else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+        }
 
-                if (indexerState != ReverseNote.class) { this.indexerStateMachine.activateState(ReverseNote.class); }
+        if (rightBumper) {
+
+            if (intakeState != IntakeNote.class) { this.intakeStateMachine.activateState(IntakeNote.class); }
+            else { this.intakeStateMachine.activateState(IdleIntake.class); }
+
+            if (Swerve.target == Target.SPEAKER) {
+
+                if (indexerState != IndexSpeakerNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
                 else { this.indexerStateMachine.activateState(IdleIndexer.class); }
             }
 
-            if (rightBumper) {
+            if (Swerve.target == Target.AMP) {
 
-                if (intakeState != IntakeNote.class && indexerState == IdleIndexer.class) { 
-                    
-                    this.intakeStateMachine.activateState(IntakeNote.class); 
-                    this.indexerStateMachine.activateState(IndexSpeakerNote.class);
-                } else { 
-                    
-                    this.intakeStateMachine.activateState(IdleIntake.class); 
-                    if (indexerState != HoldSpeakerNote.class) { this.indexerStateMachine.activateState(IdleIndexer.class); }
-                }
-
-                if (indexerState == HoldSpeakerNote.class) {
-
-                    if (armState == LockArm.class && shooterState == IdleShooter.class) {
-
-                        this.armStateMachine.activateState(PivotArm.class);
-                        this.shooterStateMachine.activateState(ShootNote.class);
-                    } else if (this.arm.atPosition() && this.shooter.atSpeed()) {
-
-                        this.indexerStateMachine.activateState(FeedNote.class);
-                    }
-                }
-            }
-
-            if (indexerState == HoldSpeakerNote.class) {
-
-                if (armState == PivotArm.class && shooterState == ShootNote.class) {
-
-                    if (this.driverTwo.getRightTriggerAxis() > 0.5) {
-
-                        this.indexerStateMachine.activateState(FeedNote.class);
-                    }
-                }
-            }
-        } else if (Swerve.target == Target.AMP) {
-
-            if (intakeState == IntakeNote.class && intakeFinished) { this.intakeStateMachine.activateState(IdleIntake.class); }
-            if (indexerState == IndexAmpNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldAmpNote.class); }
-
-            if (leftBumper) {
-
-                if (intakeState != OutakeNote.class) { this.intakeStateMachine.activateState(OutakeNote.class); }
-                else { this.intakeStateMachine.activateState(IdleIntake.class); }
-
-                if (indexerState != ReverseNote.class) { this.indexerStateMachine.activateState(ReverseNote.class); }
+                if (indexerState != IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexAmpNote.class); }
                 else { this.indexerStateMachine.activateState(IdleIndexer.class); }
-            }
-
-            if (rightBumper) {
-
-                if (intakeState != IntakeNote.class && indexerState == IdleIndexer.class) { 
-                    
-                    this.intakeStateMachine.activateState(IntakeNote.class); 
-                    this.indexerStateMachine.activateState(IndexAmpNote.class);
-                } else { 
-                    
-                    this.intakeStateMachine.activateState(IdleIntake.class); 
-                    if (indexerState != HoldAmpNote.class && indexerState != DropNote.class) { this.indexerStateMachine.activateState(IdleIndexer.class); }
-                }
-
-                if (indexerState == HoldAmpNote.class) {
-
-                    if (elevatorState == LockElevator.class) { this.elevatorStateMachine.activateState(RaiseElevator.class); }
-                    else if (this.elevator.atHeight() || this.driverTwo.getRightTriggerAxis() > 0.5) { this.indexerStateMachine.activateState(DropNote.class); }
-                }
-
-                if (indexerState == DropNote.class) {
-
-                    this.indexerStateMachine.activateState(IdleIndexer.class);
-                    this.elevatorStateMachine.activateState(LockElevator.class);
-                }
-            }
-        } else if (Swerve.target == Target.STAGE) {
-
-            if (elevatorState == RaiseElevator.class) { 
-                
-                if (this.elevator.atHeight()) {
-
-                    this.elevatorStateMachine.activateState(IdleElevator.class); 
-                }
-            } else if (elevatorState == IdleElevator.class) {
-
-                if (this.driverOne.getHID().getAButton()) {
-
-                    this.elevatorStateMachine.activateState(ManualLowerSlowElevator.class);
-                }
-                else if (this.driverOne.getHID().getBButton()) {
-
-                    this.elevatorStateMachine.activateState(ManualLowerElevator.class);
-                } else if (this.driverOne.getHID().getYButton()) {
-
-                    this.elevatorStateMachine.activateState(ManualRaiseElevator.class);
-                }
-            } else if (elevatorState == ManualLowerSlowElevator.class) {
-
-                if (!this.driverOne.getHID().getAButton()) {
-
-                    this.elevatorStateMachine.activateState(IdleElevator.class);
-                }
-            } else if (elevatorState == ManualLowerElevator.class) {
-
-                if (!this.driverOne.getHID().getBButton()) {
-
-                    this.elevatorStateMachine.activateState(IdleElevator.class);
-                }
-            } else if (elevatorState == ManualRaiseElevator.class) {
-
-                if (!this.driverOne.getHID().getYButton()) {
-
-                    this.elevatorStateMachine.activateState(IdleElevator.class);
-                }
-            }
-        } else if (Swerve.target == Target.SOURCE) {
-
-            if ((indexerState == IndexSourceNote.class && shooterState == PullSourceNote.class && indexerFinished && shooterFinished) || this.driverTwo.getRightTriggerAxis() > 0.5) {
-
-                this.indexerStateMachine.activateState(IndexSpeakerNote.class);
-                this.armStateMachine.activateState(LockArm.class);
-                this.shooterStateMachine.activateState(IdleShooter.class);
-                Swerve.target = Target.SPEAKER;
             }
         }
 
-        if (this.driverTwo.getLeftTriggerAxis() > 0.5) {
+        if (leftTrigger == Actions.PRESS) {
 
-            if (intakeState != frc.robot.commands.intake.EjectNote.class) { this.intakeStateMachine.activateState(frc.robot.commands.intake.EjectNote.class); }
-            if (elevatorState != LockElevator.class) { this.elevatorStateMachine.activateState(LockElevator.class); }
-            if (indexerState != frc.robot.commands.indexer.EjectNote.class) { this.indexerStateMachine.activateState(frc.robot.commands.indexer.EjectNote.class); }
-            if (armState != LockArm.class) { this.armStateMachine.activateState(LockArm.class); }
-            if (shooterState != frc.robot.commands.shooter.EjectNote.class) { this.shooterStateMachine.activateState(frc.robot.commands.shooter.EjectNote.class); }
-        } else {
+            this.elevatorStateMachine.activateState(LockElevator.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+        }
 
-            if (intakeState == frc.robot.commands.intake.EjectNote.class) { this.intakeStateMachine.activateState(IdleIntake.class); }
-            if (indexerState == frc.robot.commands.indexer.EjectNote.class) { this.indexerStateMachine.activateState(IdleIndexer.class); }
-            if (shooterState == frc.robot.commands.shooter.EjectNote.class) { this.shooterStateMachine.activateState(IdleShooter.class); }
+        if (rightTrigger == Actions.PRESS) {
+
+            if (Swerve.target == Target.SPEAKER) {
+
+                this.armStateMachine.activateState(PivotArm.class);
+                this.shooterStateMachine.activateState(ShootNote.class);
+            }
+
+            if (Swerve.target == Target.AMP) {
+
+                this.elevatorStateMachine.activateState(RaiseElevator.class);
+            }
+        }
+
+        if (rightTrigger == Actions.RELEASE) {
+
+            if (Swerve.target == Target.SPEAKER) {
+
+                if (this.arm.atPosition() && this.shooter.atSpeed()) {
+
+                    this.indexerStateMachine.activateState(FeedNote.class);
+                }
+            }
+
+            if (Swerve.target == Target.AMP) {
+
+                if (this.elevator.atHeight()) {
+
+                    this.indexerStateMachine.activateState(DropNote.class);
+                }
+            }
         }
     }
 
@@ -363,12 +301,6 @@ public class RobotContainer {
         } else if (Swerve.target == Target.STAGE && target != Target.STAGE) {
 
             this.elevatorStateMachine.activateState(LockElevator.class);
-        } else if (Swerve.target != Target.SOURCE && target == Target.SOURCE) {
-
-            Constants.ArmConstants.PIVOT_POSITION = 34.0;
-            this.indexerStateMachine.activateState(IndexSourceNote.class);
-            this.armStateMachine.activateState(PivotArm.class);
-            this.shooterStateMachine.activateState(PullSourceNote.class);
         }
 
         Swerve.target = target;
@@ -392,9 +324,6 @@ public class RobotContainer {
         } else if (Swerve.target == Target.STAGE) {
 
             this.blinkin.set(LEDPatterns.YELLOW);
-        } else if (Swerve.target == Target.SOURCE) {
-
-            this.blinkin.set(LEDPatterns.RED);
         }
     }
 

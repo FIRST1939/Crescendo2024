@@ -18,6 +18,12 @@ public class IndexAmpNote extends Command {
     }
 
     @Override
+    public void initialize () {
+
+        this.stage = Stages.HANDOFF;
+    }
+
+    @Override
     public void execute () {
     
         if (this.stage == Stages.HANDOFF) {
