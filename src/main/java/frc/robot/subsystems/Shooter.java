@@ -51,9 +51,7 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic () {
 
-        SmartDashboard.putNumber("Top Error", this.topController.getPositionError());
-        SmartDashboard.putNumber("Bottom Error", this.bottomController.getPositionError());
-        SmartDashboard.putBoolean("Shooter At", this.atSpeed());
+        SmartDashboard.putNumber("Shooter Speed", (this.getTopVelocity() + this.getBottomVelocity()) / 2.0);
     }
 
     public void setTopVelocity (double velocity) {

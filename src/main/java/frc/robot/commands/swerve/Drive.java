@@ -21,7 +21,7 @@ public class Drive extends Command {
 
     private boolean sourceHeadingLock = false;
     private boolean objectiveHeadingLock = false;
-    private final BooleanSupplier leftBumper, rightBumper;
+    private BooleanSupplier leftBumper, rightBumper;
 
     public Drive (Swerve swerve, DoubleSupplier vx, DoubleSupplier vy, DoubleSupplier omega, BooleanSupplier leftBumper, BooleanSupplier rightBumper) {
 
@@ -92,7 +92,7 @@ public class Drive extends Command {
                 source = new Rotation2d(-60.0); 
             } else {
 
-                source = new Rotation2d(220.0);
+                source = new Rotation2d(240.0);
             }
 
             this.swerve.driveHeadingLock(translation, source);
@@ -111,13 +111,13 @@ public class Drive extends Command {
 
                     if (DriverStation.getAlliance().get() == Alliance.Blue) { 
                         
-                        double headingX = 5.5531 - pose.getY();
-                        double headingY = 16.5418 - pose.getX();
+                        double headingX = -pose.getX();
+                        double headingY = 5.5531 - pose.getY();
                         objective = new Rotation2d(headingX, headingY);
                     } else {
 
-                        double headingX = 5.5531 - pose.getY();
-                        double headingY = -pose.getX();
+                        double headingX = 16.5418 - pose.getY();
+                        double headingY = 5.5531 - pose.getY();
                         objective = new Rotation2d(headingX, headingY);
                     }
                 }

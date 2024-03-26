@@ -37,10 +37,4 @@ public class FeedNote extends Command {
 
         return (this.feedTimer.get() >= Constants.IndexerConstants.FEED_WAIT);
     }
-
-    @Override
-    public void end (boolean interrupted) { 
-        
-        this.indexer.setBackVelocity(0.0); 
-    }
 }

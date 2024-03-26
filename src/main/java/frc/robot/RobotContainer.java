@@ -185,6 +185,33 @@ public class RobotContainer {
         boolean armFinished = this.armStateMachine.currentCommandFinished();
         boolean shooterFinished = this.shooterStateMachine.currentCommandFinished();
 
+        if (intakeState != IdleIndexer.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+        }
+
+        if (indexerState == IndexSpeakerNote.class && indexerFinished) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.indexerStateMachine.activateState(HoldSpeakerNote.class);
+        }
+
+        if (indexerState == IndexAmpNote.class && indexerFinished) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.indexerStateMachine.activateState(HoldAmpNote.class);
+        }
+
+        if (indexerState == FeedNote.class && indexerFinished) {
+
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+        }
+
+        if (indexerState == DropNote.class && indexerFinished) {
+
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+        }
+
         boolean leftBumper = this.driverTwo.getHID().getLeftBumperPressed();
         boolean rightBumper = this.driverTwo.getHID().getRightBumperPressed();
         Actions leftTrigger = this.driverTwo.getLeftTrigger();
@@ -204,8 +231,17 @@ public class RobotContainer {
             if (intakeState != IntakeNote.class) { this.intakeStateMachine.activateState(IntakeNote.class); }
             else { this.intakeStateMachine.activateState(IdleIntake.class); }
 
-            if (indexerState != FeedNote.class) { this.indexerStateMachine.activateState(FeedNote.class); }
-            else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            if (Swerve.target == Target.SPEAKER) {
+
+                if (indexerState != IndexSpeakerNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
+                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            }
+
+            if (Swerve.target == Target.AMP) {
+
+                if (indexerState != IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexAmpNote.class); }
+                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            }
         }
 
         if (leftTrigger == Actions.PRESS) {

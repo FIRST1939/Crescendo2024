@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase {
 
     public Swerve () throws IOException {
 
-        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.LOW;
+        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
         File swerveConfigurationDirectory = new File(Filesystem.getDeployDirectory(), "swerve");
         this.swerveDrive = new SwerveParser(swerveConfigurationDirectory).createSwerveDrive(Constants.SwerveConstants.MAX_DRIVE_SPEED);
         
@@ -140,7 +140,7 @@ public class Swerve extends SubsystemBase {
     public void addVisionMeasurement (Pose2d limelightPose, double timestamp, Matrix<N3,  N1> standardDeviations) { 
         
         Translation2d translation = limelightPose.getTranslation();
-        Pose2d pose = new Pose2d(translation, this.getHeading());
+        Pose2d pose = new Pose2d(translation, this.swerveDrive.getOdometryHeading());
 
         this.swerveDrive.addVisionMeasurement(pose, timestamp, standardDeviations); 
     }

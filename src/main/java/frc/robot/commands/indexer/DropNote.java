@@ -20,8 +20,7 @@ public class DropNote extends Command {
     @Override
     public void initialize() {
 
-        this.dropTimer.stop();
-        this.dropTimer.reset();
+        this.dropTimer.restart();
     }
 
     @Override

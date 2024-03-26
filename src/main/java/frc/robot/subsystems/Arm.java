@@ -42,8 +42,7 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic () {
         
-        SmartDashboard.putNumber("Arm Error", this.pivotController.getPositionError());
-        SmartDashboard.putBoolean("Arm At", this.atPosition());
+        SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
     }
 
     public void setPosition (double position) { 

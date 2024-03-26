@@ -116,7 +116,7 @@ public final class Constants {
         public static final double OVERLOAD_TIME = 0.75;
         public static final double LOAD_TIME = 0.2;
         public static final double FEED_WAIT = 1.0;
-        public static final double DROP_WAIT = 1.0;
+        public static final double DROP_WAIT = 0.5;
 
         public static final double FRONT_INDEX_SPEED = 200.0;
         public static final double BACK_INDEX_SPEED = 120.0;
