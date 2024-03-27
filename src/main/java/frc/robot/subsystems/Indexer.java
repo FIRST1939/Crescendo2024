@@ -32,14 +32,6 @@ public class Indexer extends SubsystemBase {
         this.backRollers.getEncoder().setVelocityConversionFactor((Constants.IndexerConstants.BACK_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
     }
 
-    @Override
-    public void periodic () {
-
-        SmartDashboard.putNumber("Front Velocity", this.frontRollers.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Back Velocity", this.backRollers.getEncoder().getVelocity());
-        SmartDashboard.putBoolean("Beam", Sensors.getIndexerStartBeam());
-    }
-
     public void setFrontVelocity (double velocity) {
 
         double feedforward = 0.19 + (0.021 * velocity);

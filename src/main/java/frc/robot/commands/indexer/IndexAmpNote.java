@@ -1,6 +1,5 @@
 package frc.robot.commands.indexer;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
 import frc.robot.util.Constants;
@@ -10,9 +9,7 @@ public class IndexAmpNote extends Command {
     
     private Indexer indexer;
     private Stages stage;
-
     private int loops;
-    private double targetPosition;
 
     public IndexAmpNote (Indexer indexer) {
 
@@ -36,12 +33,6 @@ public class IndexAmpNote extends Command {
 
         if (this.stage == Stages.INDEX && this.loops != 0) { this.stage = Stages.POSITION; }
 
-        if (this.stage == Stages.POSITION && this.loops >= 8) { 
-            
-            this.stage = Stages.HOLD; 
-            this.targetPosition = this.indexer.getFrontPosition() + 2.0;
-        }
-
         if (this.stage == Stages.INDEX) {
 
             this.indexer.setFrontVelocity(Constants.IndexerConstants.FRONT_INDEX_SPEED);
@@ -51,25 +42,16 @@ public class IndexAmpNote extends Command {
             double velocity = -25.0 * Math.pow(-0.925, loops - 1);
             this.indexer.setFrontVelocity(velocity);
             this.indexer.setBackVelocity(0.0);
-        } else if (this.stage == Stages.HOLD) {
-
-            double velocity = 20.0 * (this.targetPosition - this.indexer.getFrontPosition());
-            this.indexer.setFrontVelocity(velocity);
-            this.indexer.setBackVelocity(0.0);
         }
-
-        SmartDashboard.putNumber("Error", (this.targetPosition - this.indexer.getFrontPosition()));
     }
-    
-    @Override
+
     public boolean isFinished () {
 
-        return false;
+        return this.loops >= 8;
     }
 
     private enum Stages {
         INDEX,
-        POSITION,
-        HOLD
+        POSITION
     }
 }
