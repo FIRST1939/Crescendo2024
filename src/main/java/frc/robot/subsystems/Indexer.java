@@ -5,10 +5,12 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
 import frc.robot.util.MotorUtil;
+import frc.robot.util.Sensors;
 
 public class Indexer extends SubsystemBase {
 
@@ -30,27 +32,29 @@ public class Indexer extends SubsystemBase {
         this.backRollers.getEncoder().setVelocityConversionFactor((Constants.IndexerConstants.BACK_ROLLERS_REDUCTION / 60.0) * (Math.PI * Constants.IndexerConstants.BACK_ROLLERS_DIAMETER));
     }
 
+    @Override
+    public void periodic () {
+
+        SmartDashboard.putNumber("Front Velocity", this.frontRollers.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Back Velocity", this.backRollers.getEncoder().getVelocity());
+        SmartDashboard.putBoolean("Beam", Sensors.getIndexerStartBeam());
+    }
+
     public void setFrontVelocity (double velocity) {
 
-        double maximumVelocity = MotorUtil.getMaxVelocity(
-            frc.robot.util.MotorUtil.MotorType.VORTEX,
-            Constants.IndexerConstants.FRONT_ROLLERS_DIAMETER,
-            Constants.IndexerConstants.FRONT_ROLLERS_REDUCTION
-        );
-        
-        this.frontRollers.set(velocity / maximumVelocity);
+        double feedforward = 0.19 + (0.021 * velocity);
+        double feedback = 0.013 * (velocity - this.frontRollers.getEncoder().getVelocity());
+        this.frontRollers.setVoltage(feedforward + feedback);
     }
 
     public void setBackVelocity (double velocity) {
 
-        double maximumVelocity = MotorUtil.getMaxVelocity(
-            frc.robot.util.MotorUtil.MotorType.NEO,
-            Constants.IndexerConstants.BACK_ROLLERS_DIAMETER,
-            Constants.IndexerConstants.BACK_ROLLERS_REDUCTION
-        );
-
-        this.backRollers.set(velocity / maximumVelocity);
+        double feedforward = 0.13 + (0.019 * velocity);
+        double feedback = 0.013 * (velocity - this.backRollers.getEncoder().getVelocity());
+        this.backRollers.setVoltage(feedforward + feedback);
     }
+
+    public double getFrontPosition () { return this.frontRollers.getEncoder().getPosition(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

@@ -105,15 +105,15 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final double FRONT_ROLLERS_REDUCTION = 1.0;
-        public static final double BACK_ROLLERS_REDUCTION = (44.0 / 42.0);
+        public static final double BACK_ROLLERS_REDUCTION = (42.0 / 42.0);
 
-        public static final double FRONT_ROLLERS_DIAMETER = 2.0;
+        public static final double FRONT_ROLLERS_DIAMETER = 1.625;
         public static final double BACK_ROLLERS_DIAMETER = 2.0;
 
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
-        public static final double OVERLOAD_TIME = 0.75;
+        public static final double OVERLOAD_TIME = 0.35;
         public static final double LOAD_TIME = 0.2;
         public static final double FEED_WAIT = 1.0;
         public static final double DROP_WAIT = 0.5;
