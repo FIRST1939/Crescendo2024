@@ -14,7 +14,8 @@ public final class Constants {
         public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
         public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
 
-        public static final int BLINKIN = 1;
+        public static final int LEDS = 1;
+        public static final int LED_COUNT = 78;
     }
 
     public final class SwerveConstants {

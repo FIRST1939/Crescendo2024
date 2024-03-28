@@ -18,11 +18,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.lib.Blinkin;
-import frc.lib.Blinkin.LEDPatterns;
 import frc.lib.Controller;
 import frc.lib.Controller.Actions;
 import frc.lib.StateMachine;
+import frc.lib.leds.AddressableLEDs;
+import frc.lib.leds.patterns.Blue;
+import frc.lib.leds.patterns.Green;
+import frc.lib.leds.patterns.Yellow;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
@@ -68,7 +70,7 @@ public class RobotContainer {
     private Indexer indexer;
     private Arm arm;
     private Shooter shooter;
-    private Blinkin blinkin;
+    private AddressableLEDs leds;
 
     private StateMachine intakeStateMachine;
     private StateMachine elevatorStateMachine;
@@ -92,7 +94,7 @@ public class RobotContainer {
         this.indexer = new Indexer();
         this.arm = new Arm();
         this.shooter = new Shooter();
-        this.blinkin = new Blinkin(Constants.RobotConstants.BLINKIN);
+        this.leds = new AddressableLEDs(Constants.RobotConstants.LEDS, Constants.RobotConstants.LED_COUNT);
 
         this.intakeStateMachine = new StateMachine(Alerts.intakeStateMachine, this.intake);
         this.elevatorStateMachine = new StateMachine(Alerts.elevatorStateMachine, this.elevator);
@@ -308,23 +310,9 @@ public class RobotContainer {
 
     public void runLEDs () {
 
-        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
-
-        if (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam()) {
-
-            this.blinkin.set(LEDPatterns.VIOLET);
-        } else if (Swerve.target == Target.SPEAKER) {
-
-            if (indexerState == IndexSpeakerNote.class) { this.blinkin.set(LEDPatterns.STROBE_WHITE); }
-            else { this.blinkin.set(LEDPatterns.BLUE); }
-        } else if (Swerve.target == Target.AMP) {
-
-            if (indexerState == IndexAmpNote.class) { this.blinkin.set(LEDPatterns.HEARTBEAT_WHITE); }
-            else { this.blinkin.set(LEDPatterns.GREEN); }
-        } else if (Swerve.target == Target.STAGE) {
-
-            this.blinkin.set(LEDPatterns.YELLOW);
-        }
+        if (Swerve.target == Target.SPEAKER) { this.leds.setPattern(Blue.class); }
+        else if (Swerve.target == Target.AMP) { this.leds.setPattern(Green.class); }
+        else if (Swerve.target == Target.STAGE) { this.leds.setPattern(Yellow.class); }
     }
 
     public void initializePathPlanner () {
