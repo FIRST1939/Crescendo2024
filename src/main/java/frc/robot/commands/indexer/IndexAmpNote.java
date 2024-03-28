@@ -9,46 +9,49 @@ public class IndexAmpNote extends Command {
     
     private Indexer indexer;
     private Stages stage;
+    private int loops;
 
     public IndexAmpNote (Indexer indexer) {
 
         this.indexer = indexer;
-        this.stage = Stages.HANDOFF;
+        this.stage = Stages.INDEX;
         this.addRequirements(indexer);
     }
 
     @Override
     public void initialize () {
 
-        this.stage = Stages.HANDOFF;
+        this.stage = Stages.INDEX;
+        this.loops = 0;
     }
 
     @Override
     public void execute () {
     
-        if (this.stage == Stages.HANDOFF) {
+        if (loops % 2 == 0 && !Sensors.getIndexerStartBeam()) { this.loops++; }
+        else if (loops % 2 == 1 && Sensors.getIndexerStartBeam()) { this.loops++; }
 
-            if (!Sensors.getIndexerStartBeam()) {
+        if (this.stage == Stages.INDEX && this.loops != 0) { this.stage = Stages.POSITION; }
 
-                this.stage = Stages.LOAD;
-                return;
-            }
+        if (this.stage == Stages.INDEX) {
 
             this.indexer.setFrontVelocity(Constants.IndexerConstants.FRONT_INDEX_SPEED);
-        } else if (this.stage == Stages.LOAD) {
+            this.indexer.setBackVelocity(0.0);
+        } else if (this.stage == Stages.POSITION) {
 
-            this.indexer.setFrontVelocity(Constants.IndexerConstants.LOAD_SPEED);
+            double velocity = -25.0 * Math.pow(-0.925, loops - 1);
+            this.indexer.setFrontVelocity(velocity);
+            this.indexer.setBackVelocity(0.0);
         }
     }
 
-    @Override
     public boolean isFinished () {
 
-        return (this.stage == Stages.LOAD && Sensors.getIndexerStartBeam());
+        return this.loops >= 8;
     }
 
     private enum Stages {
-        HANDOFF,
-        LOAD
+        INDEX,
+        POSITION
     }
 }

@@ -6,6 +6,7 @@ import frc.robot.subsystems.Indexer;
 public class HoldAmpNote extends Command {
     
     private Indexer indexer;
+    private double targetPosition;
 
     public HoldAmpNote (Indexer indexer) {
 
@@ -16,7 +17,14 @@ public class HoldAmpNote extends Command {
     @Override
     public void initialize () {
 
-        this.indexer.setFrontVelocity(0.0);
+        this.targetPosition = this.indexer.getFrontPosition() + 2.0;
+    }
+
+    @Override
+    public void execute () {
+
+        double velocity = 20.0 * (this.targetPosition - this.indexer.getFrontPosition());
+        this.indexer.setFrontVelocity(velocity);
         this.indexer.setBackVelocity(0.0);
     }
 }

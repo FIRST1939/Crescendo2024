@@ -153,7 +153,7 @@ public class RobotContainer {
 
         this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
 
-            Constants.ArmConstants.PIVOT_POSITION = 54.0;
+            Constants.ArmConstants.PIVOT_POSITION = 30.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 900.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 900.0;
         }));
