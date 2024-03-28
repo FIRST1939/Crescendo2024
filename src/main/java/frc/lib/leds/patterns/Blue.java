@@ -9,7 +9,7 @@ public class Blue implements LEDPattern {
         
         for (int i = 0; i < buffer.getLength(); i++) {
             
-            buffer.setRGB(i, 64, 204, 208);
+            buffer.setRGB(i, 0, 0, 255);
         }
     }
 }

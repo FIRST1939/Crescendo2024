@@ -9,7 +9,7 @@ public class Red implements LEDPattern {
         
         for (int i = 0; i < buffer.getLength(); i++) {
             
-            buffer.setRGB(i, 208, 66, 66);
+            buffer.setRGB(i, 255, 0, 0);
         }
     }
 }

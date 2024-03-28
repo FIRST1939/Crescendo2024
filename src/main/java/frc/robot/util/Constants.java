@@ -15,7 +15,7 @@ public final class Constants {
         public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
 
         public static final int LEDS = 1;
-        public static final int LED_COUNT = 78;
+        public static final int LED_COUNT = 76;
     }
 
     public final class SwerveConstants {

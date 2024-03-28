@@ -23,13 +23,20 @@ import frc.lib.Controller.Actions;
 import frc.lib.StateMachine;
 import frc.lib.leds.AddressableLEDs;
 import frc.lib.leds.patterns.Blue;
+import frc.lib.leds.patterns.BlueBlink;
 import frc.lib.leds.patterns.Green;
+import frc.lib.leds.patterns.GreenBlink;
+import frc.lib.leds.patterns.Orange;
+import frc.lib.leds.patterns.OrangeBlink;
+import frc.lib.leds.patterns.Rainbow;
 import frc.lib.leds.patterns.Yellow;
+import frc.lib.leds.patterns.YellowBlink;
 import frc.robot.commands.IdleMode;
 import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
+import frc.robot.commands.elevator.IdleElevator;
 import frc.robot.commands.elevator.LockElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.DropNote;
@@ -177,15 +184,8 @@ public class RobotContainer {
     public void runStateMachines () {
 
         Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
-        Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
-        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
-        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
-        
-        boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
         boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
-        boolean armFinished = this.armStateMachine.currentCommandFinished();
-        boolean shooterFinished = this.shooterStateMachine.currentCommandFinished();
 
         if (intakeState != IdleIndexer.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) {
 
@@ -207,10 +207,13 @@ public class RobotContainer {
         if (indexerState == FeedNote.class && indexerFinished) {
 
             this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
         }
 
         if (indexerState == DropNote.class && indexerFinished) {
 
+            this.elevatorStateMachine.activateState(LockElevator.class);
             this.indexerStateMachine.activateState(IdleIndexer.class);
         }
 
@@ -221,11 +224,15 @@ public class RobotContainer {
 
         if (leftBumper) {
 
-            if (intakeState != OutakeNote.class) { this.intakeStateMachine.activateState(OutakeNote.class); }
-            else { this.intakeStateMachine.activateState(IdleIntake.class); }
+            if (intakeState != OutakeNote.class && indexerState != ReverseNote.class) {
 
-            if (indexerState != ReverseNote.class) { this.indexerStateMachine.activateState(ReverseNote.class); }
-            else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+                this.intakeStateMachine.activateState(OutakeNote.class);
+                this.indexerStateMachine.activateState(ReverseNote.class);
+            } else {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
+            }
         }
 
         if (rightBumper) {
@@ -310,9 +317,88 @@ public class RobotContainer {
 
     public void runLEDs () {
 
-        if (Swerve.target == Target.SPEAKER) { this.leds.setPattern(Blue.class); }
-        else if (Swerve.target == Target.AMP) { this.leds.setPattern(Green.class); }
-        else if (Swerve.target == Target.STAGE) { this.leds.setPattern(Yellow.class); }
+        Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+        Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
+        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
+        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
+
+        if (!DriverStation.isTeleopEnabled()) {
+
+            this.leds.setPattern(Rainbow.class);
+            return;
+        }
+
+        if (Swerve.target == Target.SPEAKER) { 
+            
+            if (indexerState == IndexSpeakerNote.class) { 
+                
+                if (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam()) {
+
+                    this.leds.setPattern(OrangeBlink.class);
+                } else {
+
+                    this.leds.setPattern(BlueBlink.class); 
+                }
+            } else if (indexerState == HoldSpeakerNote.class) {
+
+                if (armState == PivotArm.class && shooterState == ShootNote.class) {
+
+                    if (this.arm.atPosition() && this.shooter.atSpeed()) {
+
+                        this.leds.setPattern(Orange.class);
+                    } else {
+
+                        this.leds.setPattern(OrangeBlink.class);
+                    }
+                } else {
+
+                    this.leds.setPattern(Orange.class);
+                }
+            } else {
+
+                this.leds.setPattern(Blue.class); 
+            }
+        } else if (Swerve.target == Target.AMP) { 
+            
+            if (indexerState == IndexAmpNote.class) {
+
+                if (!Sensors.getIndexerStartBeam()) {
+
+                    this.leds.setPattern(OrangeBlink.class);
+                } else {
+
+                    this.leds.setPattern(GreenBlink.class);
+                }
+            } else if (indexerState == HoldAmpNote.class) {
+
+                if (elevatorState == RaiseElevator.class) {
+
+                    if (this.elevator.atHeight()) {
+
+                        this.leds.setPattern(Orange.class);
+                    } else {
+
+                        this.leds.setPattern(OrangeBlink.class);
+                    }
+                } else {
+
+                    this.leds.setPattern(Orange.class);
+                }
+            } else {
+
+                this.leds.setPattern(Green.class); 
+            }
+        } else if (Swerve.target == Target.STAGE) { 
+            
+            if (elevatorState != IdleElevator.class) {
+
+                this.leds.setPattern(YellowBlink.class);
+            } else {
+                
+                this.leds.setPattern(Yellow.class);
+            }
+        }
     }
 
     public void initializePathPlanner () {

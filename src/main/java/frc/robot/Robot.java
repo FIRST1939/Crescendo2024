@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
+		this.robotContainer.runLEDs();
 	}
 
 	@Override
@@ -117,7 +118,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic () {
 
 		this.robotContainer.runStateMachines();
-		this.robotContainer.runLEDs();
 	}
 
 	@Override

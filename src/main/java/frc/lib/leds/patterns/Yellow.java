@@ -9,7 +9,7 @@ public class Yellow implements LEDPattern {
         
         for (int i = 0; i < buffer.getLength(); i++) {
             
-            buffer.setRGB(i, 236, 219, 51);
+            buffer.setRGB(i, 255, 255, 0);
         }
     }
 }
