@@ -6,7 +6,6 @@ import java.util.Map;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.lib.leds.patterns.Orange;
 import frc.lib.leds.patterns.Rainbow;
 
 public class AddressableLEDs extends SubsystemBase {
@@ -15,7 +14,7 @@ public class AddressableLEDs extends SubsystemBase {
     private final AddressableLEDBuffer ledBuffer;
 
     private Map<Class<? extends LEDPattern>, LEDPattern> ledPatterns;
-    private LEDPattern ledPattern = new Orange();
+    private LEDPattern ledPattern = new Rainbow();
 
     public AddressableLEDs (int port, int leds) {
 
