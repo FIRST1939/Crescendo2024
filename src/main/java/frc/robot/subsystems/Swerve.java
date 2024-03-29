@@ -60,7 +60,11 @@ public class Swerve extends SubsystemBase {
     }
 
     @Override
-    public void periodic () { this.field.setRobotPose(this.getPose()); }
+    public void periodic () { 
+        
+        this.field.setRobotPose(this.getPose());
+        SmartDashboard.putNumber("Angle", this.swerveDrive.getOdometryHeading().getDegrees()); 
+    }
     public PIDFConfig getHeadingPIDFConfig () { return this.swerveDrive.swerveController.config.headingPIDF; }
     public SwerveDriveConfiguration getConfiguration () { return this.swerveDrive.swerveDriveConfiguration; }
 
@@ -106,7 +110,7 @@ public class Swerve extends SubsystemBase {
         this.swerveDrive.driveFieldOriented(
             this.swerveDrive.getSwerveController().getTargetSpeeds(
                 translation.getX(), translation.getY(),
-                rotation.getCos(), rotation.getSin(),
+                rotation.getRadians(),
                 this.swerveDrive.getOdometryHeading().getRadians(),
                 this.swerveDrive.getMaximumVelocity()
             )
