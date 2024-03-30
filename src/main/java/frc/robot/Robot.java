@@ -78,6 +78,7 @@ public class Robot extends TimedRobot {
 		);
 
 		this.autoInitialized = true;
+		Constants.SwerveConstants.REGRESSION = false;
 
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
@@ -112,6 +113,8 @@ public class Robot extends TimedRobot {
 				IdleShooter.class
 			);
 		}
+
+		Constants.SwerveConstants.REGRESSION = true;
 	}
 
 	@Override
