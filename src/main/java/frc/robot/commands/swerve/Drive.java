@@ -40,6 +40,16 @@ public class Drive extends Command {
     @Override
     public void execute () {
 
+        if (Swerve.target == Target.SPEAKER && Constants.SwerveConstants.REGRESSION) {
+
+            double distance = this.swerve.getSpeakerDistance();
+            double angle = 102.659 * Math.pow(Math.E, -0.780389 * distance) + 23.8109;
+
+            Constants.ArmConstants.PIVOT_POSITION = angle;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
+        }
+
         double vx = this.vx.getAsDouble();
         double vy = this.vy.getAsDouble();
 

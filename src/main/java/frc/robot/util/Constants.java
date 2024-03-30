@@ -44,6 +44,7 @@ public final class Constants {
 
         public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
         public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
+        public static boolean REGRESSION = true;
     }
 
     public final class IntakeConstants {

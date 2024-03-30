@@ -140,16 +140,15 @@ public class RobotContainer {
 
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
-            double distance = this.swerve.getSpeakerDistance();
-            double angle = 102.659 * Math.pow(Math.E, -0.780389 * distance) + 23.8109;
-
-            Constants.ArmConstants.PIVOT_POSITION = angle;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
+            Constants.SwerveConstants.REGRESSION = false;
+            Constants.ArmConstants.PIVOT_POSITION = 59.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
         }));
 
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> {
 
+            Constants.SwerveConstants.REGRESSION = false;
             Constants.ArmConstants.PIVOT_POSITION = 34.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
@@ -157,6 +156,7 @@ public class RobotContainer {
 
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> {
 
+            Constants.SwerveConstants.REGRESSION = false;
             Constants.ArmConstants.PIVOT_POSITION = 28.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
@@ -165,6 +165,7 @@ public class RobotContainer {
 
         this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
 
+            Constants.SwerveConstants.REGRESSION = false;
             Constants.ArmConstants.PIVOT_POSITION = 30.0;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 900.0;
             Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 900.0;
@@ -212,6 +213,8 @@ public class RobotContainer {
             this.indexerStateMachine.activateState(IdleIndexer.class);
             this.armStateMachine.activateState(LockArm.class);
             this.shooterStateMachine.activateState(IdleShooter.class);
+            
+            Constants.SwerveConstants.REGRESSION = true;
         }
 
         if (indexerState == DropNote.class && indexerFinished) {
