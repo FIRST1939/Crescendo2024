@@ -43,7 +43,7 @@ public class Drive extends Command {
         if (Swerve.target == Target.SPEAKER && Constants.SwerveConstants.REGRESSION) {
 
             double distance = this.swerve.getSpeakerDistance();
-            double angle = 102.659 * Math.pow(Math.E, -0.780389 * distance) + 23.8109;
+            double angle = 112.568 * Math.pow(Math.E, -0.932789 * distance) + 22.3757;
 
             Constants.ArmConstants.PIVOT_POSITION = angle;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
@@ -123,12 +123,12 @@ public class Drive extends Command {
                         
                         double headingX = -pose.getX();
                         double headingY = 5.5531 - pose.getY();
-                        objective = Rotation2d.fromRadians(Math.PI + Math.atan(headingY / headingX));
+                        objective = Rotation2d.fromRadians(Math.atan(headingY / headingX));
                     } else {
 
                         double headingX = 16.5418 - pose.getX();
                         double headingY = 5.5531 - pose.getY();
-                        objective = Rotation2d.fromRadians(Math.atan(headingY / headingX));
+                        objective = Rotation2d.fromRadians(Math.PI + Math.atan(headingY / headingX));
                     }
                 }
             } else if (Swerve.target == Target.AMP) { 

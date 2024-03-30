@@ -157,18 +157,18 @@ public class RobotContainer {
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> {
 
             Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 28.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
+            Constants.ArmConstants.PIVOT_POSITION = 54.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 125.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 125.0;
         }));
 
 
         this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
 
             Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 30.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 900.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 900.0;
+            Constants.ArmConstants.PIVOT_POSITION = 46.0;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 550.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 550.0;
         }));
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
@@ -298,6 +298,15 @@ public class RobotContainer {
                 }
             }
         }
+
+        if (this.driverTwo.getHID().getStartButton()) {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.elevatorStateMachine.activateState(LockElevator.class);
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+        }
     }
 
     public void transferObjective (Target target) {
@@ -323,7 +332,6 @@ public class RobotContainer {
 
     public void runLEDs () {
 
-        Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
         Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
         Class<? extends Command> armState = this.armStateMachine.getCurrentState();
@@ -409,36 +417,9 @@ public class RobotContainer {
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("SubShoot", new SequentialCommandGroup(
-            new InstantCommand(() -> {
-
-                Constants.ArmConstants.PIVOT_POSITION = 59.0;
-                Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
-            }),
-            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
-        ));
-
-        NamedCommands.registerCommand("FLShoot", new SequentialCommandGroup(
-            new InstantCommand(() -> {
-
-                Constants.ArmConstants.PIVOT_POSITION = 34.0;
-                Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
-            }),
-            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
-        ));
-
-        NamedCommands.registerCommand("StageShoot", new SequentialCommandGroup(
-            new InstantCommand(() -> {
-
-                Constants.ArmConstants.PIVOT_POSITION = 28.0;
-                Constants.ShooterConstants.TOP_SHOOT_SPEED = 1000.0;
-                Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1000.0;
-            }),
-            new AutoScoreNote(this.armStateMachine, this.shooterStateMachine)
-        ));
-
+        NamedCommands.registerCommand("SubShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("FLShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("StageShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
         NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
         
         AutoBuilder.configureHolonomic(
@@ -453,11 +434,7 @@ public class RobotContainer {
                 ),
                 Constants.SwerveConstants.MAX_DRIVE_SPEED,
                 this.swerve.getConfiguration().getDriveBaseRadiusMeters(),
-                new ReplanningConfig(
-                    true, true, 
-                    Constants.SwerveConstants.REPLANNING_TOTAL_ERROR,
-                    Constants.SwerveConstants.REPLANNING_ERROR_SPIKE
-                )
+                new ReplanningConfig()
             ),
             () -> {
 
@@ -480,8 +457,6 @@ public class RobotContainer {
 
         boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
         boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
-        boolean armFinished = this.armStateMachine.currentCommandFinished();
-        boolean shooterFinished = this.shooterStateMachine.currentCommandFinished();
 
         if (intakeState == IntakeNote.class && intakeFinished) { this.intakeStateMachine.activateState(IdleIntake.class); }
         if (indexerState == IndexSpeakerNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldSpeakerNote.class); }
@@ -490,10 +465,9 @@ public class RobotContainer {
             
             this.intakeStateMachine.activateState(IntakeNote.class);
             this.indexerStateMachine.activateState(IndexSpeakerNote.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
         }
-
-        if (armState == PivotArm.class && armFinished) { this.armStateMachine.activateState(LockArm.class); }
-        if (shooterState == ShootNote.class && shooterFinished) { this.shooterStateMachine.activateState(IdleShooter.class); }
 
         if (armState == PivotArm.class && shooterState == ShootNote.class) {
 

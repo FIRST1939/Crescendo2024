@@ -63,7 +63,7 @@ public class Swerve extends SubsystemBase {
     public void periodic () { 
         
         this.field.setRobotPose(this.getPose());
-        SmartDashboard.putNumber("Angle", this.swerveDrive.getOdometryHeading().getDegrees()); 
+        SmartDashboard.putNumber("Distance", this.getSpeakerDistance()); 
     }
     public PIDFConfig getHeadingPIDFConfig () { return this.swerveDrive.swerveController.config.headingPIDF; }
     public SwerveDriveConfiguration getConfiguration () { return this.swerveDrive.swerveDriveConfiguration; }

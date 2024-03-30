@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
 		);
 
 		this.autoInitialized = true;
-		Constants.SwerveConstants.REGRESSION = false;
+		Constants.SwerveConstants.REGRESSION = true;
 
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
