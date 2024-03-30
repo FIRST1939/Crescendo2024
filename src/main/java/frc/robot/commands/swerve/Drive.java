@@ -106,19 +106,19 @@ public class Drive extends Command {
             if (Swerve.target == Target.SPEAKER) {
 
                 Pose2d pose = this.swerve.getPose();
-
+                
                 if (DriverStation.getAlliance().isPresent()) {
 
                     if (DriverStation.getAlliance().get() == Alliance.Blue) { 
                         
                         double headingX = -pose.getX();
                         double headingY = 5.5531 - pose.getY();
-                        objective = new Rotation2d(headingX, headingY);
+                        objective = Rotation2d.fromRadians(Math.PI + Math.atan(headingY / headingX));
                     } else {
 
-                        double headingX = 16.5418 - pose.getY();
+                        double headingX = 16.5418 - pose.getX();
                         double headingY = 5.5531 - pose.getY();
-                        objective = new Rotation2d(headingX, headingY);
+                        objective = Rotation2d.fromRadians(Math.atan(headingY / headingX));
                     }
                 }
             } else if (Swerve.target == Target.AMP) { 

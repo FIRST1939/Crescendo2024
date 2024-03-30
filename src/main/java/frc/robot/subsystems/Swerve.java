@@ -109,8 +109,7 @@ public class Swerve extends SubsystemBase {
 
         this.swerveDrive.driveFieldOriented(
             this.swerveDrive.getSwerveController().getTargetSpeeds(
-                translation.getX(), translation.getY(),
-                rotation.getRadians(),
+                translation.getX(), translation.getY(), rotation.getRadians(),
                 this.swerveDrive.getOdometryHeading().getRadians(),
                 this.swerveDrive.getMaximumVelocity()
             )
