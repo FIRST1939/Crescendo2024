@@ -120,6 +120,15 @@ public class Swerve extends SubsystemBase {
     public Rotation2d getHeading () { return this.swerveDrive.getYaw(); }
     public Pose2d getPose () { return this.swerveDrive.getPose(); }
 
+    public double getSpeakerDistance () {
+
+        Translation2d speaker;
+        if (DriverStation.getAlliance().get() == Alliance.Blue) { speaker = Constants.SwerveConstants.BLUE_SPEAKER; }
+        else { speaker = Constants.SwerveConstants.RED_SPEAKER; }
+        
+        return this.getPose().getTranslation().getDistance(speaker);
+    }
+
     public ChassisSpeeds getRobotVelocity () { return this.swerveDrive.getRobotVelocity(); }
     public ChassisSpeeds getFieldVelocity () { return this.swerveDrive.getFieldVelocity(); }
 

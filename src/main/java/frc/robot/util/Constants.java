@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import swervelib.math.Matter;
 
@@ -40,6 +41,9 @@ public final class Constants {
 
         public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
         public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
+
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
+        public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
     }
 
     public final class IntakeConstants {

@@ -140,9 +140,12 @@ public class RobotContainer {
 
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
-            Constants.ArmConstants.PIVOT_POSITION = 59.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            double distance = this.swerve.getSpeakerDistance();
+            double angle = 102.659 * Math.pow(Math.E, -0.780389 * distance) + 23.8109;
+
+            Constants.ArmConstants.PIVOT_POSITION = angle;
+            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
+            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
         }));
 
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> {
