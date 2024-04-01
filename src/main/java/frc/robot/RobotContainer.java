@@ -27,6 +27,7 @@ import frc.lib.leds.patterns.Green;
 import frc.lib.leds.patterns.GreenBlink;
 import frc.lib.leds.patterns.Orange;
 import frc.lib.leds.patterns.OrangeBlink;
+import frc.lib.leds.patterns.OrangeIndicator;
 import frc.lib.leds.patterns.Rainbow;
 import frc.lib.leds.patterns.Yellow;
 import frc.lib.leds.patterns.YellowBlink;
@@ -283,10 +284,7 @@ public class RobotContainer {
 
             if (Swerve.target == Target.SPEAKER) {
 
-                if (this.arm.atPosition() && this.shooter.atSpeed()) {
-
-                    this.indexerStateMachine.activateState(FeedNote.class);
-                }
+                this.indexerStateMachine.activateState(FeedNote.class);
             }
 
             if (Swerve.target == Target.AMP) {
@@ -362,7 +360,8 @@ public class RobotContainer {
                         this.leds.setPattern(Orange.class);
                     } else {
 
-                        this.leds.setPattern(OrangeBlink.class);
+                        OrangeIndicator.INDICATOR = 1.0 - Math.abs(Constants.ArmConstants.PIVOT_POSITION - this.arm.getPosition());
+                        this.leds.setPattern(OrangeIndicator.class);
                     }
                 } else {
 
@@ -392,7 +391,8 @@ public class RobotContainer {
                         this.leds.setPattern(Orange.class);
                     } else {
 
-                        this.leds.setPattern(OrangeBlink.class);
+                        OrangeIndicator.INDICATOR = 0.05 - Math.abs(Constants.ElevatorConstants.RAISE_POSITION - this.elevator.getPosition());
+                        this.leds.setPattern(OrangeIndicator.class);
                     }
                 } else {
 
@@ -448,6 +448,13 @@ public class RobotContainer {
     }
 
     public void runAutoStateMachines () {
+
+        double distance = this.swerve.getSpeakerDistance();
+        double angle = 112.568 * Math.pow(Math.E, -0.932789 * distance) + 22.3757;
+
+        Constants.ArmConstants.PIVOT_POSITION = angle;
+        Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
+        Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
 
         Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
