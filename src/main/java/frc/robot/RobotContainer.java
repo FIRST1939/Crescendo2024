@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.lib.Controller;
 import frc.lib.Controller.Actions;
 import frc.lib.StateMachine;
@@ -454,11 +453,9 @@ public class RobotContainer {
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
         Class<? extends Command> armState = this.armStateMachine.getCurrentState();
         Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
-
-        boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
         boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
 
-        if (intakeState == IntakeNote.class && intakeFinished) { this.intakeStateMachine.activateState(IdleIntake.class); }
+        if (intakeState == IntakeNote.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) { this.intakeStateMachine.activateState(IdleIntake.class); }
         if (indexerState == IndexSpeakerNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldSpeakerNote.class); }
 
         if (indexerState == FeedNote.class && indexerFinished) { 
@@ -469,7 +466,7 @@ public class RobotContainer {
             this.shooterStateMachine.activateState(IdleShooter.class);
         }
 
-        if (armState == PivotArm.class && shooterState == ShootNote.class) {
+        if (indexerState == HoldSpeakerNote.class && armState == PivotArm.class && shooterState == ShootNote.class) {
 
             if (this.arm.atPosition() && this.shooter.atSpeed()) { 
                 

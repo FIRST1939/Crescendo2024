@@ -5,12 +5,9 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
-import frc.robot.util.MotorUtil;
-import frc.robot.util.Sensors;
 
 public class Indexer extends SubsystemBase {
 

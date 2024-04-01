@@ -2,10 +2,8 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.StateMachine;
-import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.indexer.IndexSpeakerNote;
-import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
 
 public class AutoScoreNote extends Command {
