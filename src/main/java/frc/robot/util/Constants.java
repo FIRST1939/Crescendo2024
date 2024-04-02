@@ -146,7 +146,7 @@ public final class Constants {
         public static final int PIVOT_ENCODER = 1;
         public static final double PIVOT_OFFSET = 0.3514;
 
-        public static final int LOWER_BOUND = 4;
+        public static final int LOWER_BOUND = 0;
         public static final int UPPER_BOUND = 5;
 
         public static final double PIVOT_KS = 0.15;

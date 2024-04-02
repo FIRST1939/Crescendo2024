@@ -2,8 +2,11 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.StateMachine;
+import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
+import frc.robot.commands.indexer.HoldSpeakerNote;
 import frc.robot.commands.indexer.IndexSpeakerNote;
+import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
 
 public class AutoScoreNote extends Command {
@@ -20,10 +23,17 @@ public class AutoScoreNote extends Command {
     }
 
     @Override
-    public void initialize () {
+    public void execute () {
 
-        this.armStateMachine.activateState(PivotArm.class);
-        this.shooterStateMachine.activateState(ShootNote.class);
+        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
+        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
+
+        if (indexerState == HoldSpeakerNote.class && armState == LockArm.class && shooterState == IdleShooter.class) {
+
+            this.armStateMachine.activateState(PivotArm.class);
+            this.shooterStateMachine.activateState(ShootNote.class);
+        }
     }
 
     @Override

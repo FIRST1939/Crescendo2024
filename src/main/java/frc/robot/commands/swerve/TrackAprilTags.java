@@ -5,6 +5,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Limelight;
@@ -25,6 +26,7 @@ public class TrackAprilTags extends Command {
     @Override
     public void execute () {
 
+        if (DriverStation.isAutonomous()) { return; }
         if (!this.limelight.areValidMeasurements()) { return; }
 
         Translation2d estimatedTranslation = this.swerve.getPoseEstimator().getEstimatedPosition().getTranslation();

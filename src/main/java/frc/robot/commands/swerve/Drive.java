@@ -43,7 +43,7 @@ public class Drive extends Command {
         if (Swerve.target == Target.SPEAKER && Constants.SwerveConstants.REGRESSION) {
 
             double distance = this.swerve.getSpeakerDistance();
-            double angle = 112.568 * Math.pow(Math.E, -0.932789 * distance) + 22.3757;
+            double angle = 99.166 * Math.pow(Math.E, -0.688959 * distance) + 21.4836;
 
             Constants.ArmConstants.PIVOT_POSITION = angle;
             Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;

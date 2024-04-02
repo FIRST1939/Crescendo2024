@@ -289,10 +289,7 @@ public class RobotContainer {
 
             if (Swerve.target == Target.AMP) {
 
-                if (this.elevator.atHeight()) {
-
-                    this.indexerStateMachine.activateState(DropNote.class);
-                }
+                this.indexerStateMachine.activateState(DropNote.class);
             }
         }
 
@@ -360,8 +357,8 @@ public class RobotContainer {
                         this.leds.setPattern(Orange.class);
                     } else {
 
-                        OrangeIndicator.INDICATOR = 1.0 - Math.abs(Constants.ArmConstants.PIVOT_POSITION - this.arm.getPosition());
-                        this.leds.setPattern(OrangeIndicator.class);
+                        //OrangeIndicator.INDICATOR = 1.0 - Math.abs(Constants.ArmConstants.PIVOT_POSITION - this.arm.getPosition());
+                        this.leds.setPattern(OrangeBlink.class);
                     }
                 } else {
 
@@ -391,8 +388,8 @@ public class RobotContainer {
                         this.leds.setPattern(Orange.class);
                     } else {
 
-                        OrangeIndicator.INDICATOR = 0.05 - Math.abs(Constants.ElevatorConstants.RAISE_POSITION - this.elevator.getPosition());
-                        this.leds.setPattern(OrangeIndicator.class);
+                        //OrangeIndicator.INDICATOR = 0.05 - Math.abs(Constants.ElevatorConstants.RAISE_POSITION - this.elevator.getPosition());
+                        this.leds.setPattern(OrangeBlink.class);
                     }
                 } else {
 
@@ -450,7 +447,7 @@ public class RobotContainer {
     public void runAutoStateMachines () {
 
         double distance = this.swerve.getSpeakerDistance();
-        double angle = 112.568 * Math.pow(Math.E, -0.932789 * distance) + 22.3757;
+        double angle = 99.166 * Math.pow(Math.E, -0.688959 * distance) + 21.4836;
 
         Constants.ArmConstants.PIVOT_POSITION = angle;
         Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
