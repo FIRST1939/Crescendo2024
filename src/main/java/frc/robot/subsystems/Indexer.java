@@ -62,6 +62,12 @@ public class Indexer extends SubsystemBase {
 
     public void setFrontVelocity (double velocity) {
 
+        if (velocity == 0.0) { 
+            
+            this.frontRollers.setVoltage(0.0);
+            return;
+        }
+
         double feedforward = Constants.IndexerConstants.FRONT_SPEED_KS * Math.signum(velocity) + (Constants.IndexerConstants.FRONT_SPEED_KV * velocity);
         double feedback = this.frontController.calculate(this.frontRollers.getEncoder().getVelocity(), velocity);
         this.frontRollers.setVoltage(feedforward + feedback);
@@ -69,12 +75,19 @@ public class Indexer extends SubsystemBase {
 
     public void setBackVelocity (double velocity) {
 
+        if (velocity == 0.0) {
+
+            this.backRollers.setVoltage(0.0);
+            return;
+        }
+
         double feedforward = Constants.IndexerConstants.BACK_SPEED_KS * Math.signum(velocity) + (Constants.IndexerConstants.BACK_SPEED_KV * velocity);
         double feedback = this.backController.calculate(this.backRollers.getEncoder().getVelocity(), velocity);
         this.backRollers.setVoltage(feedforward + feedback);
     }
 
     public double getFrontPosition () { return this.frontRollers.getEncoder().getPosition(); }
+    public double getBackPosition () { return this.backRollers.getEncoder().getPosition(); }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
 

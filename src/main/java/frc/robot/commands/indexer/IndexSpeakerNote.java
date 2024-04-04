@@ -10,7 +10,7 @@ public class IndexSpeakerNote extends Command {
     
     private Indexer indexer;
     private Timer overloadTimer;
-    private Timer loadTimer;
+    private double loadTarget;
     private Stage stage;
 
     enum Stage {
@@ -22,8 +22,6 @@ public class IndexSpeakerNote extends Command {
 
         this.indexer = indexer;
         this.overloadTimer = new Timer();
-        this.loadTimer = new Timer();
-
         this.addRequirements(indexer);
     }
 
@@ -34,9 +32,6 @@ public class IndexSpeakerNote extends Command {
         
         this.overloadTimer.stop();
         this.overloadTimer.reset();
-
-        this.loadTimer.stop();
-        this.loadTimer.reset();
     }
 
     @Override
@@ -51,34 +46,28 @@ public class IndexSpeakerNote extends Command {
             this.overloadTimer.reset();
         }
 
-        if (this.stage == Stage.LOAD) {
-
-            this.loadTimer.start();
-        } else {
-
-            this.loadTimer.stop();
-            this.loadTimer.reset();
-        }
-
         if (this.stage == Stage.OVERLOAD && this.overloadTimer.get() >= Constants.IndexerConstants.OVERLOAD_TIME) {
 
             this.stage = Stage.LOAD;
+            this.loadTarget = this.indexer.getBackPosition() - Constants.IndexerConstants.LOAD_DISTANCE;
         }
 
         if (this.stage == Stage.OVERLOAD) {
 
+            double decrease = (this.overloadTimer.get() / Constants.IndexerConstants.OVERLOAD_TIME) * Constants.IndexerConstants.OVERLOAD_DECREASE;
+
             this.indexer.setFrontVelocity(Constants.IndexerConstants.FRONT_INDEX_SPEED);
-            this.indexer.setBackVelocity(Constants.IndexerConstants.BACK_INDEX_SPEED);
+            this.indexer.setBackVelocity(Constants.IndexerConstants.BACK_INDEX_SPEED - decrease);
         } else {
 
             this.indexer.setFrontVelocity(0.0);
-            this.indexer.setBackVelocity(0.0);
+            this.indexer.setBackVelocity(Constants.IndexerConstants.LOAD_SPEED);
         }
     }
 
     @Override
     public boolean isFinished () {
 
-        return (this.stage == Stage.LOAD && this.loadTimer.get() >= Constants.IndexerConstants.LOAD_TIME);
+        return (this.stage == Stage.LOAD && this.indexer.getBackPosition() < this.loadTarget);
     }
 }
