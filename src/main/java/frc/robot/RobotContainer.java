@@ -93,6 +93,7 @@ public class RobotContainer {
     enum Objective {
         SPEAKER,
         AMP,
+        TRAP,
         STAGE
     }
 
@@ -144,6 +145,18 @@ public class RobotContainer {
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
 
+        if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue) {
+
+            this.driverOne.a().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.BLUE_LEFT_TRAP));
+            this.driverOne.b().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.BLUE_CENTER_TRAP));
+            this.driverOne.y().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.BLUE_RIGHT_TRAP));
+        } else if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red) {
+
+            this.driverOne.a().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.RED_LEFT_TRAP));
+            this.driverOne.b().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.RED_CENTER_TRAP));
+            this.driverOne.y().whileTrue(this.swerve.pathfind(Constants.SwerveConstants.RED_RIGHT_TRAP));
+        }
+
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
             this.regression = false;
@@ -175,6 +188,7 @@ public class RobotContainer {
 
         this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Objective.SPEAKER)));
         this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Objective.AMP)));
+        this.driverTwo.b().onTrue(new InstantCommand(() -> this.transferObjective(Objective.TRAP)));
         this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Objective.STAGE)));
 
         this.driverTwo.leftBumper().onTrue(new InstantCommand(() -> {
@@ -212,6 +226,12 @@ public class RobotContainer {
                 if (indexerState != IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexAmpNote.class); }
                 else { this.indexerStateMachine.activateState(IdleIndexer.class); }
             }
+
+            if (this.objective == Objective.TRAP) {
+
+                if (indexerState != FeedNote.class) { this.indexerStateMachine.activateState(FeedNote.class); }
+                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            }
         }));
 
         this.driverTwo.leftTrigger().onTrue(new InstantCommand(() -> {
@@ -233,6 +253,12 @@ public class RobotContainer {
 
                 this.elevatorStateMachine.activateState(RaiseElevator.class);
             }
+
+            if (this.objective == Objective.TRAP) {
+
+                this.armStateMachine.activateState(PivotArm.class);
+                this.shooterStateMachine.activateState(ShootNote.class);
+            }
         }));
 
         this.driverTwo.rightTrigger().onFalse(new InstantCommand(() -> {
@@ -245,6 +271,11 @@ public class RobotContainer {
             if (this.objective == Objective.AMP) {
 
                 this.indexerStateMachine.activateState(DropNote.class);
+            }
+
+            if (this.objective == Objective.TRAP) {
+
+                this.indexerStateMachine.activateState(FeedNote.class);
             }
         }));
 
@@ -262,10 +293,14 @@ public class RobotContainer {
 
     public void calculateRegression () {
 
-        if (this.regression) {
+        if (this.regression && this.objective == Objective.SPEAKER) {
 
             this.arm.calculateAngle(this.swerve.getSpeakerDistance());
             this.shooter.setSpeed(Constants.ShooterConstants.SPEAKER_SPEED);
+        } else if (this.objective == Objective.TRAP) {
+
+            this.arm.setAngle(Constants.ArmConstants.TRAP_ANGLE);
+            this.shooter.setSpeed(Constants.ShooterConstants.TRAP_SPEED);
         }
     }
 
@@ -350,7 +385,7 @@ public class RobotContainer {
         Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
 
-        if (this.objective == Objective.AMP && newObjective == Objective.SPEAKER) {
+        if (this.objective == Objective.AMP && (newObjective == Objective.SPEAKER || newObjective == Objective.TRAP)) {
 
             if (indexerState == IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
             if (indexerState == HoldAmpNote.class && elevatorState == LockElevator.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
