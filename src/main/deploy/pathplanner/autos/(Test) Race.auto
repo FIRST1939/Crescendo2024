@@ -12,27 +12,47 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "deadline",
           "data": {
-            "pathName": "Right Start-C4 v"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4-C3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C3-C2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C2-C1"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Right Start-C4 v"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "C4-C3"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "C3-C2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "C2-C1"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eject"
+                }
+              }
+            ]
           }
         }
       ]
