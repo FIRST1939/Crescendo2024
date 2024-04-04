@@ -150,7 +150,17 @@ public class Robot extends TimedRobot {
 	}
 	
 	@Override
-	public void testInit () {}
+	public void testInit () {
+
+		this.robotContainer.setIdleModes(
+			Constants.SwerveConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.IntakeConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.IndexerConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
+		);
+	}
 
 	@Override
 	public void testPeriodic () {}

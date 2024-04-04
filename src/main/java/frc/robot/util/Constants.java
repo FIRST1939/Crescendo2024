@@ -118,6 +118,18 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
+        public static final double FRONT_SPEED_KS = 0.19;
+        public static final double FRONT_SPEED_KV = 0.021;
+        public static final double FRONT_SPEED_KP = 0.013;
+
+        public static final double BACK_SPEED_KS = 0.13;
+        public static final double BACK_SPEED_KV = 0.019;
+        public static final double BACK_SPEED_KP = 0.013;
+
+        public static final double AMP_SPEED_A = -25.0;
+        public static final double AMP_SPEED_R = -0.925;
+        public static final int AMP_LOOPS = 8;
+
         public static final double OVERLOAD_TIME = 0.35;
         public static final double LOAD_TIME = 0.2;
         public static final double FEED_WAIT = 0.25;

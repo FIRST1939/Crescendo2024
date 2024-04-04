@@ -49,8 +49,12 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-        SmartDashboard.putBoolean("Bottom Elevator", Sensors.getElevatorLowerBound());
-        SmartDashboard.putBoolean("Top Elevator", Sensors.getElevatorUpperBound());
+
+        SmartDashboard.putBoolean("Elevator Lower Bound", Sensors.getElevatorLowerBound());
+        SmartDashboard.putBoolean("Elevator Upper Bound", Sensors.getElevatorUpperBound());
+        
+        SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
+        SmartDashboard.putNumber("Elevator Error", this.raiseController.getPositionError());
     }
 
     public void setPosition (double position) {
