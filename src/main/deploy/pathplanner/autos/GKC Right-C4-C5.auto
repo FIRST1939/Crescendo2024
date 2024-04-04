@@ -2,49 +2,55 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.72
+      "x": 1.4,
+      "y": 2.05
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "SubShoot"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Left Side Start-F1 v"
+            "pathName": "Right Start-CR Shoot v"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "FLShoot"
+            "name": "StageShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "F1-C1 v"
+            "pathName": "CR Shoot-C4 v"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Mess C1-C4"
+            "pathName": "C4-CR Shoot v"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StageShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C4-CC Shoot v"
+            "pathName": "CR Shoot-C5 v"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C5-CR Shoot v"
           }
         },
         {
