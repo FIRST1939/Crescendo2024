@@ -55,7 +55,7 @@ public class Shooter extends SubsystemBase {
 
         double topError = this.topController.getPositionError();
         double bottomError = this.bottomController.getPositionError();
-        SmartDashboard.putNumber("Shooter Error", (topError + bottomError) / 2.0);
+        SmartDashboard.putNumber("Shooter Error", Math.abs((topError + bottomError) / 2.0));
     }
 
     public void setSpeed (double shooterSpeed) { this.shooterSpeed = shooterSpeed; }

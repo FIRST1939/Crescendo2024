@@ -47,7 +47,7 @@ public class Arm extends SubsystemBase {
         SmartDashboard.putBoolean("Arm Upper Bound", Sensors.getArmUpperBound());
         
         SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
-        SmartDashboard.putNumber("Arm Error", this.pivotController.getPositionError());
+        SmartDashboard.putNumber("Arm Error", Math.abs(this.pivotController.getPositionError()));
     }
 
     public void calculateAngle (double speakerDistance) { this.armAngle = Constants.ArmConstants.REGRESSION_A * Math.pow(Math.E, Constants.ArmConstants.REGRESSION_B * speakerDistance) + Constants.ArmConstants.REGRESSION_C; }

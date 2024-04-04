@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putBoolean("Elevator Upper Bound", Sensors.getElevatorUpperBound());
         
         SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
-        SmartDashboard.putNumber("Elevator Error", this.raiseController.getPositionError());
+        SmartDashboard.putNumber("Elevator Error", Math.abs(this.raiseController.getPositionError()));
     }
 
     public void setSpeed (double speed) { this.elevatorSpeed = speed; }
@@ -74,8 +74,8 @@ public class Elevator extends SubsystemBase {
         //this.leadRaise.setControl(this.voltageOut.withOutput(input));
         //this.followerRaise.setControl(this.voltageOut.withOutput(input));
 
-        if (position != 0.0) { this.setInput(0.45); }
-        else { this.setInput(-0.45); }
+        //if (position != 0.0) { this.setInput(0.2); }
+        //else { this.setInput(-0.2); }
     }
 
     public void setInput (double input) {
@@ -90,7 +90,8 @@ public class Elevator extends SubsystemBase {
     public boolean atHeight () { 
         
         //return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); 
-        return (Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
+        //return (Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
+        return true;
     }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
