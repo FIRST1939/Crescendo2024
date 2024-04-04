@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import swervelib.math.Matter;
@@ -44,6 +46,14 @@ public final class Constants {
 
         public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
         public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
+
+        public static final Pose2d BLUE_LEFT_TRAP = new Pose2d(new Translation2d(3.87, 5.95), Rotation2d.fromDegrees(120.0));
+        public static final Pose2d BLUE_RIGHT_TRAP = new Pose2d(new Translation2d(3.87, 2.28), Rotation2d.fromDegrees(-120.0));
+        public static final Pose2d BLUE_CENTER_TRAP = new Pose2d(new Translation2d(6.9, 4.12), Rotation2d.fromDegrees(0.0));
+
+        public static final Pose2d RED_LEFT_TRAP = new Pose2d(new Translation2d(12.6718, 2.28), Rotation2d.fromDegrees(-60.0));
+        public static final Pose2d RED_RIGHT_TRAP = new Pose2d(new Translation2d(12.6718, 5.95), Rotation2d.fromDegrees(60.0));
+        public static final Pose2d RED_CENTER_TRAP = new Pose2d(new Translation2d(9.6418, 4.12), Rotation2d.fromDegrees(0.0));
     }
 
     public final class IntakeConstants {
@@ -173,6 +183,7 @@ public final class Constants {
         public static final double LAUNCHPAD_ANGLE = 34.0;
         public static final double AMP_ANGLE = 54.0;
         public static final double FERRY_ANGLE = 46.0;
+        public static final double TRAP_ANGLE = 37.0;
     }
 
     public final class ShooterConstants {
@@ -200,6 +211,7 @@ public final class Constants {
         public static final double SPEAKER_SPEED = 1140.0;
         public static final double AMP_SPEED = 125.0;
         public static final double FERRY_SPEED = 550.0;
+        public static final double TRAP_SPEED = 600.0;
         public static final double EJECT_SPEED = 600.0;
     }
 
