@@ -3,12 +3,7 @@ package frc.robot.subsystems;
 import java.io.File;
 import java.io.IOException;
 
-import com.pathplanner.lib.commands.PathfindHolonomic;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -26,7 +21,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -111,29 +105,6 @@ public class Swerve extends SubsystemBase {
                 this.swerveDrive.getOdometryHeading().getRadians(),
                 this.swerveDrive.getMaximumVelocity()
             )
-        );
-    }
-
-    public Command pathfind (Pose2d target) {
-
-        return new PathfindHolonomic(
-            target,
-            new PathConstraints(5.05, 4.0, 180.0, 180.0),
-            this::getPose,
-            this::getRobotVelocity,
-            this::setChassisSpeeds,
-            new HolonomicPathFollowerConfig(
-                new PIDConstants(5.0, 0.0, 0.0),
-                new PIDConstants(
-                    this.getHeadingPIDFConfig().p,
-                    this.getHeadingPIDFConfig().i,
-                    this.getHeadingPIDFConfig().d
-                ),
-                Constants.SwerveConstants.MAX_DRIVE_SPEED,
-                this.getConfiguration().getDriveBaseRadiusMeters(),
-                new ReplanningConfig()
-            ),
-            this
         );
     }
 
