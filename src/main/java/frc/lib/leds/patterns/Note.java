@@ -3,7 +3,7 @@ package frc.lib.leds.patterns;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.lib.leds.LEDPattern;
 
-public class Orange implements LEDPattern {
+public class Note implements LEDPattern {
     
     public void runPattern (AddressableLEDBuffer buffer) {
         

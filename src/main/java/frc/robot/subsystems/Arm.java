@@ -18,6 +18,7 @@ public class Arm extends SubsystemBase {
     
     private TalonFX pivot;
     private DutyCycleEncoder pivotEncoder;
+    private double armAngle;
 
     private PIDController pivotController;
     private DoubleSupplier pivotPosition;
@@ -44,6 +45,10 @@ public class Arm extends SubsystemBase {
         
         SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
     }
+
+    public void calculateAngle (double speakerDistance) { this.armAngle = Constants.ArmConstants.REGRESSION_A * Math.pow(Math.E, Constants.ArmConstants.REGRESSION_B * speakerDistance) + Constants.ArmConstants.REGRESSION_C; }
+    public void setAngle (double armAngle) { this.armAngle = armAngle; }
+    public double getAngle () { return this.armAngle; }
 
     public void setPosition (double position) { 
 

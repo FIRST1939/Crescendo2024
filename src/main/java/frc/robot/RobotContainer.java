@@ -18,16 +18,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.lib.Controller;
-import frc.lib.Controller.Actions;
 import frc.lib.StateMachine;
 import frc.lib.leds.AddressableLEDs;
 import frc.lib.leds.patterns.Blue;
 import frc.lib.leds.patterns.BlueBlink;
 import frc.lib.leds.patterns.Green;
 import frc.lib.leds.patterns.GreenBlink;
-import frc.lib.leds.patterns.Orange;
-import frc.lib.leds.patterns.OrangeBlink;
-import frc.lib.leds.patterns.OrangeIndicator;
+import frc.lib.leds.patterns.Note;
+import frc.lib.leds.patterns.NoteBlink;
 import frc.lib.leds.patterns.Rainbow;
 import frc.lib.leds.patterns.Yellow;
 import frc.lib.leds.patterns.YellowBlink;
@@ -61,7 +59,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Swerve.Target;
 import frc.robot.util.Alerts;
 import frc.robot.util.Constants;
 import frc.robot.util.Constants.IdleBehavior;
@@ -89,6 +86,15 @@ public class RobotContainer {
     private Controller driverTwo;
 
     private SendableChooser<Command> autonomousChooser;
+
+    private boolean regression = true;
+    private Objective objective = Objective.SPEAKER;
+    
+    enum Objective {
+        SPEAKER,
+        AMP,
+        STAGE
+    }
 
     public RobotContainer () {
 
@@ -140,40 +146,127 @@ public class RobotContainer {
 
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
 
-            Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 59.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            this.regression = false;
+            this.arm.setAngle(Constants.ArmConstants.SUBWOOFER_ANGLE);
+            this.shooter.setSpeed(Constants.ShooterConstants.SPEAKER_SPEED);
         }));
 
         this.driverTwo.povDown().onTrue(new InstantCommand(() -> {
 
-            Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 34.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 800.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 800.0;
+            this.regression = false;
+            this.arm.setAngle(Constants.ArmConstants.LAUNCHPAD_ANGLE);
+            this.shooter.setSpeed(Constants.ShooterConstants.SPEAKER_SPEED);
         }));
 
         this.driverTwo.povUp().onTrue(new InstantCommand(() -> {
 
-            Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 54.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 125.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 125.0;
+            this.regression = false;
+            this.arm.setAngle(Constants.ArmConstants.AMP_ANGLE);
+            this.shooter.setSpeed(Constants.ShooterConstants.AMP_SPEED);
         }));
 
 
         this.driverTwo.povRight().onTrue(new InstantCommand(() -> {
 
-            Constants.SwerveConstants.REGRESSION = false;
-            Constants.ArmConstants.PIVOT_POSITION = 46.0;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 550.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 550.0;
+            this.regression = false;
+            this.arm.setAngle(Constants.ArmConstants.FERRY_ANGLE);
+            this.shooter.setSpeed(Constants.ShooterConstants.FERRY_SPEED);
         }));
 
-        this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Target.SPEAKER)));
-        this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Target.AMP)));
-        this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Target.STAGE)));
+        this.driverTwo.x().onTrue(new InstantCommand(() -> this.transferObjective(Objective.SPEAKER)));
+        this.driverTwo.a().onTrue(new InstantCommand(() -> this.transferObjective(Objective.AMP)));
+        this.driverTwo.y().onTrue(new InstantCommand(() -> this.transferObjective(Objective.STAGE)));
+
+        this.driverTwo.leftBumper().onTrue(new InstantCommand(() -> {
+
+            Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+            Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+
+            if (intakeState != OutakeNote.class && indexerState != ReverseNote.class) {
+
+                this.intakeStateMachine.activateState(OutakeNote.class);
+                this.indexerStateMachine.activateState(ReverseNote.class);
+            } else {
+
+                this.intakeStateMachine.activateState(IdleIntake.class);
+                this.indexerStateMachine.activateState(IdleIndexer.class);
+            }
+        }));
+
+        this.driverTwo.rightBumper().onTrue(new InstantCommand(() -> {
+
+            Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+            Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+
+            if (intakeState != IntakeNote.class) { this.intakeStateMachine.activateState(IntakeNote.class); }
+            else { this.intakeStateMachine.activateState(IdleIntake.class); }
+
+            if (this.objective == Objective.SPEAKER) {
+
+                if (indexerState != IndexSpeakerNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
+                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            }
+
+            if (this.objective == Objective.AMP) {
+
+                if (indexerState != IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexAmpNote.class); }
+                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
+            }
+        }));
+
+        this.driverTwo.leftTrigger().onTrue(new InstantCommand(() -> {
+
+            this.elevatorStateMachine.activateState(LockElevator.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+        }));
+
+        this.driverTwo.rightTrigger().onTrue(new InstantCommand(() -> {
+
+            if (this.objective == Objective.SPEAKER) {
+
+                this.armStateMachine.activateState(PivotArm.class);
+                this.shooterStateMachine.activateState(ShootNote.class);
+            }
+
+            if (this.objective == Objective.AMP) {
+
+                this.elevatorStateMachine.activateState(RaiseElevator.class);
+            }
+        }));
+
+        this.driverTwo.rightTrigger().onFalse(new InstantCommand(() -> {
+
+            if (this.objective == Objective.SPEAKER) {
+
+                this.indexerStateMachine.activateState(FeedNote.class);
+            }
+
+            if (this.objective == Objective.AMP) {
+
+                this.indexerStateMachine.activateState(DropNote.class);
+            }
+        }));
+
+        this.driverTwo.start().onTrue(new InstantCommand(() -> {
+
+            this.intakeStateMachine.activateState(IdleIntake.class);
+            this.elevatorStateMachine.activateState(LockElevator.class);
+            this.indexerStateMachine.activateState(IdleIndexer.class);
+            this.armStateMachine.activateState(LockArm.class);
+            this.shooterStateMachine.activateState(IdleShooter.class);
+
+            this.regression = true;
+        }));
+    }
+
+    public void calculateRegression () {
+
+        if (this.regression) {
+
+            this.arm.calculateAngle(this.swerve.getSpeakerDistance());
+            this.shooter.setSpeed(Constants.ShooterConstants.SPEAKER_SPEED);
+        }
     }
 
     public void initializeStateMachines (Class<? extends Command> intakeState, Class<? extends Command> elevatorState, Class<? extends Command> indexerState, Class<? extends Command> armState, Class<? extends Command> shooterState) {
@@ -214,7 +307,7 @@ public class RobotContainer {
             this.armStateMachine.activateState(LockArm.class);
             this.shooterStateMachine.activateState(IdleShooter.class);
             
-            Constants.SwerveConstants.REGRESSION = true;
+            this.regression = true;
         }
 
         if (indexerState == DropNote.class && indexerFinished) {
@@ -222,106 +315,27 @@ public class RobotContainer {
             this.elevatorStateMachine.activateState(LockElevator.class);
             this.indexerStateMachine.activateState(IdleIndexer.class);
         }
-
-        boolean leftBumper = this.driverTwo.getHID().getLeftBumperPressed();
-        boolean rightBumper = this.driverTwo.getHID().getRightBumperPressed();
-        Actions leftTrigger = this.driverTwo.getLeftTrigger();
-        Actions rightTrigger = this.driverTwo.getRightTrigger();
-
-        if (leftBumper) {
-
-            if (intakeState != OutakeNote.class && indexerState != ReverseNote.class) {
-
-                this.intakeStateMachine.activateState(OutakeNote.class);
-                this.indexerStateMachine.activateState(ReverseNote.class);
-            } else {
-
-                this.intakeStateMachine.activateState(IdleIntake.class);
-                this.indexerStateMachine.activateState(IdleIndexer.class);
-            }
-        }
-
-        if (rightBumper) {
-
-            if (intakeState != IntakeNote.class) { this.intakeStateMachine.activateState(IntakeNote.class); }
-            else { this.intakeStateMachine.activateState(IdleIntake.class); }
-
-            if (Swerve.target == Target.SPEAKER) {
-
-                if (indexerState != IndexSpeakerNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
-                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
-            }
-
-            if (Swerve.target == Target.AMP) {
-
-                if (indexerState != IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexAmpNote.class); }
-                else { this.indexerStateMachine.activateState(IdleIndexer.class); }
-            }
-        }
-
-        if (leftTrigger == Actions.PRESS) {
-
-            this.elevatorStateMachine.activateState(LockElevator.class);
-            this.armStateMachine.activateState(LockArm.class);
-            this.shooterStateMachine.activateState(IdleShooter.class);
-        }
-
-        if (rightTrigger == Actions.PRESS) {
-
-            if (Swerve.target == Target.SPEAKER) {
-
-                this.armStateMachine.activateState(PivotArm.class);
-                this.shooterStateMachine.activateState(ShootNote.class);
-            }
-
-            if (Swerve.target == Target.AMP) {
-
-                this.elevatorStateMachine.activateState(RaiseElevator.class);
-            }
-        }
-
-        if (rightTrigger == Actions.RELEASE) {
-
-            if (Swerve.target == Target.SPEAKER) {
-
-                this.indexerStateMachine.activateState(FeedNote.class);
-            }
-
-            if (Swerve.target == Target.AMP) {
-
-                this.indexerStateMachine.activateState(DropNote.class);
-            }
-        }
-
-        if (this.driverTwo.getHID().getStartButton()) {
-
-            this.intakeStateMachine.activateState(IdleIntake.class);
-            this.elevatorStateMachine.activateState(LockElevator.class);
-            this.indexerStateMachine.activateState(IdleIndexer.class);
-            this.armStateMachine.activateState(LockArm.class);
-            this.shooterStateMachine.activateState(IdleShooter.class);
-        }
     }
 
-    public void transferObjective (Target target) {
+    public void transferObjective (Objective newObjective) {
 
         Class<? extends Command> elevatorState = this.elevatorStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
 
-        if (Swerve.target == Target.AMP && target == Target.SPEAKER) {
+        if (this.objective == Objective.AMP && newObjective == Objective.SPEAKER) {
 
             if (indexerState == IndexAmpNote.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
             if (indexerState == HoldAmpNote.class && elevatorState == LockElevator.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
-        } else if (Swerve.target != Target.STAGE && target == Target.STAGE) {
+        } else if (this.objective != Objective.STAGE && newObjective == Objective.STAGE) {
 
             this.elevatorStateMachine.activateState(RaiseElevator.class);
             this.armStateMachine.activateState(LockArm.class);
-        } else if (Swerve.target == Target.STAGE && target != Target.STAGE) {
+        } else if (this.objective == Objective.STAGE && newObjective != Objective.STAGE) {
 
             this.elevatorStateMachine.activateState(LockElevator.class);
         }
 
-        Swerve.target = target;
+        this.objective = newObjective;
     }
 
     public void runLEDs () {
@@ -337,13 +351,13 @@ public class RobotContainer {
             return;
         }
 
-        if (Swerve.target == Target.SPEAKER) { 
+        if (this.objective == Objective.SPEAKER) { 
             
             if (indexerState == IndexSpeakerNote.class) { 
                 
                 if (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam()) {
 
-                    this.leds.setPattern(OrangeBlink.class);
+                    this.leds.setPattern(NoteBlink.class);
                 } else {
 
                     this.leds.setPattern(BlueBlink.class); 
@@ -354,27 +368,26 @@ public class RobotContainer {
 
                     if (this.arm.atPosition() && this.shooter.atSpeed()) {
 
-                        this.leds.setPattern(Orange.class);
+                        this.leds.setPattern(Note.class);
                     } else {
 
-                        //OrangeIndicator.INDICATOR = 1.0 - Math.abs(Constants.ArmConstants.PIVOT_POSITION - this.arm.getPosition());
-                        this.leds.setPattern(OrangeBlink.class);
+                        this.leds.setPattern(NoteBlink.class);
                     }
                 } else {
 
-                    this.leds.setPattern(Orange.class);
+                    this.leds.setPattern(Note.class);
                 }
             } else {
 
                 this.leds.setPattern(Blue.class); 
             }
-        } else if (Swerve.target == Target.AMP) { 
+        } else if (this.objective == Objective.AMP) { 
             
             if (indexerState == IndexAmpNote.class) {
 
                 if (!Sensors.getIndexerStartBeam()) {
 
-                    this.leds.setPattern(OrangeBlink.class);
+                    this.leds.setPattern(NoteBlink.class);
                 } else {
 
                     this.leds.setPattern(GreenBlink.class);
@@ -385,21 +398,20 @@ public class RobotContainer {
 
                     if (this.elevator.atHeight()) {
 
-                        this.leds.setPattern(Orange.class);
+                        this.leds.setPattern(Note.class);
                     } else {
 
-                        //OrangeIndicator.INDICATOR = 0.05 - Math.abs(Constants.ElevatorConstants.RAISE_POSITION - this.elevator.getPosition());
-                        this.leds.setPattern(OrangeBlink.class);
+                        this.leds.setPattern(NoteBlink.class);
                     }
                 } else {
 
-                    this.leds.setPattern(Orange.class);
+                    this.leds.setPattern(Note.class);
                 }
             } else {
 
                 this.leds.setPattern(Green.class); 
             }
-        } else if (Swerve.target == Target.STAGE) { 
+        } else if (this.objective == Objective.STAGE) { 
             
             if (elevatorState != IdleElevator.class) {
 
@@ -413,9 +425,7 @@ public class RobotContainer {
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("SubShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
-        NamedCommands.registerCommand("FLShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
-        NamedCommands.registerCommand("StageShoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("Shoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
         NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
         
         AutoBuilder.configureHolonomic(
@@ -445,13 +455,6 @@ public class RobotContainer {
     }
 
     public void runAutoStateMachines () {
-
-        double distance = this.swerve.getSpeakerDistance();
-        double angle = 99.166 * Math.pow(Math.E, -0.688959 * distance) + 21.4836;
-
-        Constants.ArmConstants.PIVOT_POSITION = angle;
-        Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
-        Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
 
         Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();

@@ -44,7 +44,6 @@ public final class Constants {
 
         public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
         public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
-        public static boolean REGRESSION = true;
     }
 
     public final class IntakeConstants {
@@ -152,9 +151,16 @@ public final class Constants {
         public static final double PIVOT_KS = 0.15;
         public static final double PIVOT_KP = 0.2;
         public static final double PIVOT_TOLERANCE = 0.35;
-
         public static final double LOCK_POSITION = 28.0;
-        public static double PIVOT_POSITION = 55.0;
+
+        public static final double REGRESSION_A = 99.166;
+        public static final double REGRESSION_B = -0.688959;
+        public static final double REGRESSION_C = 21.4836;
+
+        public static final double SUBWOOFER_ANGLE = 59.0;
+        public static final double LAUNCHPAD_ANGLE = 34.0;
+        public static final double AMP_ANGLE = 54.0;
+        public static final double FERRY_ANGLE = 46.0;
     }
 
     public final class ShooterConstants {
@@ -179,9 +185,9 @@ public final class Constants {
         public static final double SPEED_KP = 0.005;
         public static final double SPEED_TOLERANCE = 25.0;
 
-        public static double TOP_SHOOT_SPEED = 800.0;
-        public static double BOTTOM_SHOOT_SPEED = 800.0;
-        public static double PULL_SOURCE_SPEED = -200.0;
+        public static final double SPEAKER_SPEED = 1140.0;
+        public static final double AMP_SPEED = 125.0;
+        public static final double FERRY_SPEED = 550.0;
         public static final double EJECT_SPEED = 600.0;
     }
 

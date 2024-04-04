@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
-import frc.robot.subsystems.Swerve.Target;
 import frc.robot.util.Constants;
 
 public class Drive extends Command {
@@ -39,16 +38,6 @@ public class Drive extends Command {
 
     @Override
     public void execute () {
-
-        if (Swerve.target == Target.SPEAKER && Constants.SwerveConstants.REGRESSION) {
-
-            double distance = this.swerve.getSpeakerDistance();
-            double angle = 99.166 * Math.pow(Math.E, -0.688959 * distance) + 21.4836;
-
-            Constants.ArmConstants.PIVOT_POSITION = angle;
-            Constants.ShooterConstants.TOP_SHOOT_SPEED = 1140.0;
-            Constants.ShooterConstants.BOTTOM_SHOOT_SPEED = 1140.0;
-        }
 
         double vx = this.vx.getAsDouble();
         double vy = this.vy.getAsDouble();
@@ -113,27 +102,21 @@ public class Drive extends Command {
 
             Rotation2d objective = new Rotation2d();
 
-            if (Swerve.target == Target.SPEAKER) {
-
-                Pose2d pose = this.swerve.getPose();
+            Pose2d pose = this.swerve.getPose();
                 
-                if (DriverStation.getAlliance().isPresent()) {
+            if (DriverStation.getAlliance().isPresent()) {
 
-                    if (DriverStation.getAlliance().get() == Alliance.Blue) { 
+                if (DriverStation.getAlliance().get() == Alliance.Blue) { 
                         
-                        double headingX = -pose.getX();
-                        double headingY = 5.5531 - pose.getY();
-                        objective = Rotation2d.fromRadians(Math.atan(headingY / headingX));
-                    } else {
+                    double headingX = -pose.getX();
+                    double headingY = 5.5531 - pose.getY();
+                    objective = Rotation2d.fromRadians(Math.atan(headingY / headingX));
+                } else {
 
-                        double headingX = 16.5418 - pose.getX();
-                        double headingY = 5.5531 - pose.getY();
-                        objective = Rotation2d.fromRadians(Math.PI + Math.atan(headingY / headingX));
-                    }
+                    double headingX = 16.5418 - pose.getX();
+                    double headingY = 5.5531 - pose.getY();
+                    objective = Rotation2d.fromRadians(Math.PI + Math.atan(headingY / headingX));
                 }
-            } else if (Swerve.target == Target.AMP) { 
-                
-                objective = new Rotation2d(90.0); 
             }
 
             this.swerve.driveHeadingLock(translation, objective);

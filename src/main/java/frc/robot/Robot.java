@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
+		this.robotContainer.calculateRegression();
 		this.robotContainer.runLEDs();
 	}
 
@@ -78,8 +79,6 @@ public class Robot extends TimedRobot {
 		);
 
 		this.autoInitialized = true;
-		Constants.SwerveConstants.REGRESSION = true;
-
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
 	}
@@ -113,8 +112,6 @@ public class Robot extends TimedRobot {
 				IdleShooter.class
 			);
 		}
-
-		Constants.SwerveConstants.REGRESSION = true;
 	}
 
 	@Override

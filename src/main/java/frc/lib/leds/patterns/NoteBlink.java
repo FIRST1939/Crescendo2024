@@ -3,7 +3,7 @@ package frc.lib.leds.patterns;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import frc.lib.leds.LEDPattern;
 
-public class OrangeBlink implements LEDPattern {
+public class NoteBlink implements LEDPattern {
     
     private boolean status = true;
     private int loops = 0;
