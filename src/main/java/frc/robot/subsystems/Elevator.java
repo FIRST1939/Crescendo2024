@@ -24,6 +24,7 @@ public class Elevator extends SubsystemBase {
 
     private ThroughBoreEncoder raiseEncoder;
     private DoubleSupplier raisePosition;
+    private double elevatorSpeed = 0.0;
 
     public Elevator () {
 
@@ -56,6 +57,9 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
         SmartDashboard.putNumber("Elevator Error", this.raiseController.getPositionError());
     }
+
+    public void setSpeed (double speed) { this.elevatorSpeed = speed; }
+    public double getSpeed () { return this.elevatorSpeed; }
 
     public void setPosition (double position) {
 

@@ -34,8 +34,8 @@ import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.auto.AutoEjectNote;
 import frc.robot.commands.auto.AutoScoreNote;
-import frc.robot.commands.elevator.IdleElevator;
 import frc.robot.commands.elevator.LockElevator;
+import frc.robot.commands.elevator.ManualElevator;
 import frc.robot.commands.elevator.RaiseElevator;
 import frc.robot.commands.indexer.DropNote;
 import frc.robot.commands.indexer.FeedNote;
@@ -317,6 +317,8 @@ public class RobotContainer {
             this.elevatorStateMachine.activateState(LockElevator.class);
             this.indexerStateMachine.activateState(IdleIndexer.class);
         }
+
+        this.elevator.setSpeed(this.driverOne.getLeftTriggerAxis() - this.driverOne.getRightTriggerAxis());
     }
 
     public void runAutoStateMachines () {
@@ -352,7 +354,7 @@ public class RobotContainer {
             if (indexerState == HoldAmpNote.class && elevatorState == LockElevator.class) { this.indexerStateMachine.activateState(IndexSpeakerNote.class); }
         } else if (this.objective != Objective.STAGE && newObjective == Objective.STAGE) {
 
-            this.elevatorStateMachine.activateState(RaiseElevator.class);
+            this.elevatorStateMachine.activateState(ManualElevator.class);
             this.armStateMachine.activateState(LockArm.class);
         } else if (this.objective == Objective.STAGE && newObjective != Objective.STAGE) {
 
@@ -437,7 +439,7 @@ public class RobotContainer {
             }
         } else if (this.objective == Objective.STAGE) { 
             
-            if (elevatorState != IdleElevator.class) {
+            if (elevatorState != ManualElevator.class) {
 
                 this.leds.setPattern(YellowBlink.class);
             } else {
