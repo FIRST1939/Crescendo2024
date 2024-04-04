@@ -71,11 +71,8 @@ public class Elevator extends SubsystemBase {
         if (input > 0.0 && Sensors.getElevatorUpperBound()) { input = 0.0; }
         input = Math.signum(input) * Math.min(Math.abs(input), Constants.ElevatorConstants.RAISE_CAP);
 
-        //this.leadRaise.setControl(this.voltageOut.withOutput(input));
-        //this.followerRaise.setControl(this.voltageOut.withOutput(input));
-
-        //if (position != 0.0) { this.setInput(0.2); }
-        //else { this.setInput(-0.2); }
+        this.leadRaise.setControl(this.voltageOut.withOutput(input));
+        this.followerRaise.setControl(this.voltageOut.withOutput(input));
     }
 
     public void setInput (double input) {
@@ -89,9 +86,7 @@ public class Elevator extends SubsystemBase {
     public double getPosition () { return this.raisePosition.getAsDouble(); }
     public boolean atHeight () { 
         
-        //return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); 
-        //return (Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
-        return true;
+        return (this.raiseController.atSetpoint() || Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
     }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {

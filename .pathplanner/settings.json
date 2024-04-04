@@ -13,9 +13,9 @@
     "GKC",
     "Test"
   ],
-  "defaultMaxVel": 5.05,
+  "defaultMaxVel": 4.5,
   "defaultMaxAccel": 5.5,
   "defaultMaxAngVel": 180.0,
   "defaultMaxAngAccel": 180.0,
-  "maxModuleSpeed": 5.06
+  "maxModuleSpeed": 4.55
 }

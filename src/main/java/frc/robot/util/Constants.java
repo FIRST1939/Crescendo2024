@@ -44,6 +44,9 @@ public final class Constants {
 
         public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
         public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
+
+        public static final Translation2d BLUE_CORNER = new Translation2d(0.0, 6.9788);
+        public static final Translation2d RED_CORNER = new Translation2d(16.5418, 6.9788);
     }
 
     public final class IntakeConstants {
@@ -80,7 +83,7 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int RAISE_ENCODER = 8;
-        public static final double RAISE_OFFSET = 0.48445;
+        public static final double RAISE_OFFSET = 0.8026;
 
         public static final int LOWER_BOUND = 3;
         public static final int UPPER_BOUND = 2;
@@ -91,7 +94,7 @@ public final class Constants {
         public static final double RAISE_TOLERANCE = 0.001;
 
         public static final double LOCK_POSITION = 0.0;
-        public static final double RAISE_POSITION = 2.04;
+        public static final double RAISE_POSITION = 2.28;
 
         public static final double MANUAL_LOWER_SLOW_SPEED = -0.15;
         public static final double MANUAL_LOWER_SPEED = -0.40;
@@ -133,6 +136,7 @@ public final class Constants {
         public static final double OVERLOAD_TIME = 0.35;
         public static final double LOAD_TIME = 0.2;
         public static final double FEED_WAIT = 0.25;
+        public static final double RETRACT_WAIT = 0.25;
         public static final double DROP_WAIT = 0.5;
 
         public static final double FRONT_INDEX_SPEED = 200.0;
@@ -141,6 +145,7 @@ public final class Constants {
         public static final double FEED_SPEED = 700.0;
         public static final double SOURCE_SPEED = -120.0;
         public static final double REVERSE_SPEED = -100.0;
+        public static final double RETRACT_SPEED = 60.0;
         public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
