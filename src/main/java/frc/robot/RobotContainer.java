@@ -282,9 +282,11 @@ public class RobotContainer {
 
         Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
         Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+
+        boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
         boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
 
-        if (intakeState != IdleIndexer.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) {
+        if (intakeState != IdleIndexer.class && intakeFinished) {
 
             this.intakeStateMachine.activateState(IdleIntake.class);
         }
@@ -314,6 +316,28 @@ public class RobotContainer {
 
             this.elevatorStateMachine.activateState(LockElevator.class);
             this.indexerStateMachine.activateState(IdleIndexer.class);
+        }
+    }
+
+    public void runAutoStateMachines () {
+
+        Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
+        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
+        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
+        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
+
+        boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
+        boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
+
+        if (intakeState == IntakeNote.class && intakeFinished) { this.intakeStateMachine.activateState(IdleIntake.class); }
+        if (indexerState == IndexSpeakerNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldSpeakerNote.class); }
+
+        if (indexerState == HoldSpeakerNote.class && armState == PivotArm.class && shooterState == ShootNote.class) {
+
+            if (this.arm.atPosition() && this.shooter.atSpeed()) { 
+                
+                this.indexerStateMachine.activateState(FeedNote.class); 
+            }
         }
     }
 
@@ -425,7 +449,7 @@ public class RobotContainer {
 
     public void initializePathPlanner () {
 
-        NamedCommands.registerCommand("Shoot", new AutoScoreNote(this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
+        NamedCommands.registerCommand("Shoot", new AutoScoreNote(this.intakeStateMachine, this.indexerStateMachine, this.armStateMachine, this.shooterStateMachine));
         NamedCommands.registerCommand("Eject", new AutoEjectNote(this.intakeStateMachine, this.indexerStateMachine, this.shooterStateMachine));
         
         AutoBuilder.configureHolonomic(
@@ -452,34 +476,6 @@ public class RobotContainer {
 
         this.autonomousChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", this.autonomousChooser);
-    }
-
-    public void runAutoStateMachines () {
-
-        Class<? extends Command> intakeState = this.intakeStateMachine.getCurrentState();
-        Class<? extends Command> indexerState = this.indexerStateMachine.getCurrentState();
-        Class<? extends Command> armState = this.armStateMachine.getCurrentState();
-        Class<? extends Command> shooterState = this.shooterStateMachine.getCurrentState();
-        boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
-
-        if (intakeState == IntakeNote.class && (!Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam())) { this.intakeStateMachine.activateState(IdleIntake.class); }
-        if (indexerState == IndexSpeakerNote.class && indexerFinished) { this.indexerStateMachine.activateState(HoldSpeakerNote.class); }
-
-        if (indexerState == FeedNote.class && indexerFinished) { 
-            
-            this.intakeStateMachine.activateState(IntakeNote.class);
-            this.indexerStateMachine.activateState(IndexSpeakerNote.class);
-            this.armStateMachine.activateState(LockArm.class);
-            this.shooterStateMachine.activateState(IdleShooter.class);
-        }
-
-        if (indexerState == HoldSpeakerNote.class && armState == PivotArm.class && shooterState == ShootNote.class) {
-
-            if (this.arm.atPosition() && this.shooter.atSpeed()) { 
-                
-                this.indexerStateMachine.activateState(FeedNote.class); 
-            }
-        }
     }
 
     public Command getAutonomousCommand () { return this.autonomousChooser.getSelected(); }
