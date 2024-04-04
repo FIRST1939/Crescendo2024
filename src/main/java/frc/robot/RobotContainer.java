@@ -286,7 +286,7 @@ public class RobotContainer {
         boolean intakeFinished = this.intakeStateMachine.currentCommandFinished();
         boolean indexerFinished = this.indexerStateMachine.currentCommandFinished();
 
-        if (intakeState != IdleIndexer.class && intakeFinished) {
+        if (intakeState != IdleIntake.class && intakeFinished) {
 
             this.intakeStateMachine.activateState(IdleIntake.class);
         }

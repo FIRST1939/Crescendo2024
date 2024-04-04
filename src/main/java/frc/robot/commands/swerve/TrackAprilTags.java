@@ -26,7 +26,6 @@ public class TrackAprilTags extends Command {
     @Override
     public void execute () {
 
-        if (DriverStation.isAutonomous()) { return; }
         if (!this.limelight.areValidMeasurements()) { return; }
 
         Translation2d estimatedTranslation = this.swerve.getPoseEstimator().getEstimatedPosition().getTranslation();

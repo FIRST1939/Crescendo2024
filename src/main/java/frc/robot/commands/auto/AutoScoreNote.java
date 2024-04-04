@@ -6,6 +6,7 @@ import frc.robot.commands.arm.LockArm;
 import frc.robot.commands.arm.PivotArm;
 import frc.robot.commands.indexer.FeedNote;
 import frc.robot.commands.indexer.HoldSpeakerNote;
+import frc.robot.commands.indexer.IndexSpeakerNote;
 import frc.robot.commands.intake.IntakeNote;
 import frc.robot.commands.shooter.IdleShooter;
 import frc.robot.commands.shooter.ShootNote;
@@ -51,7 +52,7 @@ public class AutoScoreNote extends Command {
     public void end (boolean interrupted) {
 
         this.intakeStateMachine.activateState(IntakeNote.class);
-        this.indexerStateMachine.activateState(HoldSpeakerNote.class);
+        this.indexerStateMachine.activateState(IndexSpeakerNote.class);
         this.armStateMachine.activateState(LockArm.class);
         this.shooterStateMachine.activateState(IdleShooter.class);
     }
