@@ -318,7 +318,9 @@ public class RobotContainer {
             this.indexerStateMachine.activateState(IdleIndexer.class);
         }
 
-        this.elevator.setSpeed(this.driverOne.getLeftTriggerAxis() - this.driverOne.getRightTriggerAxis());
+        double elevatorUp = MathUtil.applyDeadband(this.driverOne.getLeftTriggerAxis(), Constants.SwerveConstants.TRANSLATION_DEADBAND);
+        double elevatorDown = MathUtil.applyDeadband(this.driverOne.getRightTriggerAxis(), Constants.SwerveConstants.TRANSLATION_DEADBAND);
+        this.elevator.setSpeed(elevatorUp - elevatorDown);
     }
 
     public void runAutoStateMachines () {
