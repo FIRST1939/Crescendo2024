@@ -11,9 +11,11 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
@@ -85,6 +87,7 @@ public class RobotContainer {
     private Controller driverOne;
     private Controller driverTwo;
 
+    private Timer autoShot;
     private SendableChooser<Command> autonomousChooser;
 
     private boolean regression = true;
@@ -117,6 +120,7 @@ public class RobotContainer {
 
         this.driverOne = new Controller(0);
         this.driverTwo = new Controller(1);
+        this.autoShot = new Timer();
         
         this.configureCommands();
         this.initializePathPlanner();
@@ -142,6 +146,7 @@ public class RobotContainer {
         this.limelight.setDefaultCommand(new TrackAprilTags(this.swerve, this.limelight));
 
         this.driverOne.x().onTrue(new InstantCommand(this.swerve::zeroGyro, this.swerve));
+        this.driverOne.b().onTrue(new InstantCommand(() -> SmartDashboard.putBoolean("Abandon Safeties", !SmartDashboard.getBoolean("Abandon Safeties", false))));
         this.driverOne.leftBumper().whileTrue(new RepeatCommand(new InstantCommand(this.swerve::lock, this.swerve)));
 
         this.driverTwo.povLeft().onTrue(new InstantCommand(() -> {
@@ -340,7 +345,18 @@ public class RobotContainer {
 
             if (this.arm.atPosition() && this.shooter.atSpeed()) { 
                 
-                this.indexerStateMachine.activateState(FeedNote.class); 
+                this.autoShot.start();
+
+                if (this.autoShot.get() > 0.25) { 
+                    
+                    this.indexerStateMachine.activateState(FeedNote.class);
+                    this.autoShot.stop();
+                    this.autoShot.reset(); 
+                }
+            } else {
+
+                this.autoShot.stop();
+                this.autoShot.reset();
             }
         }
     }

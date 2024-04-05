@@ -135,7 +135,7 @@ public final class Constants {
 
         public static final double OVERLOAD_TIME = 0.35;
         public static final double OVERLOAD_DECREASE = 90.0;
-        public static final double LOAD_DISTANCE = 0.75;
+        public static final double LOAD_DISTANCE = 1.0;
         public static final double FEED_WAIT = 0.25;
         public static final double RETRACT_WAIT = 0.15;
         public static final double DROP_WAIT = 0.5;

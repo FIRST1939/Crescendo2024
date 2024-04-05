@@ -70,4 +70,11 @@ public class IndexSpeakerNote extends Command {
 
         return (this.stage == Stage.LOAD && this.indexer.getBackPosition() < this.loadTarget);
     }
+
+    @Override
+    public void end (boolean interrupted) {
+
+        this.indexer.setFrontVelocity(0.0);
+        this.indexer.setBackVelocity(0.0);
+    }
 }

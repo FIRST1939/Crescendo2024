@@ -36,6 +36,7 @@ public class Swerve extends SubsystemBase {
     
     private final SwerveDrive swerveDrive;
     private Field2d field = new Field2d();
+    private Rotation2d headingLock;
 
     public Swerve () throws IOException {
 
@@ -56,7 +57,9 @@ public class Swerve extends SubsystemBase {
         
         this.field.setRobotPose(this.getPose());
         SmartDashboard.putNumber("Distance", this.getSpeakerDistance()); 
+        SmartDashboard.putNumber("Heading Error", this.getHeadingError());
     }
+
     public PIDFConfig getHeadingPIDFConfig () { return this.swerveDrive.swerveController.config.headingPIDF; }
     public SwerveDriveConfiguration getConfiguration () { return this.swerveDrive.swerveDriveConfiguration; }
 
@@ -98,6 +101,7 @@ public class Swerve extends SubsystemBase {
     public void driveHeadingLock (Translation2d translation, Rotation2d rotation) {
 
         this.swerveDrive.setHeadingCorrection(true);
+        this.headingLock = rotation;
 
         this.swerveDrive.driveFieldOriented(
             this.swerveDrive.getSwerveController().getTargetSpeeds(
@@ -106,6 +110,16 @@ public class Swerve extends SubsystemBase {
                 this.swerveDrive.getMaximumVelocity()
             )
         );
+    }
+
+    public double getHeadingError () {
+
+        if (this.swerveDrive.headingCorrection) {
+
+            return (this.headingLock.getDegrees() - this.swerveDrive.getOdometryHeading().getDegrees());
+        }
+
+        return Double.MAX_VALUE;
     }
 
     public SwerveDrivePoseEstimator getPoseEstimator () { return this.swerveDrive.swerveDrivePoseEstimator; }
