@@ -2,19 +2,38 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
-      "y": 2.05
+      "x": 0.75,
+      "y": 6.72
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Right Start-CR Shoot v"
+            "pathName": "Left Side Start-F1 v"
           }
         },
         {
@@ -39,13 +58,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CR Shoot-C4 v"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C4-CC Shoot v"
+            "pathName": "F1-F2 v"
           }
         },
         {
@@ -70,13 +83,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CC Shoot-C3 v"
+            "pathName": "em"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "C3-CC Shoot v"
+            "pathName": "C2-CL Shoot v"
           }
         },
         {
@@ -101,6 +114,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "GKC",
   "choreoAuto": false
 }
