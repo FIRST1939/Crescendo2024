@@ -93,7 +93,7 @@ public final class Constants {
         public static final double RAISE_CAP = 8.0;
         public static final double RAISE_TOLERANCE = 0.001;
 
-        public static final double LOCK_POSITION = -0.6;
+        public static final double LOCK_POSITION = 0.0;
         public static final double RAISE_POSITION = 2.28;
 
         public static final double MANUAL_LOWER_SLOW_SPEED = -0.15;

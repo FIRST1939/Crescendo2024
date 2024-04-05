@@ -1,6 +1,5 @@
 package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 import frc.robot.util.Constants;
@@ -18,9 +17,6 @@ public class LockElevator extends Command {
     @Override
     public void execute () {
 
-        if (!SmartDashboard.getBoolean("Abandon Safeties", false)) {
-
-            this.elevator.setPosition(Constants.ElevatorConstants.LOCK_POSITION);
-        }
+        this.elevator.setPosition(Constants.ElevatorConstants.LOCK_POSITION);
     }
 }
