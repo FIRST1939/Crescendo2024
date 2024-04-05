@@ -18,6 +18,7 @@ public class Arm extends SubsystemBase {
     
     private TalonFX pivot;
     private DutyCycleEncoder pivotEncoder;
+    private double armAngle;
 
     private PIDController pivotController;
     private DoubleSupplier pivotPosition;
@@ -42,8 +43,16 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic () {
         
+        SmartDashboard.putBoolean("Arm Lower Bound", Sensors.getArmLowerBound());
+        SmartDashboard.putBoolean("Arm Upper Bound", Sensors.getArmUpperBound());
+        
         SmartDashboard.putNumber("Arm Angle", this.pivotPosition.getAsDouble());
+        SmartDashboard.putNumber("Arm Error", Math.abs(this.pivotController.getPositionError()));
     }
+
+    public void calculateAngle (double speakerDistance) { this.armAngle = Constants.ArmConstants.REGRESSION_A * Math.pow(Math.E, Constants.ArmConstants.REGRESSION_B * speakerDistance) + Constants.ArmConstants.REGRESSION_C; }
+    public void setAngle (double armAngle) { this.armAngle = armAngle; }
+    public double getAngle () { return this.armAngle; }
 
     public void setPosition (double position) { 
 
@@ -51,10 +60,8 @@ public class Arm extends SubsystemBase {
         double feedforward = Constants.ArmConstants.PIVOT_KS * -Math.signum(error);
         double input = feedforward - this.pivotController.calculate(this.pivotPosition.getAsDouble(), position);
 
-        SmartDashboard.putNumber("I1", input);
         if (input < 0.0 && Sensors.getArmLowerBound()) input = 0.0;
         if (input > 0.0 && Sensors.getArmUpperBound()) input = 0.0;
-        SmartDashboard.putNumber("I2", input);
         
         this.pivot.setControl(this.voltageOut.withOutput(input));
     }

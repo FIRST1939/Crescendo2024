@@ -2,6 +2,7 @@ package frc.robot.util;
 
 import java.util.List;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import swervelib.math.Matter;
 
@@ -14,7 +15,8 @@ public final class Constants {
         public static final double MINIMUM_BATTERY_VOLTAGE = 12.2; // Minimum Battery Voltage [V]
         public static final List<Matter> WEIGHT_DISTRIBUTION = List.of(new Matter(new Translation3d(0.0103, -0.0064, 0.1890), 53.9953));
 
-        public static final int BLINKIN = 1;
+        public static final int LEDS = 1;
+        public static final int LED_COUNT = 76;
     }
 
     public final class SwerveConstants {
@@ -39,6 +41,12 @@ public final class Constants {
 
         public static final double REPLANNING_TOTAL_ERROR = 0.35; // Total Error to Replan Path [m]
         public static final double REPLANNING_ERROR_SPIKE = 0.25; // Spike in Error to Replan Path [m / 20ms]
+
+        public static final Translation2d BLUE_SPEAKER = new Translation2d(0.0, 5.5531);
+        public static final Translation2d RED_SPEAKER = new Translation2d(16.5418, 5.5531);
+
+        public static final Translation2d BLUE_CORNER = new Translation2d(0.0, 6.9788);
+        public static final Translation2d RED_CORNER = new Translation2d(16.5418, 6.9788);
     }
 
     public final class IntakeConstants {
@@ -75,7 +83,7 @@ public final class Constants {
         public static final IdleBehavior ENABLED_IDLE_BEHAVIOR = IdleBehavior.BRAKE;
 
         public static final int RAISE_ENCODER = 8;
-        public static final double RAISE_OFFSET = 0.48445;
+        public static final double RAISE_OFFSET = 0.8026;
 
         public static final int LOWER_BOUND = 3;
         public static final int UPPER_BOUND = 2;
@@ -86,7 +94,7 @@ public final class Constants {
         public static final double RAISE_TOLERANCE = 0.001;
 
         public static final double LOCK_POSITION = 0.0;
-        public static final double RAISE_POSITION = 2.04;
+        public static final double RAISE_POSITION = 2.28;
 
         public static final double MANUAL_LOWER_SLOW_SPEED = -0.15;
         public static final double MANUAL_LOWER_SPEED = -0.40;
@@ -113,17 +121,32 @@ public final class Constants {
         public static final int START_BEAM = 7;
         public static final int END_BEAM = 6;
 
+        public static final double FRONT_SPEED_KS = 0.19;
+        public static final double FRONT_SPEED_KV = 0.021;
+        public static final double FRONT_SPEED_KP = 0.013;
+
+        public static final double BACK_SPEED_KS = 0.13;
+        public static final double BACK_SPEED_KV = 0.019;
+        public static final double BACK_SPEED_KP = 0.013;
+
+        public static final double AMP_SPEED_A = -25.0;
+        public static final double AMP_SPEED_R = -0.925;
+        public static final int AMP_LOOPS = 8;
+
         public static final double OVERLOAD_TIME = 0.35;
-        public static final double LOAD_TIME = 0.2;
-        public static final double FEED_WAIT = 1.0;
+        public static final double OVERLOAD_DECREASE = 90.0;
+        public static final double LOAD_DISTANCE = 0.75;
+        public static final double FEED_WAIT = 0.25;
+        public static final double RETRACT_WAIT = 0.15;
         public static final double DROP_WAIT = 0.5;
 
         public static final double FRONT_INDEX_SPEED = 200.0;
         public static final double BACK_INDEX_SPEED = 120.0;
-        public static final double LOAD_SPEED = -60.0;
+        public static final double LOAD_SPEED = -20.0;
         public static final double FEED_SPEED = 700.0;
         public static final double SOURCE_SPEED = -120.0;
         public static final double REVERSE_SPEED = -100.0;
+        public static final double RETRACT_SPEED = 60.0;
         public static final double DROP_SPEED = -560.0;
         public static final double FRONT_EJECT_SPEED = 560.0;
         public static final double BACK_EJECT_SPEED = 510.0;
@@ -140,15 +163,22 @@ public final class Constants {
         public static final int PIVOT_ENCODER = 1;
         public static final double PIVOT_OFFSET = 0.3514;
 
-        public static final int LOWER_BOUND = 4;
+        public static final int LOWER_BOUND = 0;
         public static final int UPPER_BOUND = 5;
 
         public static final double PIVOT_KS = 0.15;
         public static final double PIVOT_KP = 0.2;
         public static final double PIVOT_TOLERANCE = 0.35;
-
         public static final double LOCK_POSITION = 28.0;
-        public static double PIVOT_POSITION = 55.0;
+
+        public static final double REGRESSION_A = 99.166;
+        public static final double REGRESSION_B = -0.688959;
+        public static final double REGRESSION_C = 21.4836;
+
+        public static final double SUBWOOFER_ANGLE = 59.0;
+        public static final double LAUNCHPAD_ANGLE = 34.0;
+        public static final double AMP_ANGLE = 54.0;
+        public static final double FERRY_ANGLE = 46.0;
     }
 
     public final class ShooterConstants {
@@ -173,9 +203,9 @@ public final class Constants {
         public static final double SPEED_KP = 0.005;
         public static final double SPEED_TOLERANCE = 25.0;
 
-        public static double TOP_SHOOT_SPEED = 800.0;
-        public static double BOTTOM_SHOOT_SPEED = 800.0;
-        public static double PULL_SOURCE_SPEED = -200.0;
+        public static final double SPEAKER_SPEED = 1140.0;
+        public static final double AMP_SPEED = 125.0;
+        public static final double FERRY_SPEED = 550.0;
         public static final double EJECT_SPEED = 600.0;
     }
 

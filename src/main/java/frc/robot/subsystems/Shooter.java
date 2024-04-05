@@ -18,6 +18,8 @@ public class Shooter extends SubsystemBase {
     private PIDController topController;
     private PIDController bottomController;
 
+    private double shooterSpeed;
+
     public Shooter () {
 
         this.topRollers = new CANSparkFlex(Constants.ShooterConstants.TOP_ROLLERS, MotorType.kBrushless);
@@ -51,8 +53,13 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic () {
 
-        SmartDashboard.putNumber("Shooter Speed", (this.getTopVelocity() + this.getBottomVelocity()) / 2.0);
+        double topError = this.topController.getPositionError();
+        double bottomError = this.bottomController.getPositionError();
+        SmartDashboard.putNumber("Shooter Error", Math.abs((topError + bottomError) / 2.0));
     }
+
+    public void setSpeed (double shooterSpeed) { this.shooterSpeed = shooterSpeed; }
+    public double getSpeed () { return this.shooterSpeed; }
 
     public void setTopVelocity (double velocity) {
 

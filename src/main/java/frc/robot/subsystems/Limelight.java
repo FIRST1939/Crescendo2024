@@ -23,7 +23,7 @@ public class Limelight extends SubsystemBase {
     public Limelight () {
 
         LimelightHelpers.setPipelineIndex("limelight", 0);
-        LimelightHelpers.setLEDMode_PipelineControl("limelight");
+        LimelightHelpers.setLEDMode_ForceOff("limelight");
 
         LimelightHelpers.setCropWindow("limelight", -1, 1, -1, 1);
 

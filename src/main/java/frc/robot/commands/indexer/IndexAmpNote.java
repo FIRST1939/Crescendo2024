@@ -39,7 +39,7 @@ public class IndexAmpNote extends Command {
             this.indexer.setBackVelocity(0.0);
         } else if (this.stage == Stages.POSITION) {
 
-            double velocity = -25.0 * Math.pow(-0.925, loops - 1);
+            double velocity = Constants.IndexerConstants.AMP_SPEED_A * Math.pow(Constants.IndexerConstants.AMP_SPEED_R, loops - 1);
             this.indexer.setFrontVelocity(velocity);
             this.indexer.setBackVelocity(0.0);
         }
@@ -47,7 +47,7 @@ public class IndexAmpNote extends Command {
 
     public boolean isFinished () {
 
-        return this.loops >= 8;
+        return this.loops >= Constants.IndexerConstants.AMP_LOOPS;
     }
 
     private enum Stages {

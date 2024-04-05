@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic () {
 
 		CommandScheduler.getInstance().run();
+		this.robotContainer.calculateRegression();
+		this.robotContainer.runLEDs();
 	}
 
 	@Override
@@ -77,7 +79,6 @@ public class Robot extends TimedRobot {
 		);
 
 		this.autoInitialized = true;
-
 		this.autonomousCommand = this.robotContainer.getAutonomousCommand();
 		this.autonomousCommand.schedule();
 	}
@@ -117,7 +118,6 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic () {
 
 		this.robotContainer.runStateMachines();
-		this.robotContainer.runLEDs();
 	}
 
 	@Override
@@ -150,7 +150,17 @@ public class Robot extends TimedRobot {
 	}
 	
 	@Override
-	public void testInit () {}
+	public void testInit () {
+
+		this.robotContainer.setIdleModes(
+			Constants.SwerveConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.IntakeConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ElevatorConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.IndexerConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ArmConstants.DISABLED_IDLE_BEHAVIOR,
+			Constants.ShooterConstants.DISABLED_IDLE_BEHAVIOR
+		);
+	}
 
 	@Override
 	public void testPeriodic () {}

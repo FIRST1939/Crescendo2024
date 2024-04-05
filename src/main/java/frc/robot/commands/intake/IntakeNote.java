@@ -22,8 +22,5 @@ public class IntakeNote extends Command {
     }
 
     @Override
-    public boolean isFinished () {
-
-        return (!Sensors.getIndexerStartBeam());
-    }
+    public boolean isFinished () { return !Sensors.getIndexerStartBeam() || !Sensors.getIndexerEndBeam(); }
 }

@@ -37,14 +37,6 @@ public class Swerve extends SubsystemBase {
     private final SwerveDrive swerveDrive;
     private Field2d field = new Field2d();
 
-    public static Target target = Target.SPEAKER;
-
-    public enum Target {
-        SPEAKER,
-        AMP,
-        STAGE
-    }
-
     public Swerve () throws IOException {
 
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
@@ -60,7 +52,11 @@ public class Swerve extends SubsystemBase {
     }
 
     @Override
-    public void periodic () { this.field.setRobotPose(this.getPose()); }
+    public void periodic () { 
+        
+        this.field.setRobotPose(this.getPose());
+        SmartDashboard.putNumber("Distance", this.getSpeakerDistance()); 
+    }
     public PIDFConfig getHeadingPIDFConfig () { return this.swerveDrive.swerveController.config.headingPIDF; }
     public SwerveDriveConfiguration getConfiguration () { return this.swerveDrive.swerveDriveConfiguration; }
 
@@ -105,8 +101,7 @@ public class Swerve extends SubsystemBase {
 
         this.swerveDrive.driveFieldOriented(
             this.swerveDrive.getSwerveController().getTargetSpeeds(
-                translation.getX(), translation.getY(),
-                rotation.getCos(), rotation.getSin(),
+                translation.getX(), translation.getY(), rotation.getRadians(),
                 this.swerveDrive.getOdometryHeading().getRadians(),
                 this.swerveDrive.getMaximumVelocity()
             )
@@ -116,6 +111,15 @@ public class Swerve extends SubsystemBase {
     public SwerveDrivePoseEstimator getPoseEstimator () { return this.swerveDrive.swerveDrivePoseEstimator; }
     public Rotation2d getHeading () { return this.swerveDrive.getYaw(); }
     public Pose2d getPose () { return this.swerveDrive.getPose(); }
+
+    public double getSpeakerDistance () {
+
+        Translation2d speaker;
+        if (DriverStation.getAlliance().get() == Alliance.Blue) { speaker = Constants.SwerveConstants.BLUE_SPEAKER; }
+        else { speaker = Constants.SwerveConstants.RED_SPEAKER; }
+        
+        return this.getPose().getTranslation().getDistance(speaker);
+    }
 
     public ChassisSpeeds getRobotVelocity () { return this.swerveDrive.getRobotVelocity(); }
     public ChassisSpeeds getFieldVelocity () { return this.swerveDrive.getFieldVelocity(); }

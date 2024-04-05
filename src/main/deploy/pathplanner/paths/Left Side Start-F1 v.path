@@ -8,23 +8,23 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8653989865850105,
-        "y": 6.755298222944536
+        "x": 1.3374413054104268,
+        "y": 6.558068465637644
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "Left Side Start"
     },
     {
       "anchor": {
         "x": 2.61,
-        "y": 6.71
+        "y": 6.8
       },
       "prevControl": {
-        "x": 1.9986734873079124,
-        "y": 6.754808664342445
+        "x": 1.8761397865163765,
+        "y": 6.690044321458116
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": "F1"
     }
   ],
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.05,
-    "maxAcceleration": 6.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 180.0,
     "maxAngularAcceleration": 180.0
   },

@@ -24,6 +24,7 @@ public class Elevator extends SubsystemBase {
 
     private ThroughBoreEncoder raiseEncoder;
     private DoubleSupplier raisePosition;
+    private double elevatorSpeed = 0.0;
 
     public Elevator () {
 
@@ -49,9 +50,16 @@ public class Elevator extends SubsystemBase {
     public void periodic () {
 
         this.raiseEncoder.poll();
-        SmartDashboard.putBoolean("Bottom Elevator", Sensors.getElevatorLowerBound());
-        SmartDashboard.putBoolean("Top Elevator", Sensors.getElevatorUpperBound());
+
+        SmartDashboard.putBoolean("Elevator Lower Bound", Sensors.getElevatorLowerBound());
+        SmartDashboard.putBoolean("Elevator Upper Bound", Sensors.getElevatorUpperBound());
+        
+        SmartDashboard.putNumber("Elevator Position", this.raisePosition.getAsDouble());
+        SmartDashboard.putNumber("Elevator Error", Math.abs(this.raiseController.getPositionError()));
     }
+
+    public void setSpeed (double speed) { this.elevatorSpeed = speed; }
+    public double getSpeed () { return this.elevatorSpeed; }
 
     public void setPosition (double position) {
 
@@ -63,11 +71,8 @@ public class Elevator extends SubsystemBase {
         if (input > 0.0 && Sensors.getElevatorUpperBound()) { input = 0.0; }
         input = Math.signum(input) * Math.min(Math.abs(input), Constants.ElevatorConstants.RAISE_CAP);
 
-        //this.leadRaise.setControl(this.voltageOut.withOutput(input));
-        //this.followerRaise.setControl(this.voltageOut.withOutput(input));
-
-        if (position != 0.0) { this.setInput(0.45); }
-        else { this.setInput(-0.45); }
+        this.leadRaise.setControl(this.voltageOut.withOutput(input));
+        this.followerRaise.setControl(this.voltageOut.withOutput(input));
     }
 
     public void setInput (double input) {
@@ -81,8 +86,7 @@ public class Elevator extends SubsystemBase {
     public double getPosition () { return this.raisePosition.getAsDouble(); }
     public boolean atHeight () { 
         
-        //return (this.raiseController.atSetpoint() || Sensors.getElevatorUpperBound()); 
-        return (Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
+        return (this.raiseController.atSetpoint() || Sensors.getElevatorLowerBound() || Sensors.getElevatorUpperBound());
     }
 
     public void setIdleBehavior (IdleBehavior idleBehavior) {
