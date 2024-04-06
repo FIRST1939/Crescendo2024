@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.61,
+        "y": 6.8
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.0662531909916253,
+        "y": 6.774008477487442
+      },
+      "isLocked": false,
+      "linkedName": "F1"
+    },
+    {
+      "anchor": {
+        "x": 1.8763182890949115,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 1.8069290351905358,
+        "y": 6.297754633855622
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "FC Shoot"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 1.5,
+    "maxAngularVelocity": 180.0,
+    "maxAngularAcceleration": 180.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Front Line",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}
