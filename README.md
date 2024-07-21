@@ -16,3 +16,11 @@
     </ul>
   </li>
 </ul>
+
+<p><strong>Greater Kansas City Regional</strong></p>
+<ul>
+  <li><p>Rank 16 with a record of 6-8-0</p></li>
+  <li><p>Judge's Award</p></li>
+</ul>
+
+<image src="https://i.imgur.com/JDNzPly.png" width=500px alt="Tim">
